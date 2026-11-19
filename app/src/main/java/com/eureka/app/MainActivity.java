@@ -16,6 +16,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.database.Cursor;
+import android.provider.OpenableColumns;
+import android.view.View;
+import android.view.WindowManager;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
@@ -33,6 +37,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +61,8 @@ public class MainActivity extends Activity {
     private WebView web;
     private ValueCallback<Uri[]> fileCallback;
     private Uri cameraUri;
+    private JSONArray pendingFiles = new JSONArray();
+    private boolean pageLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +105,12 @@ public class MainActivity extends Activity {
                 openExternal(u);
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                pageLoaded = true;
+                notifyFiles();
+            }
         });
 
         web.setWebChromeClient(new WebChromeClient() {
@@ -116,8 +132,87 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null) {
             web.restoreState(savedInstanceState);
         } else {
+            handleIntent(getIntent());
             web.loadUrl(START_URL);
         }
+    }
+
+    // ---------- PDF / fotos recibidos desde otras apps ----------
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+        notifyFiles();
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent == null || intent.getAction() == null) return;
+        List<Uri> uris = new ArrayList<Uri>();
+        String action = intent.getAction();
+        try {
+            if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
+                uris.add(intent.getData());
+            } else if (Intent.ACTION_SEND.equals(action)) {
+                Uri u = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (u != null) uris.add(u);
+            } else if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
+                ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if (list != null) uris.addAll(list);
+            }
+        } catch (Exception ignored) {}
+        int n = 0;
+        for (Uri u : uris) {
+            if (n >= 10) break;
+            try {
+                JSONObject o = new JSONObject();
+                String mime = getContentResolver().getType(u);
+                if (mime == null) mime = intent.getType();
+                String name = displayName(u);
+                if (mime == null || mime.contains("*")) {
+                    mime = name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
+                }
+                o.put("name", name);
+                o.put("mime", mime);
+                o.put("b64", Base64.encodeToString(readAll(u), Base64.NO_WRAP));
+                pendingFiles.put(o);
+                n++;
+            } catch (Exception e) {
+                Toast.makeText(this, "No se pudo abrir el archivo", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private String displayName(Uri u) {
+        String name = null;
+        try {
+            Cursor c = getContentResolver().query(u, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
+            if (c != null) {
+                if (c.moveToFirst()) name = c.getString(0);
+                c.close();
+            }
+        } catch (Exception ignored) {}
+        if (name == null) name = u.getLastPathSegment();
+        if (name == null) name = "guia.pdf";
+        if (name.contains("/")) name = name.substring(name.lastIndexOf('/') + 1);
+        return name;
+    }
+
+    private byte[] readAll(Uri u) throws Exception {
+        InputStream in = getContentResolver().openInputStream(u);
+        if (in == null) throw new Exception("sin datos");
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        byte[] buf = new byte[16384];
+        int r;
+        while ((r = in.read(buf)) > 0) bo.write(buf, 0, r);
+        in.close();
+        return bo.toByteArray();
+    }
+
+    private void notifyFiles() {
+        if (!pageLoaded || pendingFiles.length() == 0) return;
+        web.evaluateJavascript("window.ekNativeFiles && window.ekNativeFiles()", null);
     }
 
     // ---------- Assets ----------
@@ -295,6 +390,85 @@ public class MainActivity extends Activity {
         }
 
         @JavascriptInterface
+        public String takeSharedFiles() {
+            String out = pendingFiles.toString();
+            pendingFiles = new JSONArray();
+            return out;
+        }
+
+        @JavascriptInterface
+        public String saveFileSilent(String name, String mime, String base64) {
+            try {
+                Uri u = writeToDownloads(name, mime, Base64.decode(base64, Base64.DEFAULT));
+                return u != null ? "ok" : "sin permiso";
+            } catch (Exception e) {
+                return "Error: " + e.getMessage();
+            }
+        }
+
+        @JavascriptInterface
+        public void shareFile(String name, String mime, String base64) {
+            try {
+                name = name.replaceAll("[\\\\/:*?\"<>|]", "_");
+                File f = new File(ShareProvider.dir(MainActivity.this), name);
+                FileOutputStream out = new FileOutputStream(f);
+                out.write(Base64.decode(base64, Base64.DEFAULT));
+                out.close();
+                final Uri uri = Uri.parse("content://" + ShareProvider.AUTHORITY + "/" + Uri.encode(name));
+                final String fMime = mime;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType(fMime);
+                        i.putExtra(Intent.EXTRA_STREAM, uri);
+                        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(i, "Enviar respaldo"));
+                    }
+                });
+            } catch (Exception e) {
+                toast("No se pudo compartir");
+            }
+        }
+
+        @JavascriptInterface
+        public void setKeepScreenOn(final boolean on) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (on) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                    else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void setFullscreen(final boolean on) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (on) getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void setBarColor(final String hex, final boolean light) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    try {
+                        int c = Color.parseColor(hex);
+                        getWindow().setStatusBarColor(c);
+                        getWindow().setNavigationBarColor(c);
+                        web.setBackgroundColor(c);
+                        int flags = getWindow().getDecorView().getSystemUiVisibility();
+                        int lightFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | (Build.VERSION.SDK_INT >= 26 ? 0x10 : 0);
+                        flags = light ? (flags | lightFlags) : (flags & ~lightFlags);
+                        getWindow().getDecorView().setSystemUiVisibility(flags);
+                    } catch (Exception ignored) {}
+                }
+            });
+        }
+
+        @JavascriptInterface
         public String version() {
             try {
                 return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -302,6 +476,12 @@ public class MainActivity extends Activity {
                 return "";
             }
         }
+    }
+
+    private void toast(final String t) {
+        runOnUiThread(new Runnable() {
+            public void run() { Toast.makeText(MainActivity.this, t, Toast.LENGTH_SHORT).show(); }
+        });
     }
 
     private Uri writeToDownloads(String name, String mime, byte[] bytes) throws Exception {

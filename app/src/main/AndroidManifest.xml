@@ -30,6 +30,28 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- "Abrir con" para PDF (WhatsApp, Descargas, Drive...) -->
+            <intent-filter android:label="EUREKA">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:mimeType="application/pdf" />
+            </intent-filter>
+            <!-- "Compartir" uno o varios PDF / fotos -->
+            <intent-filter android:label="EUREKA">
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
+        <provider
+            android:name=".ShareProvider"
+            android:authorities="com.eureka.app.share"
+            android:exported="false"
+            android:grantUriPermissions="true" />
     </application>
 </manifest>
