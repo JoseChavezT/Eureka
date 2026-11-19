@@ -1,7 +1,8 @@
 # EUREKA (Android)
 
-EUREKA es la app. PalletFlow corre detrás como "motor" (escaneo con IA, resumen del día,
-almacén, panel de ingreso, estadísticas, kilos, KPI, hoja de peso por foto), con la piel de EUREKA.
+EUREKA es la app y lee las guías **sin IA** (la IA solo se usa si tocas "Leer con IA" en una
+guía que no se pudo leer). PalletFlow corre detrás, sin PIN, solo para Almacén, Gráficos
+(Panel de Ingreso, Estadísticas, Kilos por lote), Hoja de peso por foto y la tabla del Máster.
 
 - `web/eureka.html` → la app (pantalla principal, barra inferior, Ajustes, Máster).
 - `web/palletflow.html` → motor PalletFlow ya adaptado (se genera, no editar a mano).

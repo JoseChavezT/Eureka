@@ -373,34 +373,179 @@ table.corr tr.hueco td{color:#fbbf24}
 .tm-prev .l{font-family:var(--display);font-weight:900;font-size:30px;color:var(--yellow);letter-spacing:-.03em;line-height:1}
 .tm-prev .c{flex:1;min-width:0;font-size:12.5px;color:var(--mut)}.tm-prev .c b{display:block;color:var(--fg);font-size:14px}
 .tm-prev .a{padding:8px 12px;border-radius:12px;background:var(--acc);color:#fff;font-weight:800;font-size:12px}
-/* ---------- Barra inferior (EUREKA) ---------- */
-:root{--nav-h:72px}
-.ek-nav{position:fixed;z-index:18;left:calc(10px + var(--sal));right:calc(10px + var(--sar));bottom:calc(8px + var(--sab));max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:5px;border-radius:22px;background:rgba(14,14,17,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line2);box-shadow:0 18px 40px -16px rgba(0,0,0,.9)}
-.ek-nav button{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px 8px;font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border-radius:16px;transition:color .2s,background .2s}
-.ek-nav button .ico{width:21px;height:21px}
-.ek-nav button.on{color:var(--fg);background:var(--s2)}
-.ek-nav button.on::before{content:"";position:absolute;top:3px;width:18px;height:3px;border-radius:3px;background:var(--acc);box-shadow:0 0 10px var(--acc)}
-.ek-nav button:active{transform:scale(.94)}
-body.ek-locked .ek-nav{display:none}
+/* =====================================================================
+   EUREKA 4 — negro AMOLED, botones redondos con ícono en círculo,
+   animaciones suaves. Pensado primero para el celular.
+   ===================================================================== */
+:root{--nav-h:72px;--k-ease:cubic-bezier(.2,.8,.2,1);--k-spring:cubic-bezier(.3,1.3,.5,1)}
+
+/* ---------- Animaciones ---------- */
+@keyframes kIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes tabIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes kPop{0%{transform:scale(.96)}60%{transform:scale(1.015)}100%{transform:scale(1)}}
+.k-in{animation:kIn .5s var(--k-ease) both;animation-delay:calc(var(--i,0) * 42ms)}
+.tab-in{animation:tabIn .34s var(--k-ease)}
+.screen.layer{animation:slideIn .34s var(--k-ease)}
+button{transition:transform .18s var(--k-ease),background-color .22s ease,color .22s ease,border-color .22s ease,opacity .2s}
+button:active:not(:disabled){transform:scale(.95)}
+
+/* ---------- Botones nuevos ---------- */
+.btn,.k-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:10px 18px;border-radius:999px;font-weight:650;font-size:14px;letter-spacing:-.005em;background:var(--s1);border:1px solid var(--line2);color:var(--fg)}
+.btn .ico-sm,.k-btn .ico-sm{box-sizing:border-box;width:28px;height:28px;padding:6px;margin:-6px 0 -6px -10px;border-radius:999px;background:var(--s3);flex:none}
+.btn.pri,.k-btn.pri{background:var(--acc);color:var(--acc-ink,#fff);border-color:transparent;box-shadow:0 14px 30px -16px var(--acc)}
+.btn.pri .ico-sm,.k-btn.pri .ico-sm{background:rgba(255,255,255,.2)}
+.btn.white{background:var(--fg);color:var(--bg);border-color:transparent}
+.btn.white .ico-sm{background:rgba(0,0,0,.08)}
+.btn.danger{background:rgba(239,68,68,.08);color:var(--red);border-color:rgba(239,68,68,.32)}
+.btn.sm,.k-btn.sm{min-height:38px;padding:7px 14px;font-size:12.5px}
+.btn.sm .ico-sm,.k-btn.sm .ico-sm{width:24px;height:24px;padding:5px;margin-left:-8px}
+.k-btn.ia{background:linear-gradient(135deg,#6d28d9,#2563eb);color:#fff;border-color:transparent}
+.k-btn.ia .ico-sm{background:rgba(255,255,255,.18)}
+.ibtn{border-radius:999px}
+.hdr .ibtn{background:var(--s1);border:1px solid var(--line2)}
+.hdr .back{border-radius:999px!important}
+.pill{border-radius:999px}
+.k-ib{width:38px;height:38px;border-radius:999px;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line2);color:var(--fg2)}
+.k-ib .ico-sm{width:17px;height:17px}
+
+/* ---------- Barra inferior ---------- */
+.ek-nav{position:fixed;z-index:18;left:calc(10px + var(--sal));right:calc(10px + var(--sar));bottom:calc(8px + var(--sab));max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:5px;border-radius:26px;background:rgba(12,12,12,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line2);box-shadow:0 18px 40px -16px rgba(0,0,0,.95)}
+.ek-nav-ind{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:21px;background:var(--s3);transition:transform .45s var(--k-spring),width .45s var(--k-spring)}
+.ek-nav-ind::after{content:"";position:absolute;left:50%;top:-1px;width:18px;height:3px;margin-left:-9px;border-radius:3px;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.ek-nav button{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border-radius:21px}
+.ek-nav button .ico{width:21px;height:21px;transition:transform .35s var(--k-spring)}
+.ek-nav button.on{color:var(--fg)}
+.ek-nav button.on .ico{transform:translateY(-1px) scale(1.06)}
 #home .list{padding-bottom:calc(150px + var(--nav-h))}
-.fab{bottom:calc(var(--nav-h) + 18px + var(--sab))}
+.fab,#fabScrim{display:none!important}
 .toast{bottom:calc(var(--nav-h) + 26px + var(--sab))}
-body.ek-pf .fab,body.ek-pf #fabScrim{display:none !important}
-/* PalletFlow (motor) dentro de EUREKA */
-#pfWrap{position:fixed;left:0;right:0;top:0;bottom:calc(var(--nav-h) + 8px + var(--sab));z-index:17;background:var(--bg);visibility:hidden;pointer-events:none}
-body.ek-pf #pfWrap{visibility:visible;pointer-events:auto;animation:fadeIn .2s}
-body.ek-locked #pfWrap{visibility:visible;pointer-events:auto;bottom:0;z-index:200}
-#pfWrap iframe{border:0;width:100%;height:100%;display:block;background:#050506}
-/* hoja "Más" */
-.mas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
-.mas button{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border-radius:18px;background:var(--s1);border:1px solid var(--line);text-align:left;min-height:96px;transition:background .2s}
-.mas button:active{background:var(--s3);transform:scale(.98)}
-.mas button i{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--acc-soft);color:var(--acc-text,var(--acc))}
-.mas button i .ico{width:19px;height:19px}
-.mas button b{font-size:14px;font-weight:700;letter-spacing:-.01em}
-.mas button small{display:block;font-size:11.5px;color:var(--mut);margin-top:2px;line-height:1.3}
-.mas button.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc-soft)}
-.mas button.w{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0}
+
+/* ---------- Motor PalletFlow (Almacén, Gráficos, Hoja de peso por foto, Máster) ---------- */
+#pfWrap{position:fixed;left:0;right:0;top:0;bottom:calc(var(--nav-h) + 8px + var(--sab));z-index:17;background:var(--bg);visibility:hidden;pointer-events:none;opacity:0;transition:opacity .25s ease}
+body.ek-pf #pfWrap{visibility:visible;pointer-events:auto;opacity:1}
+#pfWrap iframe{border:0;width:100%;height:100%;display:block;background:var(--bg)}
+
+/* ---------- Hojas "Más" y "Gráficos" ---------- */
+.mas{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.mas button{display:flex;align-items:center;gap:14px;padding:14px;border-radius:22px;background:var(--s1);border:1px solid var(--line);text-align:left}
+.mas button i{display:grid;place-items:center;width:44px;height:44px;flex:none;border-radius:999px;background:var(--acc-soft);color:var(--acc-text,var(--acc))}
+.mas button i .ico{width:20px;height:20px}
+.mas button span{flex:1;min-width:0}
+.mas button b{display:block;font-size:15px;font-weight:700;letter-spacing:-.01em}
+.mas button small{display:block;font-size:12px;color:var(--mut);margin-top:2px;line-height:1.35}
+.mas button>.ico-sm{color:var(--mut2)}
+
+/* ---------- Escanear ---------- */
+#scanScr{display:none}
+body.ek-tab-scan #scanScr{display:flex}
+body.ek-tab-scan #home{visibility:hidden}
+.sc-head{flex:none;padding:calc(26px + var(--sat)) 20px 14px}
+.sc-head h1{margin:0;font-family:var(--display);font-size:46px;font-weight:900;letter-spacing:-.055em;line-height:.9;background:linear-gradient(180deg,var(--fg) 30%,var(--mut) 150%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sc-head p{margin:10px 0 0;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.sc-body{flex:1;min-height:0;overflow-y:auto;padding:6px 16px calc(var(--nav-h) + 48px + var(--sab))}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:16px;border-radius:26px;background:var(--s1);border:1px solid var(--line);min-height:124px;text-align:left;overflow:hidden}
+.sc-tile i{width:46px;height:46px;border-radius:999px;display:grid;place-items:center;background:var(--s3);color:var(--fg)}
+.sc-tile i .ico{width:21px;height:21px}
+.sc-tile b{display:block;font-size:16px;font-weight:750;letter-spacing:-.015em}
+.sc-tile small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.sc-tile.big{grid-column:1/-1;flex-direction:row;align-items:center;min-height:96px;background:radial-gradient(120% 140% at 0% 0%,var(--acc-soft),transparent 62%),var(--s1);border-color:color-mix(in srgb,var(--acc) 38%,transparent)}
+.sc-tile.big i{width:56px;height:56px;background:var(--acc);color:var(--acc-ink,#fff);box-shadow:0 12px 30px -12px var(--acc)}
+.sc-tile.big i .ico{width:24px;height:24px}
+.sc-tile.big b{font-size:19px}
+.sc-note{display:flex;gap:10px;align-items:flex-start;margin:12px 2px 0;font-size:12.5px;color:var(--mut);line-height:1.4}
+.sc-note .ico-sm{flex:none;margin-top:1px;color:var(--mut2)}
+.sc-h{display:flex;justify-content:space-between;align-items:center;margin:26px 4px 10px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sc-h span{font-family:var(--mono);letter-spacing:0;color:var(--mut2)}
+.sc-row{display:flex;align-items:center;gap:12px;width:100%;padding:14px 14px 14px 16px;margin-bottom:8px;border-radius:22px;background:var(--s1);border:1px solid var(--line);text-align:left}
+.sc-row .sc-dot{flex:none;width:10px;height:10px;border-radius:99px;background:var(--c);box-shadow:0 0 12px var(--c)}
+.sc-row .sc-t{flex:1;min-width:0}
+.sc-row b{display:block;font-family:var(--display);font-size:17px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-row small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.sc-row em{font-style:normal;flex:none;display:grid;place-items:center;min-width:28px;height:28px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:800}
+.sc-row em.bad{background:rgba(239,68,68,.14);color:var(--red)}
+.sc-row em.ok{background:rgba(52,211,153,.12);color:var(--green)}
+.sc-row>.ico-sm{color:var(--mut2);flex:none}
+.sc-empty{padding:26px 10px;text-align:center;color:var(--mut2);font-size:13px;border:1px dashed var(--line2);border-radius:22px}
+
+/* ---------- Guía (lotes con resultados) ---------- */
+#detail .body.gv{padding:12px 14px calc(116px + var(--sab))}
+.gv-card{padding:16px;border-radius:26px;background:var(--s1);border:1px solid var(--line);margin-bottom:10px}
+.gv-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gv-prov{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.gv-prov i{width:8px;height:8px;border-radius:9px;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.gv-st{display:inline-flex;gap:6px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.gv-st .ico-sm{width:15px;height:15px}
+.gv-st.ok{background:rgba(52,211,153,.1);color:var(--green)}
+.gv-st.warn{background:rgba(245,165,36,.12);color:#fbbf24}
+.gv-st.bad{background:rgba(239,68,68,.14);color:var(--red)}
+.gv-num{font-family:var(--display);font-size:30px;font-weight:900;letter-spacing:-.045em;margin-top:12px;line-height:1}
+.gv-meta{font-size:12.5px;color:var(--mut);margin-top:6px}
+.gv-cuadre{margin-top:12px;padding:11px 13px;border-radius:18px;background:var(--s2);font-size:13px;color:var(--fg2)}
+.gv-cuadre small{display:block;margin-top:3px;font-weight:700;color:var(--green)}
+.gv-cuadre.bad small{color:var(--red)}
+.gv-corr{display:flex;gap:8px;align-items:flex-end;margin-top:14px}
+.gv-corr .fld{flex:1}
+.gv-corr .inp{font-family:var(--mono);font-size:18px;font-weight:700;border-radius:16px;height:46px}
+.gv-hint{font-size:11.5px;color:var(--mut2);margin-top:7px}
+.lv{position:relative;display:flex;gap:12px;padding:15px 14px 15px 20px;border-radius:24px;background:var(--s1);border:1px solid var(--line);margin-bottom:8px;overflow:hidden}
+.lv::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 4px 4px 0;background:var(--acc)}
+.lv.bad{border-color:rgba(239,68,68,.35)}
+.lv.bad::before{background:var(--red)}
+.lv-a{flex:1;min-width:0}
+.lv-lote{font-family:var(--display);font-weight:900;font-size:27px;letter-spacing:-.045em;color:var(--yellow);line-height:1;word-break:break-word}
+.lv-var{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg2);margin-top:6px}
+.lv-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lv-chips span{padding:4px 10px;border-radius:999px;background:var(--s2);font-size:12px;font-weight:600;color:var(--fg2)}
+.lv-chips .cc{font-family:var(--mono);color:var(--yellow);background:rgba(252,211,77,.08)}
+.lv-b{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.lv-b b{font-family:var(--display);font-size:38px;font-weight:900;letter-spacing:-.05em;line-height:.85}
+.lv-b small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);font-weight:700;margin-top:4px}
+.lv-b em{font-style:normal;font-size:13.5px;font-weight:800;color:var(--acc-text,var(--blue2));margin-top:6px}
+.lv-b em.z{color:var(--mut2);font-weight:600;font-size:12px}
+.lv-acts{display:flex;gap:6px;margin-top:auto;padding-top:10px}
+.gv-fail{display:flex;gap:12px;padding:16px;border-radius:24px;background:rgba(245,165,36,.06);border:1px solid rgba(245,165,36,.28);color:#fbbf24;margin-bottom:10px}
+.gv-fail>.ico{flex:none;width:22px;height:22px}
+.gv-fail b{display:block;color:var(--fg);font-size:15px}
+.gv-fail small{display:block;color:var(--mut);font-size:12.5px;margin-top:3px;line-height:1.4}
+.gv-fail-a{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gv-ia{display:flex;margin:16px auto 0;gap:8px;align-items:center;padding:10px 16px;border-radius:999px;color:var(--mut);font-size:12.5px;font-weight:600;border:1px dashed var(--line2)}
+.gv-ia .ico-sm{width:16px;height:16px}
+.gv-bar{position:absolute;z-index:5;left:12px;right:12px;bottom:calc(10px + var(--sab));display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;border-radius:26px;background:rgba(12,12,12,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line2);box-shadow:0 18px 40px -16px rgba(0,0,0,.95)}
+.gv-bar button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px 8px;border-radius:21px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.gv-bar button .ico{width:21px;height:21px}
+.gv-bar button.pri{background:var(--acc);color:var(--acc-ink,#fff)}
+.gv-bar button:disabled{opacity:.3}
+.d3{position:relative;height:min(52vh,380px);border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+
+/* ---------- Fecha al imprimir ---------- */
+.fx{padding:14px;border-radius:22px;background:var(--s1);border:1px solid var(--line);margin-bottom:14px}
+.fx-l{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin-bottom:10px}
+.fx-l .ico-sm{width:15px;height:15px}
+.fx-seg{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:999px;background:var(--s2);border:1px solid var(--line)}
+.fx-seg button{padding:11px 0;border-radius:999px;font-weight:750;font-size:14px;color:var(--mut)}
+.fx-seg button.on{background:var(--fg);color:var(--bg);animation:kPop .3s var(--k-ease)}
+.fx input{margin-top:10px}
+.fx-v{display:block;margin-top:10px;font-size:12.5px;color:var(--mut)}
+.fx-v b{color:var(--yellow);font-family:var(--mono)}
+.rt-g{padding:14px;border-radius:22px;background:var(--s1);border:1px solid var(--line);margin-bottom:10px}
+.rt-g h5{margin:0 0 10px;font-family:var(--display);font-size:17px;font-weight:800;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center}
+.rt-g h5 small{font-family:var(--font);font-size:11.5px;color:var(--mut);font-weight:600}
+.rl{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;border-radius:18px;background:var(--s2);margin-top:6px}
+.rl.sel{box-shadow:inset 0 0 0 1.5px var(--yellow)}
+.rl span{flex:1;min-width:0}
+.rl b{display:block;color:var(--yellow);font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:-.03em}
+.rl small{display:block;font-size:11.5px;color:var(--mut);font-family:var(--mono)}
+
+/* ---------- Visor de la guía ---------- */
+.viewer2{flex:1;min-height:0;position:relative;overflow:hidden;touch-action:none;background:#000;user-select:none;-webkit-user-select:none}
+.viewer2 .stage{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.viewer2 .stage img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.viewer2 .hl{position:absolute;border:2px solid var(--yellow);border-radius:6px;box-shadow:0 0 0 2px rgba(252,211,77,.25)}
+.viewer2 .vz{position:absolute;right:14px;bottom:calc(16px + var(--sab));display:flex;gap:8px}
+.viewer2 .vz button{width:46px;height:46px;border-radius:999px;display:grid;place-items:center;background:rgba(18,18,18,.88);border:1px solid var(--line2);color:var(--fg);backdrop-filter:blur(10px)}
+.viewer2 .vpct{position:absolute;left:14px;bottom:calc(26px + var(--sab));font-family:var(--mono);font-size:12px;color:var(--mut);background:rgba(18,18,18,.8);padding:5px 10px;border-radius:999px}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -419,7 +564,7 @@ const EKTEMA = (() => {
   const PRESETS = {
     flow:       { n:'Tinta', bg:'#0a0816', bg2:'#110e22', sf:'#c9c2ff', fg:'#efeefb', mut:'#a6a2c6', hl:'#fcd34d', font:'manrope', display:'sora', accentMode:'prov' },
     eureka:     { n:'EUREKA',     bg:'#050506', bg2:'#0a0a0c', sf:'#ffffff', fg:'#f7f7f8', mut:'#a3a3ad', hl:'#fcd34d' },
-    oled:       { n:'OLED puro',  bg:'#000000', bg2:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d' },
+    oled:       { n:'Negro AMOLED',  bg:'#000000', bg2:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d' },
     grafito:    { n:'Grafito',    bg:'#16161a', bg2:'#1d1d22', sf:'#ffffff', fg:'#f4f4f5', mut:'#a1a1aa', hl:'#fcd34d' },
     medianoche: { n:'Medianoche', bg:'#070b18', bg2:'#0c1326', sf:'#93b4ff', fg:'#eef2ff', mut:'#94a3c4', hl:'#7dd3fc' },
     arandano:   { n:'Arándano',   bg:'#0b0716', bg2:'#130d24', sf:'#c4b5fd', fg:'#f5f3ff', mut:'#a59dc4', hl:'#a5b4fc' },
@@ -450,8 +595,8 @@ const EKTEMA = (() => {
   const mix = (a, b, t) => { const x = hx(a), y = hx(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
   const lum = (h) => { const c = hx(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
 
-  function defaults(preset){ return Object.assign({}, BASE, PRESETS[preset] || PRESETS.eureka, { preset: PRESETS[preset] ? preset : 'eureka', prov:{} }); }
-  let th = defaults('eureka');
+  function defaults(preset){ return Object.assign({}, BASE, PRESETS[preset] || PRESETS.oled, { preset: PRESETS[preset] ? preset : 'oled', prov:{} }); }
+  let th = defaults('oled');
   try { const s = JSON.parse(localStorage.getItem('ek:tema') || 'null'); if (s && typeof s === 'object') th = Object.assign(defaults(s.preset), s, { prov: Object.assign({}, s.prov || {}) }); } catch (e) {}
 
   function esDefecto(){ return JSON.stringify(th) === JSON.stringify(defaults('eureka')); }
@@ -468,7 +613,10 @@ const EKTEMA = (() => {
       .lote-big,.mrow b{color:var(--yellow)}
       .lotehead{background:linear-gradient(160deg,${rgba(th.hl, .10)},${rgba(th.hl, .02)} 60%);border-color:${rgba(th.hl, .18)}}
       .var{color:${rgba(th.hl, .8)}}
-      .det-r{background:radial-gradient(80% 60% at 50% 30%,${rgba(th.sf, .06 * k)},transparent 70%),linear-gradient(${mix(th.bg, th.sf, .04)},${th.bg})}`;
+      .det-r,.d3{background:radial-gradient(80% 60% at 50% 30%,${rgba(th.sf, .06 * k)},transparent 70%),linear-gradient(${mix(th.bg, th.sf, .04)},${th.bg})}
+      .row{background:${mix(th.bg, th.sf, .045 * k)}}
+      .sheet{background:${mix(th.bg, th.sf, .05 * k)}}
+      .ek-nav,.gv-bar{background:${rgba(mix(th.bg, th.sf, .06 * k), .92)}}`;
     if (+th.scale !== 1) s += `body{zoom:${+th.scale}}`;
     if (!th.glow) s += `.screen::before{display:none}`;
     if (!th.anim) s += `*,*::before,*::after{animation:none!important;transition:none!important}`;
@@ -485,8 +633,14 @@ const EKTEMA = (() => {
       t.bg = c; t.fg = c === t._bg0 ? t._fg0 : (lum(c) > .45 ? '#000' : '#fff');
     });
   }
+  function pfVars(){
+    const k = +th.sfk || 1;
+    return { '--n-bg':th.bg, '--n-s1':mix(th.bg, th.sf, .04 * k), '--n-s2':mix(th.bg, th.sf, .065 * k), '--n-s3':mix(th.bg, th.sf, .09 * k),
+      '--n-line':rgba(th.sf, .08 * k), '--n-line2':rgba(th.sf, .14 * k), '--n-tx':th.fg, '--n-tx2':rgba(th.fg, .72), '--n-tx3':rgba(th.fg, .52) };
+  }
   function aplicar(rerender){
     const el = document.getElementById('ekThemeCss'); if (el) el.textContent = css();
+    try { if (window.ekTemaPF) window.ekTemaPF(pfVars()); } catch (e) {}
     const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', esDefecto() ? '#000000' : th.bg);
     try { if (window.parent === window && window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(esDefecto() ? '#000000' : th.bg, lum(th.bg) > .45); } catch (e) {}
     if (typeof EK_TABS !== 'undefined') provAplicar(EK_TABS);
@@ -497,16 +651,17 @@ const EKTEMA = (() => {
   function preset(p){ const prov = th.prov, am = th.accentMode, ac = th.accent; const keep = { prov, accentMode:am, accent:ac, scale:th.scale, radius:th.radius, glow:th.glow, anim:th.anim };
     if (!PRESETS[p] || !PRESETS[p].font) { keep.font = th.font === 'manrope' ? 'inter' : th.font; keep.display = th.display === 'sora' ? 'tight' : th.display; }
     th = Object.assign(defaults(p), keep); guardar(); aplicar(true); }
-  function reset(){ th = defaults('eureka'); guardar(); aplicar(true); }
+  function reset(){ th = defaults('oled'); guardar(); aplicar(true); }
   function exportar(){ return 'EKTEMA:' + btoa(unescape(encodeURIComponent(JSON.stringify(th)))); }
   function importar(txt){ const m = String(txt || '').trim().replace(/^EKTEMA:/, ''); const o = JSON.parse(decodeURIComponent(escape(atob(m)))); if (!o || !o.bg) throw new Error('Código de tema no válido'); th = Object.assign(defaults(o.preset), o, { prov:Object.assign({}, o.prov || {}) }); guardar(); aplicar(true); }
   aplicar(false);
-  return { get: () => th, set, preset, reset, exportar, importar, aplicar, provAplicar, PRESETS, FONTS, DISPLAYS };
+  return { get: () => th, set, preset, reset, exportar, importar, aplicar, provAplicar, pfVars, PRESETS, FONTS, DISPLAYS };
 })();
 </script>
 </head>
-<body class="ek-locked">
+<body>
 <section id="home" class="screen"></section>
+<section id="scanScr" class="screen"></section>
 <div id="fabScrim" class="scrim hide"></div>
 <div id="fab" class="fab"></div>
 <div id="pfWrap"><iframe id="pfFrame" src="palletflow.html" title="EUREKA" allow="camera; clipboard-read; clipboard-write; fullscreen"></iframe></div>
@@ -1721,7 +1876,8 @@ function buildRotuloDataForLote(guide, loteIdx){
     return d.toLocaleDateString('es-PE');
   }
   let fechaTexto = null;
-  if(lote.rotuloFechaAyer){ fechaTexto = shiftDateMinusOne(); }
+  if(window.__ekFechaImp){ fechaTexto = window.__ekFechaImp(); }
+  else if(lote.rotuloFechaAyer){ fechaTexto = shiftDateMinusOne(); }
   else if(rotuloFechaAyer){ fechaTexto = shiftDateMinusOne(); }
   else { fechaTexto = getShiftDate(); }
 
@@ -2147,7 +2303,7 @@ async function generateHojaDePeso(listaGuias, nombreArchivo){
     // grande. Ya no se repite también abajo ni en el título de cada bloque de guía.
     // Fecha de turno (3pm-7am): se calcula UNA sola vez por hoja, así que toda la hoja (todas
     // las guías) sale con la misma fecha, aunque se genere ya pasada la medianoche.
-    const HOJA_FECHA = getShiftDate();
+    const HOJA_FECHA = window.__ekFechaImp ? window.__ekFechaImp() : getShiftDate();
     function providerStampLabel(proveedor){
       if(isPobStr((proveedor||'').toLowerCase())) return 'POB';
       if(isSrxStr((proveedor||'').toLowerCase())) return 'SUR EXPORT';
@@ -3057,6 +3213,7 @@ const IC = {
   spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
   calEdit:'<rect x="2" y="5" width="14" height="16" rx="2"/><path d="M2 10h14M18.4 15.4a1.9 1.9 0 0 1 2.7 2.7L16.8 22.4l-3 .6.6-3z"/>',
   ayer:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M13 16l-2-2 2-2"/>',
+  minus:'<path d="M5 12h14"/>',
   key:'<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2M17 6l3 3M14 9l2 2"/>',
 };
 const ico = (n, c) => `<svg class="${c || 'ico'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n] || ''}</svg>`;
@@ -3335,7 +3492,7 @@ function ekRenderHome(){
   const sel = EK.ui.sel;
   const ft = getShiftDateObj();
   const R = document.documentElement.style;
-  R.setProperty('--acc', cfg.bg); R.setProperty('--acc-soft', cfg.bg + '29'); R.setProperty('--acc-text', cfg.codigo === 'DB' ? '#f4f4f5' : cfg.bg);
+  R.setProperty('--acc', cfg.bg); R.setProperty('--acc-ink', cfg.fg); R.setProperty('--acc-soft', cfg.bg + '29'); R.setProperty('--acc-text', cfg.codigo === 'DB' ? '#f4f4f5' : cfg.bg);
   const hoy = ekTurnoISO(), delTurno = EK.state.receptions.filter(r => r.codigo === t && r.turno === hoy);
   let kPal = 0, kErr = 0; delTurno.forEach(r => { r.guias.forEach(g => g.lotes.forEach(l => { const c = ekCalc(g, l); kPal += c.sinJabas ? c.full : c.full + (c.pucho ? 1 : 0); })); if (ekResumenRec(r).err) kErr++; });
   home.innerHTML = `
@@ -3353,7 +3510,7 @@ function ekRenderHome(){
       </div>
       <div class="list" id="list">
         ${sel.size ? `<div class="msg info" style="margin:0 4px 10px">${sel.size} seleccionada${sel.size > 1 ? 's' : ''}. Toca otras para sumarlas; Atrás para cancelar.<button id="selX">Cancelar</button></div>` : ''}
-        ${lista.length === 0 ? `<div class="empty"><div class="big">${ico(EK.ui.search ? 'search' : 'file')}</div><b>${EK.ui.search ? 'Sin resultados' : 'Sin recepciones de ' + esc(cfg.label)}</b>${EK.ui.search ? '<small>Prueba con otro número, lote o variedad</small>' : '<small>Toca + para importar la primera guía</small>'}</div>` :
+        ${lista.length === 0 ? `<div class="empty"><div class="big">${ico(EK.ui.search ? 'search' : 'file')}</div><b>${EK.ui.search ? 'Sin resultados' : 'Sin recepciones de ' + esc(cfg.label)}</b>${EK.ui.search ? '<small>Prueba con otro número, lote o variedad</small>' : '<small>Toca Escanear para agregar la primera guía</small>'}</div>` :
         [...grupos.entries()].map(([k, rs]) => {
           const jab = rs.reduce((s, r) => s + ekTotJabas(r), 0);
           return `<div class="grp"><h2><span>${esc(ekGrupoTurno(k))}</span><span class="num">${rs.length} guía${rs.length > 1 ? 's' : ''} · ${jab.toLocaleString('es-PE')} jabas</span></h2>
@@ -3582,7 +3739,7 @@ function ekRenderReview(){
       <div class="right">${(g._preview || g.previewKey) ? `<button class="ibtn" id="rvVer" aria-label="Ver guía">${ico('eye')}</button>` : ''}</div></div>
     <div class="body">
       ${_rv.guias.length > 1 ? `<div class="gtabs">${_rv.guias.map((x, k) => `<button class="pill ${k === _rv.i ? 'on' : ''}" data-gi="${k}">${esc(x.numero_guia || 'Guía ' + (k + 1))}</button>`).join('')}</div>` : ''}
-      <div class="sec"><h4>Proveedor</h4><div class="pills">${EK_TABS.map(t => `<button class="pill ${t.codigo === codigo ? 'on' : ''}" data-prov="${t.codigo}">${t.codigo}</button>`).join('')}</div></div>
+      ${(_rv.opts.nuevo && _rv.opts.source === 'manual') ? `<div class="sec"><h4>Proveedor</h4><div class="pills">${EK_TABS.map(t => `<button class="pill ${t.codigo === codigo ? 'on' : ''}" data-prov="${t.codigo}">${t.codigo}</button>`).join('')}</div></div>` : ''}
       <div class="sec"><h4>Revisión <span>${val.filter(v => v.nivel === 'error').length ? `<span class="badge err">${val.filter(v => v.nivel === 'error').length} error(es)</span>` : '<span class="badge ok">Sin errores</span>'}</span></h4>
         <div class="msgs">${avisos.concat(val).map(v => `<div class="msg ${v.nivel}">${ico(v.nivel === 'error' ? 'alert' : v.nivel === 'ok' ? 'check' : 'alert', 'ico-sm')}<span>${esc(v.txt)}</span>${v.recId ? `<button data-abrir="${v.recId}">Abrir</button>` : ''}</div>`).join('') || '<div class="msg ok">Todo cuadra con el maestro.</div>'}</div></div>
       <div class="sec"><h4>Guía</h4><div class="grid2">
@@ -3677,7 +3834,8 @@ async function ekGuardarReview(){
     _rv = null; ekClose('review');
     if (codigo !== EK.ui.tab) { EK.ui.tab = codigo; try { localStorage.setItem('ek:tab', codigo); } catch (e) {} ekRenderFab(); }
     ekRenderHome(); ekToast(ekNumLotes(rec) > 1 ? `${ekNumLotes(rec)} lotes guardados` : 'Recepción guardada', 'ok');
-    setTimeout(() => ekOpenDetail(rec.id, true), 260);
+    if (opts.abrir !== false) setTimeout(() => ekOpenDetail(rec.id, true), 260);
+    return rec.id;
   } else {
     const rec = opts.rec;
     guias.forEach((g, gi) => {
@@ -4123,7 +4281,7 @@ function ekRenderSettings(){
     const rows = (EK.state.master || []).map((m, i) => ({ m, i })).filter(o => ekCodigoProveedor(o.m.proveedor) === f);
     body = `<div class="pills" style="margin-bottom:12px">${EK_TABS.map(x => `<button class="pill ${x.codigo === f ? 'on' : ''}" data-mf="${x.codigo}">${x.codigo}</button>`).join('')}</div>
       <div style="display:flex;gap:8px;margin-bottom:10px"><button class="btn sm" id="mAdd">${ico('plus', 'ico-sm')}Agregar</button><button class="btn sm" id="mXls">${ico('upload', 'ico-sm')}Cargar Excel</button><button class="btn sm" id="mReset">Restaurar</button><button class="btn sm" id="mFull">${ico('db', 'ico-sm')}Tabla completa</button></div>
-      <div style="font-size:12px;color:var(--mut);margin-bottom:6px">${rows.length} registros de ${esc(p ? p.nombre : f)} · el máster valida lote, variedad y CLP de cada guía. Es el mismo para Recepciones y Escanear.</div>
+      <div style="font-size:12px;color:var(--mut);margin-bottom:6px">${rows.length} registros de ${esc(p ? p.nombre : f)} · el máster valida lote, variedad y CLP de cada guía.</div>
       ${rows.map(o => `<div class="mrow"><b>${esc(o.m.lote)}</b><div>${esc(o.m.variedad)}<small>${esc(o.m.senasa)} · ${esc(o.m.codigo)}${o.m.cod_variedad ? ' · ' + esc(o.m.cod_variedad) : ''}</small></div><button class="ibtn" data-me="${o.i}" aria-label="Editar">${ico('pencil', 'ico-sm')}</button></div>`).join('') || '<div class="empty">Sin registros</div>'}`;
   } else if (t === 'reglas') {
     const lin = (o) => Object.entries(o || {}).map(([k, v]) => `${k} = ${v}`).join('\n');
@@ -4154,8 +4312,8 @@ function ekRenderSettings(){
       <button class="btn danger full" id="bkWipe">Borrar todas las recepciones</button></div>
       <div style="font-size:12px;color:var(--mut2);text-align:center">EUREKA 1.0 · sin IA · motor de PalletFlow 43</div>`;
   }
-  el.innerHTML = `<div class="hdr"><button class="back" id="stBack" aria-label="Cerrar">${ico('x')}</button><div class="ttl"><b>Ajustes</b><small>Máster, escaneo IA, apariencia y respaldo</small></div><div class="right"></div></div>
-    <div class="stabs">${[['maestro', 'Máster'], ['ia', 'Escaneo IA'], ['reglas', 'Reglas'], ['turno', 'Correlativos'], ['apariencia', 'Apariencia'], ['extras', 'Extras'], ['respaldo', 'Respaldo']].map(([k, n]) => `<button class="pill ${k === t ? 'on' : ''}" data-st="${k}">${n}</button>`).join('')}</div>
+  el.innerHTML = `<div class="hdr"><button class="back" id="stBack" aria-label="Cerrar">${ico('x')}</button><div class="ttl"><b>Ajustes</b><small>Máster, correlativos, apariencia y respaldo</small></div><div class="right"></div></div>
+    <div class="stabs">${[['maestro', 'Máster'], ['turno', 'Correlativos'], ['apariencia', 'Apariencia'], ['extras', 'Celular'], ['reglas', 'Reglas'], ['ia', 'IA'], ['respaldo', 'Respaldo']].map(([k, n]) => `<button class="pill ${k === t ? 'on' : ''}" data-st="${k}">${n}</button>`).join('')}</div>
     <div class="body">${body}</div>`;
   $id('stBack').onclick = () => { ekClose('settings'); ekRender(); };
   el.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { EK.ui.settingsTab = b.dataset.st; ekRenderSettings(); });
@@ -4352,12 +4510,8 @@ async function ekNativeFiles(){
   let arr = []; try { arr = JSON.parse(EurekaAndroid.takeSharedFiles() || '[]'); } catch (e) { arr = []; }
   if (!arr.length) return;
   const files = arr.map(o => { const bin = atob(o.b64); const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new File([u8], o.name || 'guia.pdf', { type:o.mime || 'application/pdf' }); });
-  if (ekIaClave() && ekPF()) {
-    const ia = await ekDialog({ titulo:'Guía recibida', texto: files.length === 1 ? '¿Cómo quieres leerla?' : `${files.length} archivos. ¿Cómo quieres leerlos?`, ok:'Escanear con IA', cancel:'Sin IA' });
-    if (ia) { ekIr('scan'); try { ekPF().pfApi.escanear(files); } catch (e) { ekAlert('No se pudo escanear: ' + e.message); } return; }
-  }
-  if (EKS.modo !== 'home') ekIr('home');
-  return ekAbrirArchivos(files);
+  ekIr('scan');
+  return ekEscanearArchivos(files, 'pdf');
 }
 async function ekAbrirArchivos(files){
   files = Array.from(files || []); if (!files.length || _ekRecibiendo) return;
@@ -4381,99 +4535,109 @@ const EK_INCRUSTADA = (() => { try { return window.parent !== window; } catch (e
 
 
 /* ============================================================
-   EUREKA + PALLETFLOW
-   EUREKA es la app; PalletFlow corre detrás como motor (escaneo con IA,
-   resumen del día, almacén, panel de ingreso, estadísticas, KPI...).
+   EUREKA 4
+   - Escanear: EUREKA lee la guía SIN IA y la guarda.
+   - Guía: todos los lotes con su resultado, correlativo e impresión.
+   - La IA solo se usa si tú tocas "Leer con IA" (cuando la lectura falló).
+   - PalletFlow corre detrás solo para Almacén, Gráficos, Hoja de peso por foto y Máster.
    ============================================================ */
 const EKS = { modo:'home', visto:false, t0:0, listo:false };
-function ekPF(){ try { const w = $id('pfFrame').contentWindow; return w && w.pfApi ? w : null; } catch (e) { return null; } }
+function ekPF(){ try { const w = $id('pfFrame').contentWindow; return w && w.pfApi && !w.pfApi.bloqueado() ? w : null; } catch (e) { return null; } }
 function ekIaClave(){ try { return (localStorage.getItem('pf9:apiKey') || '').trim(); } catch (e) { return ''; } }
-const EK_MAS = [
-  { k:'ingreso', icon:'bars',     t:'Panel de Ingreso',  d:'Google Sheets del ingreso' },
-  { k:'ff',      icon:'grid',     t:'Estadísticas',      d:'Por proveedor' },
-  { k:'kl',      icon:'kilos',    t:'Kilos por lote',    d:'Peso neto ingresado' },
-  { k:'kpi',     icon:'gauge',    t:'KPI',               d:'Unidades, kilos e incidencias' },
-  { k:'hf',      icon:'hojafoto', t:'Hoja de peso',      d:'Por foto, envío por WhatsApp' },
-  { k:'master',  icon:'db',       t:'Máster',            d:'Tabla completa de lotes' },
-  { k:'manual',  icon:'calEdit',  t:'Rótulos con fecha', d:'Fecha manual para toda la guía' },
-  { k:'ayer',    icon:'ayer',     t:'Fecha de ayer',     d:'Rótulos con la fecha de ayer' },
-  { k:'cfg',     icon:'gear',     t:'Ajustes',           d:'Máster, IA, apariencia, respaldo', w:true },
-  { k:'bloquear',icon:'lock',     t:'Bloquear',          d:'Vuelve a pedir el PIN', w:true },
+function ekVibrar(){ try { if (navigator.vibrate && ekPref('vibrar', false)) navigator.vibrate(8); } catch (e) {} }
+
+/* ---------- Navegación ---------- */
+const EK_GRAF = [
+  { k:'ingreso', icon:'bars',  t:'Panel de Ingreso',           d:'El ingreso del día desde Google Sheets' },
+  { k:'ff',      icon:'grid',  t:'Estadísticas por proveedor', d:'Kilos, lotes y variedades por proveedor' },
+  { k:'kl',      icon:'kilos', t:'Kilos por lote',             d:'Peso neto ingresado por lote' },
 ];
+const EK_MAS = [
+  { k:'hf',     icon:'hojafoto', t:'Hoja de peso por foto', d:'Foto de la hoja llenada → PDF por WhatsApp' },
+  { k:'master', icon:'db',       t:'Máster',                d:'Lotes, variedades, SENASA y CLP' },
+  { k:'corr',   icon:'tag',      t:'Correlativos del turno', d:'Lo que ya se imprimió hoy' },
+  { k:'cfg',    icon:'gear',     t:'Ajustes',               d:'Tema, reglas, respaldo e IA' },
+];
+const EK_NAV = [['home', 'layers', 'Recepciones'], ['scan', 'scan', 'Escanear'], ['ub', 'almacen', 'Almacén'], ['graf', 'bars', 'Gráficos'], ['mas', 'dots', 'Más']];
+const ekEsTab = m => m === 'home' || m === 'scan';
+function ekNavActivo(){
+  if (ekEsTab(EKS.modo) || EKS.modo === 'ub') return EKS.modo;
+  return EK_GRAF.some(x => x.k === EKS.modo) ? 'graf' : 'mas';
+}
 function ekNavPintar(){
   const n = $id('ekNav'); if (!n) return;
-  const enMas = EK_MAS.some(x => x.k === EKS.modo);
-  const it = [['home', 'layers', 'RECEPCIONES'], ['scan', 'scan', 'ESCANEAR'], ['dia', 'cal', 'DÍA'], ['ub', 'almacen', 'ALMACÉN'], ['mas', 'dots', 'MÁS']];
-  n.innerHTML = it.map(([k, i, t]) => `<button data-nav="${k}" class="${(EKS.modo === k || (k === 'mas' && enMas)) ? 'on' : ''}" aria-label="${t}">${ico(i)}<span>${t}</span></button>`).join('');
-  n.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => { if (navigator.vibrate && ekPref('vibrar', false)) try { navigator.vibrate(8); } catch (e) {} b.dataset.nav === 'mas' ? ekMas() : ekIr(b.dataset.nav); });
+  if (!n.dataset.ok) {
+    n.dataset.ok = '1';
+    n.innerHTML = '<span class="ek-nav-ind" id="ekNavInd"></span>' + EK_NAV.map(([k, i, t]) => `<button data-nav="${k}" aria-label="${t}">${ico(i)}<span>${t}</span></button>`).join('');
+    n.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => {
+      ekVibrar(); const k = b.dataset.nav;
+      if (k === 'mas') ekMas(); else if (k === 'graf') ekGraficos(); else ekIr(k);
+    });
+    window.addEventListener('resize', ekNavPintar);
+  }
+  const act = ekNavActivo();
+  n.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === act));
+  const on = n.querySelector('button.on'), ind = $id('ekNavInd');
+  if (on && ind) { ind.style.transform = `translateX(${on.offsetLeft}px)`; ind.style.width = on.offsetWidth + 'px'; }
 }
 function ekIr(m, fromPop){
+  const prev = EKS.modo;
+  if (m === prev && ekEsTab(m)) return;
   const pf = ekPF();
-  if (m === 'home') {
-    if (EKS.modo === 'home') return;
-    const prev = EKS.modo; EKS.modo = 'home';
-    document.body.classList.remove('ek-pf');
-    if (pf) { try { pf.pfApi.cerrarTodo(); } catch (e) {} if (prev === 'master') ekMasterDesdePF(); }
-    ekNavPintar(); if (!fromPop) ekPopHist('pf');
-    return;
-  }
-  if (!pf) { ekToast('Cargando… intenta en un momento'); return; }
-  if (EKS.modo === 'home') ekPush('pf');
-  try { pf.pfApi.cerrarTodo(); } catch (e) {}
-  if (EKS.modo === 'master' && m !== 'master') ekMasterDesdePF();
+  if (!ekEsTab(m) && !pf) { ekToast('Un momento, se está preparando…'); return; }
+  if (prev === 'home' && m !== 'home') ekPush('tab');
+  if (m === 'home' && prev !== 'home' && !fromPop) ekPopHist('tab');
+  if (!ekEsTab(prev) && pf) { try { pf.pfApi.cerrarTodo(); } catch (e) {} if (prev === 'master') ekMasterDesdePF(); }
   EKS.modo = m; EKS.visto = false; EKS.t0 = Date.now();
-  document.body.classList.add('ek-pf');
-  if (m !== 'scan') { try { pf.pfApi.abrir(m); } catch (e) { console.error(e); } }
+  document.body.classList.toggle('ek-pf', !ekEsTab(m));
+  document.body.classList.toggle('ek-tab-scan', m === 'scan');
+  if (m === 'scan') ekRenderScan();
+  if (m === 'home') ekRenderHome();
+  if (m === 'ub') ekPrepUbicacion(pf);
+  if (!ekEsTab(m)) { try { pf.pfApi.abrir(m); } catch (e) { console.error(e); } }
   ekNavPintar();
+  const scr = m === 'scan' ? $id('scanScr') : m === 'home' ? $id('home') : null;
+  if (scr) { scr.classList.remove('tab-in'); void scr.offsetWidth; scr.classList.add('tab-in'); }
 }
-// si el apartado de PalletFlow se cierra con su ×, EUREKA vuelve a Recepciones
+// si un apartado del motor se cierra con su ×, EUREKA vuelve a Recepciones
 setInterval(() => {
-  if (EKS.modo === 'home' || EKS.modo === 'scan') return;
+  if (ekEsTab(EKS.modo)) return;
   const pf = ekPF(); if (!pf) return;
   let ab = false; try { ab = pf.pfApi.abierto(EKS.modo); } catch (e) {}
   if (ab) EKS.visto = true;
   else if (EKS.visto || Date.now() - EKS.t0 > 8000) ekIr('home');
 }, 350);
+function ekLista(titulo, sub, items, alElegir){
+  const d = ekSheet(`<div class="sh"><div><h3>${esc(titulo)}</h3><p>${esc(sub)}</p></div><button class="ibtn" id="lsX" aria-label="Cerrar">${ico('x')}</button></div>
+    <div class="mas">${items.map((x, n) => `<button data-m="${x.k}" class="k-in" style="--i:${n}"><i>${ico(x.icon)}</i><span><b>${esc(x.t)}</b><small>${esc(x.d)}</small></span>${ico('right', 'ico-sm')}</button>`).join('')}</div>`);
+  $id('lsX').onclick = () => ekCloseSheet();
+  d.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { const k = b.dataset.m; ekCloseSheet(); setTimeout(() => alElegir(k), 150); });
+}
+function ekGraficos(){ ekLista('Gráficos', 'Elige qué quieres ver', EK_GRAF, k => ekIr(k)); }
 function ekMas(){
-  const pf = ekPF(); const ayer = pf ? pf.pfApi.fechaAyerOn() : false;
-  const d = ekSheet(`<div class="sh"><div><h3>Más</h3><p>Herramientas de recepción</p></div><button class="ibtn" id="masX" aria-label="Cerrar">${ico('x')}</button></div>
-    <div class="mas">${EK_MAS.map(x => `<button data-m="${x.k}" class="${x.w ? 'w' : ''} ${(x.k === 'ayer' && ayer) || x.k === EKS.modo ? 'on' : ''}"><i>${ico(x.icon)}</i><span><b>${esc(x.t)}</b><small>${esc(x.k === 'ayer' ? (ayer ? 'Activado: los rótulos salen con la fecha de ayer' : x.d) : x.d)}</small></span></button>`).join('')}</div>`);
-  $id('masX').onclick = () => ekCloseSheet();
-  d.querySelectorAll('[data-m]').forEach(b => b.onclick = () => {
-    const k = b.dataset.m; ekCloseSheet();
-    setTimeout(() => ekMasAccion(k), 140);
+  ekLista('Más', 'Herramientas de recepción', EK_MAS, k => {
+    if (k === 'cfg') { if (EKS.modo !== 'home') { ekIr('home'); setTimeout(ekOpenSettings, 150); } else ekOpenSettings(); }
+    else if (k === 'corr') { const go = () => { EK.ui.settingsTab = 'turno'; ekOpenSettings(); }; if (EKS.modo !== 'home') { ekIr('home'); setTimeout(go, 150); } else go(); }
+    else ekIr(k);
   });
 }
-// espera a que el botón Atrás termine de cerrar la hoja antes de abrir otra cosa
-function ekMasAccion(k){
-    const pf2 = ekPF();
-    if (k === 'cfg') { if (EKS.modo !== 'home') { ekIr('home'); setTimeout(ekOpenSettings, 140); } else ekOpenSettings(); }
-    else if (k === 'bloquear') location.reload();
-    else if (k === 'ayer') { if (pf2) { const on = pf2.pfApi.fechaAyer(); ekToast(on ? 'Rótulos con fecha de ayer: activado' : 'Rótulos con fecha de hoy', on ? 'ok' : ''); } }
-    else if (k === 'manual') { if (pf2) { ekIr('scan'); pf2.pfApi.rotulosFechaManual(); } }
-    else ekIr(k);
+function ekPrepUbicacion(pf){
+  if (!pf) return;
+  try { ekUsarTurno(ekTurnoISO()); pf.pfApi.setGuias(guides, correlativoAutoState); } catch (e) { console.error(e); }
 }
 
-/* ---------- PIN: lo pide el motor (mismos PIN y usuarios de siempre) ---------- */
-function ekEsperarPin(){
+/* ---------- Motor: listo en segundo plano (sin PIN) ---------- */
+function ekEsperarMotor(){
   const t0 = Date.now();
   (function mira(){
     const pf = ekPF();
-    let bloq = true; try { bloq = !pf || pf.pfApi.bloqueado(); } catch (e) {}
-    if (!bloq || (!pf && Date.now() - t0 > 20000)) {
-      setTimeout(() => {
-        document.body.classList.remove('ek-locked');
-        EKS.listo = true; ekNavPintar(); ekRender();
-        ekMasterInicial();
-        ekNativeFiles();
-      }, pf ? 900 : 0);
-      return;
-    }
-    setTimeout(mira, 250);
+    if (pf) { ekMasterInicial(); try { pf.pfApi.tema(EKTEMA.pfVars()); } catch (e) {} return; }
+    if (Date.now() - t0 < 30000) setTimeout(mira, 300);
   })();
 }
+window.ekTemaPF = (v) => { const pf = ekPF(); if (pf) try { pf.pfApi.tema(v); } catch (e) {} };
 
-/* ---------- Un solo máster para Recepciones y Escanear ---------- */
+/* ---------- Un solo máster ---------- */
 let _ekMasterSnap = '';
 function ekMasterInicial(){
   const pf = ekPF(); if (!pf) return;
@@ -4491,34 +4655,382 @@ function ekMasterDesdePF(){
 const _ekSave0 = ekSave;
 ekSave = function(){
   _ekSave0();
-  if (!EKS.listo) return;
   const pf = ekPF(); if (!pf) return;
   try { const m = JSON.stringify(EK.state.master || []); if (m !== _ekMasterSnap) { _ekMasterSnap = m; pf.pfApi.masterSet(JSON.parse(m)); } } catch (e) {}
 };
 
-/* ---------- Ajustes → Escaneo IA ---------- */
+/* ---------- Pantalla Escanear ---------- */
+function ekJabasRec(r){ return r.guias.reduce((s, g) => s + g.lotes.reduce((t, l) => t + (parseInt(l.cantidad, 10) || 0), 0), 0); }
+function ekRenderScan(){
+  const el = $id('scanScr'); if (!el) return;
+  const hoy = ekTurnoISO();
+  const recs = EK.state.receptions.filter(r => r.turno === hoy).sort((a, b) => String(b.created).localeCompare(String(a.created)));
+  const tiles = [['pdf', 'file', 'PDF de la guía', 'Uno o varios a la vez', 'big'], ['cam', 'camera', 'Tomar foto', 'Con la cámara'], ['img', 'image', 'Galería', 'Fotos guardadas'], ['man', 'pencil', 'A mano', 'Sin archivo']];
+  el.innerHTML = `<div class="sc-head"><h1>Escanear</h1><p>EUREKA lee la guía · sin IA</p></div>
+    <div class="sc-body">
+      <div class="sc-grid">${tiles.map(([k, i, t, d, c], n) => `<button class="sc-tile k-in ${c || ''}" style="--i:${n}" data-sc="${k}"><i>${ico(i)}</i><span><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
+      <div class="sc-note">${ico('alert', 'ico-sm')}<span>Diamond Bridge: elige sus PDF juntos y quedan en una sola recepción. Si una guía no se puede leer, ahí mismo tendrás "Leer con IA".</span></div>
+      <h2 class="sc-h">En este turno <span>${recs.length}</span></h2>
+      ${recs.length ? recs.map((r, n) => { const c = tabCfg(r.codigo), v = ekResumenRec(r); return `<button class="sc-row k-in" style="--i:${n + 4};--c:${c.bg}" data-open="${r.id}"><span class="sc-dot"></span><span class="sc-t"><b>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))}</b><small>${esc(c.label)} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>${v.err ? `<em class="bad">${v.err}</em>` : `<em class="ok">${ico('check', 'ico-sm')}</em>`}${ico('right', 'ico-sm')}</button>`; }).join('') : '<div class="sc-empty">Aún no hay guías en este turno.</div>'}
+    </div>`;
+  el.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => {
+    const k = b.dataset.sc;
+    if (k === 'pdf') $id('inPdfMulti').click();
+    else if (k === 'cam') $id('inCam').click();
+    else if (k === 'img') $id('inImgMulti').click();
+    else ekOpenReview([ekGuiaVacia(EK.ui.tab)], { nuevo:true, source:'manual' });
+  });
+  el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => ekOpenDetail(b.dataset.open));
+}
+function ekNumGuiaNorm(s){
+  const t = String(s || '').toUpperCase().replace(/\s+/g, '');
+  const m = t.match(/^([A-Z]{1,3}\d{0,3})[-]?0*(\d+)$/);
+  return m ? m[1] + '-' + m[2] : t.replace(/[^A-Z0-9]/g, '');
+}
+async function ekEscanearArchivos(files, source){
+  files = Array.from(files || []).filter(Boolean); if (!files.length) return;
+  if (files.length > 10) { ekToast(`Máximo 10 a la vez; se tomaron las primeras 10.`); files = files.slice(0, 10); }
+  const leidas = [];
+  for (let i = 0; i < files.length; i++) {
+    ekBusy(files.length > 1 ? `Leyendo guía ${i + 1} de ${files.length}…` : 'Leyendo la guía…');
+    try { leidas.push(await ekLeerArchivo(files[i], EK.ui.tab)); }
+    catch (e) { console.error(e); const g = ekGuiaVacia(EK.ui.tab); g._avisos.push({ tipo:'error', txt:`No se pudo abrir ${files[i].name}` }); g._file = files[i]; g._nombre = files[i].name; leidas.push(g); }
+  }
+  ekBusy(null);
+  const cod = g => (g._codigoLeido && tabCfg(g._codigoLeido).codigo === g._codigoLeido) ? g._codigoLeido : EK.ui.tab;
+  const grupos = [];
+  const multi = leidas.filter(g => tabCfg(cod(g)).multi);
+  if (multi.length) grupos.push({ codigo:cod(multi[0]), guias:multi });
+  leidas.filter(g => !tabCfg(cod(g)).multi).forEach(g => grupos.push({ codigo:cod(g), guias:[g] }));
+  let ultima = null;
+  for (const gr of grupos) {
+    const nums = gr.guias.map(g => ekNumGuiaNorm(g.numero_guia)).filter(Boolean);
+    const dup = nums.length ? EK.state.receptions.find(r => r.codigo === gr.codigo && r.guias.some(g => nums.includes(ekNumGuiaNorm(g.numero_guia)))) : null;
+    if (dup) {
+      const reemplazar = await ekDialog({ titulo:'Guía ya guardada', texto:`La guía ${gr.guias.map(g => g.numero_guia).join(', ')} ya está en ${tabCfg(dup.codigo).label}. ¿Reemplazarla con esta lectura?`, ok:'Reemplazar', cancel:'Ver la guardada' });
+      if (!reemplazar) { ultima = dup.id; continue; }
+      EK.state.receptions = EK.state.receptions.filter(r => r !== dup);
+    }
+    _rv = { guias:gr.guias, i:0, opts:{ nuevo:true, source:source || 'pdf', abrir:false }, codigo:gr.codigo };
+    ekUnificarProveedor(gr.guias, gr.codigo, true);
+    ultima = await ekGuardarReview();
+  }
+  if (EKS.modo === 'scan') ekRenderScan();
+  if (ultima) ekOpenDetail(ultima, true);
+}
+
+/* ---------- Guía: todos los lotes con su resultado ---------- */
+
+function ekOpenDetail(id, recien){
+  if (!ekRec(id)) return;
+  _det = { id, recien:!!recien };
+  ekOpen('detail', '');
+  ekRenderDetail();
+}
+function ekGuiaLeida(g){ return g.lotes.some(l => String(l.lote || '').trim() && (parseInt(l.cantidad, 10) || 0) > 0); }
+function ekRenderDetail(){
+  const el = $id('detail'); if (!el || !_det) return;
+  const r = ekRec(_det.id); if (!r) { ekClose('detail'); return; }
+  ekUsarTurno(r.turno);
+  const cfg = tabCfg(r.codigo);
+  el.style.setProperty('--acc', cfg.bg); el.style.setProperty('--acc-soft', cfg.bg + '29'); el.style.setProperty('--acc-ink', cfg.fg);
+  el.style.setProperty('--acc-text', cfg.codigo === 'DB' ? '#f4f4f5' : cfg.bg);
+  const tienePrev = r.guias.some(g => g.previewKey || g._preview);
+  let n = 0;
+  const cuerpo = r.guias.map((g, gi) => {
+    const val = ekValidar(g, r.codigo, r.id), ne = val.filter(x => x.nivel === 'error').length, na = val.filter(x => x.nivel === 'aviso').length;
+    const errLote = new Set(val.filter(x => x.nivel === 'error').map(x => normalizeLoteId(x.lote)));
+    const tot = g.lotes.reduce((s, l) => s + (parseInt(l.cantidad, 10) || 0), 0);
+    const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
+    const leida = ekGuiaLeida(g);
+    const cuadra = g.totalJabasGuia ? (+g.totalJabasGuia === tot) : null;
+    const meta = [ekFechaCorta(g.fecha || r.created), g.numeroViaje ? 'Viaje ' + g.numeroViaje : '', g.conductor, g.placa].filter(Boolean);
+    const card = `<div class="gv-card k-in" style="--i:${n++}">
+      <div class="gv-top"><span class="gv-prov"><i></i>${esc(cfg.label)}</span>
+        <button class="gv-st ${ne ? 'bad' : na ? 'warn' : 'ok'}" data-err="1">${ne ? `${ico('alert', 'ico-sm')}${ne} error${ne > 1 ? 'es' : ''}` : na ? `${ico('alert', 'ico-sm')}${na} aviso${na > 1 ? 's' : ''}` : `${ico('check', 'ico-sm')}Sin errores`}</button></div>
+      <div class="gv-num" ${r.guias.length > 1 ? `data-ver="${gi}"` : ''}>${esc(g.numero_guia || 'Sin número')}</div>
+      ${meta.length ? `<div class="gv-meta">${meta.map(esc).join(' · ')}</div>` : ''}
+      ${g.totalJabasGuia ? `<div class="gv-cuadre ${cuadra === false ? 'bad' : ''}">La guía dice <b>${(+g.totalJabasGuia).toLocaleString('es-PE')} jabas</b>${g.totalPalletsGuia ? ` · <b>${g.totalPalletsGuia} pallets</b>` : ''}<small>${cuadra === false ? `No cuadra: los lotes suman ${tot.toLocaleString('es-PE')}` : '✓ Cuadra con la suma de lotes'}</small></div>` : ''}
+      <div class="gv-corr"><div class="fld"><label>Correlativo ${esc(pref)}</label><input class="inp num" data-corr="${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
+      <div class="gv-hint">${st.lastUsed ? `Último ${esc(pref)} usado: ${st.lastUsed}` : 'Escribe el primer correlativo de esta guía.'}${usaCorrelGlobal(g) ? ' · sigue de corrido en el turno' : ''}</div>
+    </div>`;
+    const falla = leida ? '' : `<div class="gv-fail k-in" style="--i:${n++}">${ico('alert')}<div><b>No se pudieron leer los lotes</b><small>${esc(((g._avisos || []).find(a => a.tipo !== 'ok') || {}).txt || 'Puede ser una guía escaneada como imagen o un formato nuevo.')}</small>
+      <div class="gv-fail-a"><button class="k-btn sm" data-man="${gi}">${ico('pencil', 'ico-sm')}Completar a mano</button><button class="k-btn sm ia" data-ia="${gi}">${ico('spark', 'ico-sm')}Leer con IA</button></div></div></div>`;
+    const lotes = g.lotes.map((l, li) => {
+      if (!leida && !String(l.lote || '').trim()) return '';
+      const c = ekCalc(g, l), bc = ekBigCode(g, li), bad = errLote.has(normalizeLoteId(l.lote));
+      return `<div class="lv k-in ${bad ? 'bad' : ''}" style="--i:${n++}">
+        <div class="lv-a"><div class="lv-lote">${esc(l.lote || '—')}</div><div class="lv-var">${esc(l.variedad || 'Sin variedad')}${l.jarras ? ' · jarras' : l.verde ? ' · jaba verde' : ''}</div>
+          <div class="lv-chips"><span>${(parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE')} ${c.sinJabas ? 'pallets' : 'jabas'}</span>${l.clp ? `<span>CLP ${esc(l.clp)}</span>` : ''}${bc ? `<span class="cc">${esc(bc)}</span>` : ''}</div></div>
+        <div class="lv-b"><b class="num">${c.full}</b><small>pallet${c.full === 1 ? '' : 's'}</small>${c.sinJabas ? '<em class="z">según guía</em>' : c.pucho ? `<em>+${c.pucho} jabas</em>` : '<em class="z">completos</em>'}
+          <div class="lv-acts"><button class="k-ib" data-rot="${gi}:${li}" aria-label="Rótulo de este lote">${ico('tag', 'ico-sm')}</button>${c.pucho > 0 ? `<button class="k-ib" data-3d="${gi}:${li}" aria-label="Ver pallet en 3D">${ico('cube', 'ico-sm')}</button>` : ''}</div></div>
+      </div>`;
+    }).join('');
+    return card + falla + lotes;
+  }).join('');
+  const titulo = r.guias.length > 1 ? `${r.guias.length} guías` : (r.guias[0].numero_guia || 'Sin número');
+  el.innerHTML = `<div class="hdr"><button class="back" id="dtBack" aria-label="Volver">${ico('left')}</button>
+      <div class="ttl"><b id="dtNum">${esc(titulo)}</b><small>${esc(cfg.label)} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></div>
+      <div class="right"><button class="ibtn" id="dtEdit" aria-label="Editar">${ico('pencil')}</button></div></div>
+    <div class="body gv">${cuerpo}<button class="gv-ia" id="dtIA">${ico('spark', 'ico-sm')}¿Algo no se leyó bien? Leer con IA</button></div>
+    <div class="gv-bar"><button id="bGuia" ${tienePrev ? '' : 'disabled'}>${ico('eye')}<span>Ver guía</span></button><button id="bPeso">${ico('scale')}<span>Pesos</span></button><button id="bRot">${ico('tag')}<span>Rótulos</span></button><button id="bHoja" class="pri">${ico('sheet')}<span>Hoja de peso</span></button></div>`;
+  $id('dtBack').onclick = () => ekClose('detail');
+  $id('dtEdit').onclick = () => ekOpenReview(clone(r.guias).map((x, i) => Object.assign(x, { _preview:null, previewKey:r.guias[i].previewKey })), { nuevo:false, rec:r });
+  el.querySelectorAll('[data-err]').forEach(b => b.onclick = () => ekOpenErrors(r.id));
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => ekVerGuia(r.guias[+b.dataset.ver]));
+  el.querySelectorAll('[data-corr]').forEach(inp => inp.onchange = () => {
+    const g = r.guias[+inp.dataset.corr];
+    if (usaCorrelGlobal(g)) { const pref = getProviderPrefix(g.proveedor); const first = guides.find(x => getProviderPrefix(x.proveedor) === pref && !esGuiaDBIndependiente(x)); (first || g).rotuloCorrelativo = inp.value.trim(); }
+    else g.rotuloCorrelativo = inp.value.trim();
+    ekSave(); ekRenderDetail();
+  });
+  el.querySelectorAll('[data-ancla]').forEach(b => b.onclick = () => { ekUsarTurno(r.turno); saveCorrelativoAnchor(r.guias[+b.dataset.ancla]); ekSave(); ekToast('Correlativo fijado', 'ok'); ekRenderDetail(); });
+  el.querySelectorAll('[data-man]').forEach(b => b.onclick = () => $id('dtEdit').click());
+  el.querySelectorAll('[data-ia]').forEach(b => b.onclick = () => ekLeerConIA(r.id, +b.dataset.ia));
+  $id('dtIA').onclick = () => { if (r.guias.length === 1) ekLeerConIA(r.id, 0); else ekLista('Leer con IA', '¿Qué guía?', r.guias.map((g, gi) => ({ k:String(gi), icon:'file', t:g.numero_guia || 'Guía ' + (gi + 1), d:'Volver a leer esta guía con IA' })), k => ekLeerConIA(r.id, +k)); };
+  el.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset.rot.split(':').map(Number); ekRotulosSheet(r.id, gi, li); });
+  el.querySelectorAll('[data-3d]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset['3d'].split(':').map(Number); ek3DSheet(r, gi, li); });
+  $id('bGuia').onclick = () => { if (r.guias.length === 1) ekVerGuia(r.guias[0]); else ekLista('Ver guía', '¿Cuál?', r.guias.map((g, gi) => ({ k:String(gi), icon:'eye', t:g.numero_guia || 'Guía ' + (gi + 1), d:'Abrir la guía' })), k => ekVerGuia(r.guias[+k])); };
+  $id('bPeso').onclick = () => ekOpenPeso(r.id);
+  $id('bRot').onclick = () => ekRotulosSheet(r.id);
+  $id('bHoja').onclick = () => ekHojaSheet([r]);
+  if (_det.recien) { _det.recien = false; ekDecode($id('dtNum')); }
+}
+function ek3DSheet(r, gi, li){
+  const g = r.guias[gi], l = g.lotes[li], c = ekCalc(g, l), nivel = ekPorNivel(l);
+  const d = ekSheet(`<div class="sh"><div><h3>${esc(l.lote || 'Lote')} · último pallet</h3><p>${c.pucho} jabas · ${Math.ceil(c.pucho / nivel)} niveles · último nivel ${c.pucho % nivel || nivel}</p></div><button class="ibtn" id="d3X" aria-label="Cerrar">${ico('x')}</button></div><div class="d3" id="d3Host"></div>`);
+  $id('d3X').onclick = () => ekCloseSheet();
+  setTimeout(() => { const h = $id('d3Host'); if (h) ek3D.mount(h, c.pucho, nivel, l.jarras ? 'jarra' : l.verde ? 'green' : (r.codigo === 'DB' ? 'white' : 'blue'), 'iso'); }, 80);
+  const t = setInterval(() => { if (!d.isConnected) { ek3D.dispose(); clearInterval(t); } }, 400);
+}
+
+/* ---------- Leer con IA (solo si el usuario lo pide) ---------- */
+async function ekLeerConIA(id, gi){
+  const r = ekRec(id), g = r && r.guias[gi]; if (!g) return;
+  if (!ekIaClave()) {
+    const k = await ekPrompt('Para leer con IA, pega tu clave de Claude (se guarda solo en este celular)', '');
+    if (!k || !k.trim()) return;
+    try { localStorage.setItem('pf9:apiKey', k.trim()); } catch (e) {}
+  }
+  const pf = ekPF(); if (!pf) { ekAlert('Espera un momento y vuelve a intentar.'); return; }
+  let file = null;
+  try { if (g.pdfKey) file = await EKDB.get('files', g.pdfKey); } catch (e) {}
+  if (!(file instanceof Blob)) {
+    let src = g._preview; if (!src && g.previewKey) src = await EKDB.get('files', g.previewKey);
+    if (src) { const b = await (await fetch(src)).blob(); file = new File([b], 'guia.jpg', { type:b.type || 'image/jpeg' }); }
+  }
+  if (!file) { ekAlert('Esta guía no tiene un archivo guardado para leer.'); return; }
+  if (!(file instanceof File)) file = new File([file], (g._nombre || 'guia') + (file.type === 'application/pdf' ? '.pdf' : ''), { type:file.type || 'application/pdf' });
+  ekBusy('Leyendo con IA…');
+  try {
+    const j = await pf.pfApi.leerConIA(file);
+    const lotes = (j.lotes || []).map(x => ({ _id:uid(), lote:String(x.lote || ''), variedad:String(x.variedad || ''), cantidad:parseInt(x.jabas, 10) || 0, clp:String(x.clp || ''), peso:+x.peso_kg || 0, jarras:!!x.es_jarras, jarras_cantidad:parseInt(x.num_jarras, 10) || 0 }));
+    if (!lotes.length) throw new Error('La IA no encontró lotes en la guía.');
+    Object.assign(g, {
+      numero_guia:j.numero_guia || g.numero_guia, conductor:j.conductor || g.conductor, placa:j.placa || g.placa, carreta:j.carreta || g.carreta,
+      numeroViaje:j.viaje || g.numeroViaje, totalJabasGuia:+j.total_jabas_guia || 0, totalPalletsGuia:+j.total_pallets_guia || 0, lotes, hojaPesoOverride:undefined,
+    });
+    ekSave(); ekRenderDetail(); ekRender(); ekToast('Guía leída con IA', 'ok');
+  } catch (e) {
+    const msg = String(e && e.message || e);
+    ekAlert(/fetch|network|Failed/i.test(msg) ? 'No hay conexión con la IA. Revisa tu internet y la clave en Ajustes → IA.' : 'La IA no pudo leer la guía: ' + msg);
+  } finally { ekBusy(null); }
+}
+
+/* ---------- Fecha en lo impreso: Hoy / Ayer / Otra ---------- */
+function ekFimp(){ return EK.ui.fimp || (EK.ui.fimp = { modo:'hoy', manual:'' }); }
+function ekFechaImpTexto(){
+  const f = ekFimp();
+  if (f.modo === 'ayer') { const d = getShiftDateObj(); d.setDate(d.getDate() - 1); return d.toLocaleDateString('es-PE'); }
+  if (f.modo === 'manual' && f.manual) { const [y, m, dd] = f.manual.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString('es-PE'); }
+  return getShiftDate();
+}
+async function ekConFecha(fn){
+  const f = ekFimp();
+  const a0 = rotuloFechaAyer; rotuloFechaAyer = false;
+  if (f.modo !== 'hoy') { const txt = ekFechaImpTexto(); window.__ekFechaImp = () => txt; }
+  try { return await fn(); } finally { window.__ekFechaImp = null; rotuloFechaAyer = a0; }
+}
+function ekFechaUI(){
+  const f = ekFimp();
+  return `<div class="fx"><div class="fx-l">${ico('cal', 'ico-sm')}Fecha en lo impreso</div>
+    <div class="fx-seg">${[['hoy', 'Hoy'], ['ayer', 'Ayer'], ['manual', 'Otra']].map(([k, t]) => `<button data-fx="${k}" class="${f.modo === k ? 'on' : ''}">${t}</button>`).join('')}</div>
+    ${f.modo === 'manual' ? `<input class="inp" type="date" id="fxDate" value="${esc(f.manual)}">` : ''}
+    <span class="fx-v">Saldrá con fecha <b>${esc(ekFechaImpTexto())}</b></span></div>`;
+}
+function ekFechaWire(d, rerender){
+  d.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => {
+    const f = ekFimp(); f.modo = b.dataset.fx;
+    if (f.modo === 'manual' && !f.manual) { const x = getShiftDateObj(); f.manual = `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; }
+    rerender();
+  });
+  const i = d.querySelector('#fxDate'); if (i) i.onchange = () => { ekFimp().manual = i.value; rerender(); };
+}
+
+/* ---------- Rótulos ---------- */
+function ekRotulosSheet(id, giSel, liSel){
+  const r = ekRec(id); if (!r) return;
+  ekUsarTurno(r.turno);
+  const sc = document.querySelector('.sheet'); const y = sc ? sc.scrollTop : 0;
+  const filas = r.guias.map((g, gi) => {
+    const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
+    const orden = g.lotes.map((l, li) => li); if (gi === giSel && liSel != null) { orden.splice(orden.indexOf(liSel), 1); orden.unshift(liSel); }
+    return `<div class="rt-g"><h5>${esc(g.numero_guia || 'Guía')}<small>${esc(pref)}${usaCorrelGlobal(g) ? ' · de corrido' : ''}</small></h5>
+      <div class="gv-corr" style="margin-top:0"><div class="fld"><label>Correlativo</label><input class="inp num" data-corr="${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
+      ${orden.map(li => { const l = g.lotes[li]; const info = !isNaN(base) ? buildRotuloDataForLote(g, li) : null; return `<div class="rl ${gi === giSel && li === liSel ? 'sel' : ''}"><span><b>${esc(l.lote || '—')}</b><small>${esc(info ? info.bigCode : 'falta el correlativo')}</small></span><button class="k-btn sm ${gi === giSel && li === liSel ? 'pri' : ''}" data-rot="${gi}:${li}" ${info ? '' : 'disabled'}>${ico('tag', 'ico-sm')}Imprimir</button></div>`; }).join('')}
+      <button class="k-btn full" style="width:100%;margin-top:10px" data-rotg="${gi}" ${isNaN(base) ? 'disabled' : ''}>${ico('layers', 'ico-sm')}Toda la guía</button></div>`;
+  }).join('');
+  const d = ekSheet(`<div class="sh"><div><h3>Rótulos</h3><p>2 por hoja A4 echada</p></div><button class="ibtn" id="rtX" aria-label="Cerrar">${ico('x')}</button></div>
+    ${ekFechaUI()}${filas}
+    <button class="k-btn pri" style="width:100%" id="rtTurno">${ico('tag', 'ico-sm')}Todas las guías del turno (${guides.length})</button>`);
+  if (y) d.scrollTop = y;
+  const again = () => ekRotulosSheet(id, giSel, liSel);
+  d.querySelector('#rtX').onclick = () => ekCloseSheet();
+  ekFechaWire(d, again);
+  d.querySelectorAll('[data-corr]').forEach(inp => inp.onchange = () => {
+    const g = r.guias[+inp.dataset.corr];
+    if (usaCorrelGlobal(g)) { const pref = getProviderPrefix(g.proveedor); const first = guides.find(x => getProviderPrefix(x.proveedor) === pref && !esGuiaDBIndependiente(x)); (first || g).rotuloCorrelativo = inp.value.trim(); }
+    else g.rotuloCorrelativo = inp.value.trim();
+    ekSave(); again(); if ($id('detail')) ekRenderDetail();
+  });
+  d.querySelectorAll('[data-ancla]').forEach(b => b.onclick = () => { ekUsarTurno(r.turno); saveCorrelativoAnchor(r.guias[+b.dataset.ancla]); ekSave(); ekToast('Correlativo fijado', 'ok'); again(); if ($id('detail')) ekRenderDetail(); });
+  const gen = async (txt, fn) => { ekUsarTurno(r.turno); ekBusy(txt); try { await ekConFecha(fn); } finally { ekBusy(null); ekSave(); if ($id('detail')) ekRenderDetail(); } };
+  d.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset.rot.split(':').map(Number); gen('Generando rótulo…', () => generateRotulo(r.guias[gi], li)); });
+  d.querySelectorAll('[data-rotg]').forEach(b => b.onclick = () => gen('Generando rótulos…', () => generateRotuloTodosLotes(r.guias[+b.dataset.rotg])));
+  d.querySelector('#rtTurno').onclick = () => gen('Generando rótulos del turno…', () => generateRotuloTodasLasGuias());
+}
+async function ekRotulosSeleccion(rs){
+  if (!rs.length) return;
+  const keep = guides; guides = rs.sort((a, b) => String(a.created).localeCompare(String(b.created))).flatMap(r => r.guias);
+  ekBusy('Generando rótulos…'); try { await ekConFecha(() => generateRotuloTodasLasGuias()); } finally { ekBusy(null); guides = keep; ekSave(); }
+}
+
+/* ---------- Hoja de peso ---------- */
+function ekHojaSheet(rs){
+  if (!rs.length) return;
+  const turno = rs[0].turno, cod = rs[0].codigo;
+  const delTurno = EK.state.receptions.filter(x => x.turno === turno && x.codigo === cod);
+  const todas = EK.state.receptions.filter(x => x.turno === turno);
+  const d = ekSheet(`<div class="sh"><div><h3>Hoja de peso</h3><p>A4 echada, por mitades</p></div><button class="ibtn" id="hjX" aria-label="Cerrar">${ico('x')}</button></div>
+    ${ekFechaUI()}
+    <div class="mas">
+      <button id="hj1"><i>${ico('sheet')}</i><span><b>${rs.length > 1 ? `Las ${rs.length} seleccionadas` : 'Esta recepción'}</b><small>${esc(rs.map(r => r.guias.map(g => g.numero_guia).join(', ')).join(' · '))}</small></span>${ico('right', 'ico-sm')}</button>
+      <button id="hj2"><i>${ico('layers')}</i><span><b>Todo ${esc(tabCfg(cod).label)} del turno</b><small>${delTurno.length} recepción${delTurno.length === 1 ? '' : 'es'}</small></span>${ico('right', 'ico-sm')}</button>
+      <button id="hj3"><i>${ico('grid')}</i><span><b>Todas las guías del turno</b><small>${todas.length} recepción${todas.length === 1 ? '' : 'es'}</small></span>${ico('right', 'ico-sm')}</button>
+      <button id="hj4"><i>${ico('scale')}</i><span><b>Lista de pesaje</b><small>Para marcar en la balanza</small></span>${ico('right', 'ico-sm')}</button>
+    </div>`);
+  const again = () => ekHojaSheet(rs);
+  ekFechaWire(d, again);
+  const hacer = async (lista, nombre) => { ekCloseSheet(); ekUsarTurno(turno); ekBusy('Generando hoja de peso…'); try { await ekConFecha(() => generateHojaDePeso(lista.sort((a, b) => String(a.created).localeCompare(String(b.created))).flatMap(x => x.guias), nombre)); } finally { ekBusy(null); } };
+  d.querySelector('#hjX').onclick = () => ekCloseSheet();
+  d.querySelector('#hj1').onclick = () => hacer(rs.slice());
+  d.querySelector('#hj2').onclick = () => hacer(delTurno.slice(), `hoja-de-peso-${cod}-${turno}.pdf`);
+  d.querySelector('#hj3').onclick = () => hacer(todas.slice(), `hoja-de-peso-turno-${turno}.pdf`);
+  d.querySelector('#hj4').onclick = async () => { ekCloseSheet(); const keep = guides; guides = rs.flatMap(x => x.guias); ekBusy('Generando lista…'); try { await ekConFecha(() => generateListaPesaje()); } finally { ekBusy(null); guides = keep; } };
+}
+
+/* ---------- Ver guía: zoom con dos dedos y desplazamiento libre ---------- */
+function ekOpenViewer(src, box){
+  const el = ekOpen('viewer', `<div class="hdr"><button class="back" id="vwBack" aria-label="Cerrar">${ico('x')}</button><div class="ttl"><b>Guía de remisión</b><small>Pellizca para acercar · arrastra para moverte · doble toque</small></div><div class="right"></div></div>
+    <div class="viewer2" id="vw">${src ? `<div class="stage" id="vwStage"><img id="vwImg" src="${src}" alt="Guía de remisión">${box ? '<div class="hl" id="vwHl"></div>' : ''}</div>
+      <span class="vpct" id="vwPct">100%</span><div class="vz"><button id="vwMenos" aria-label="Alejar">${ico('minus')}</button><button id="vwFit" aria-label="Ajustar">${ico('scan')}</button><button id="vwMas" aria-label="Acercar">${ico('plus')}</button></div>`
+      : '<div class="vnote">Esta recepción no tiene imagen de la guía (se ingresó a mano).</div>'}</div>`, { up:true });
+  $id('vwBack').onclick = () => ekClose('viewer');
+  if (!src) return;
+  const vw = $id('vw'), st = $id('vwStage'), img = $id('vwImg');
+  let s = 1, x = 0, y = 0, W = 0, H = 0, anim = 0;
+  const MIN = 1, MAX = 8;
+  function limitar(){
+    const VW = vw.clientWidth, VH = vw.clientHeight, w = W * s, h = H * s;
+    x = w <= VW ? (VW - w) / 2 : Math.min(0, Math.max(VW - w, x));
+    y = h <= VH ? (VH - h) / 2 : Math.min(0, Math.max(VH - h, y));
+  }
+  function pintar(){ st.style.transform = `translate3d(${x}px,${y}px,0) scale(${s})`; $id('vwPct').textContent = Math.round(s * 100) + '%'; }
+  function zoomEn(ns, px, py){ ns = Math.max(MIN, Math.min(MAX, ns)); x = px - (px - x) * ns / s; y = py - (py - y) * ns / s; s = ns; limitar(); pintar(); }
+  function animarA(ns, nx, ny){
+    cancelAnimationFrame(anim); const s0 = s, x0 = x, y0 = y, t0 = performance.now();
+    const paso = t => { const k = Math.min(1, (t - t0) / 260), e = 1 - Math.pow(1 - k, 3); s = s0 + (ns - s0) * e; x = x0 + (nx - x0) * e; y = y0 + (ny - y0) * e; pintar(); if (k < 1) anim = requestAnimationFrame(paso); else { limitar(); pintar(); } };
+    anim = requestAnimationFrame(paso);
+  }
+  function ajustar(animar){
+    const VW = vw.clientWidth;
+    W = VW; H = W * (img.naturalHeight / img.naturalWidth || 1.4);
+    st.style.width = W + 'px';
+    const ns = 1, nx = 0, ny = 0;
+    if (animar) animarA(ns, nx, ny); else { s = ns; x = nx; y = ny; limitar(); pintar(); }
+  }
+  const zoomBtn = f => { const r = vw.getBoundingClientRect(); const px = r.width / 2, py = r.height / 2; const ns = Math.max(MIN, Math.min(MAX, s * f)); const nx = px - (px - x) * ns / s, ny = py - (py - y) * ns / s; const sv = [s, x, y]; s = ns; x = nx; y = ny; limitar(); const tgt = [s, x, y]; [s, x, y] = sv; animarA(...tgt); };
+  $id('vwMas').onclick = () => zoomBtn(1.6);
+  $id('vwMenos').onclick = () => zoomBtn(1 / 1.6);
+  $id('vwFit').onclick = () => ajustar(true);
+  img.onload = () => {
+    ajustar(false);
+    if (box) {
+      const hl = $id('vwHl'); Object.assign(hl.style, { left:box[0] * W + 'px', top:box[1] * H + 'px', width:(box[2] - box[0]) * W + 'px', height:(box[3] - box[1]) * H + 'px' });
+      const ns = 2.4; s = ns; x = -(box[0] * W) * ns + 12; y = -((box[1] + box[3]) / 2 * H) * ns + vw.clientHeight / 2; limitar(); pintar();
+    }
+  };
+  if (img.complete && img.naturalWidth) img.onload();
+  window.addEventListener('resize', () => { if ($id('vw')) ajustar(false); });
+  // gestos
+  const pts = new Map(); let ini = null, ultTap = 0, vel = { x:0, y:0, t:0 }, inercia = 0;
+  const foto = () => ({ s, x, y, pts:new Map([...pts].map(([k, v]) => [k, Object.assign({}, v)])) });
+  vw.addEventListener('pointerdown', e => {
+    cancelAnimationFrame(anim); cancelAnimationFrame(inercia);
+    vw.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x:e.clientX, y:e.clientY }); ini = foto(); vel = { x:0, y:0, t:performance.now() };
+    if (pts.size === 1) {
+      const ahora = Date.now();
+      if (ahora - ultTap < 300) { const r = vw.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top; const ns = s > 1.3 ? 1 : 2.6; const sv = [s, x, y]; x = px - (px - x) * ns / s; y = py - (py - y) * ns / s; s = ns; limitar(); const tgt = [s, x, y]; [s, x, y] = sv; animarA(...tgt); ultTap = 0; }
+      else ultTap = ahora;
+    }
+  });
+  vw.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId) || !ini) return;
+    const prev = pts.get(e.pointerId); pts.set(e.pointerId, { x:e.clientX, y:e.clientY });
+    const a = [...pts.values()], b = [...ini.pts.values()];
+    if (a.length >= 2 && b.length >= 2) {
+      const r = vw.getBoundingClientRect();
+      const d0 = Math.hypot(b[0].x - b[1].x, b[0].y - b[1].y) || 1, d1 = Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y);
+      const c0x = (b[0].x + b[1].x) / 2 - r.left, c0y = (b[0].y + b[1].y) / 2 - r.top, c1x = (a[0].x + a[1].x) / 2 - r.left, c1y = (a[0].y + a[1].y) / 2 - r.top;
+      const ns = Math.max(MIN * .85, Math.min(MAX, ini.s * d1 / d0));
+      s = ns; x = c1x - (c0x - ini.x) * ns / ini.s; y = c1y - (c0y - ini.y) * ns / ini.s;
+      pintar();
+    } else if (a.length === 1) {
+      const t = performance.now(), dt = Math.max(1, t - vel.t);
+      vel = { x:(e.clientX - prev.x) / dt, y:(e.clientY - prev.y) / dt, t };
+      x = ini.x + a[0].x - b[0].x; y = ini.y + a[0].y - b[0].y; limitar(); pintar();
+    }
+  });
+  const fin = e => {
+    pts.delete(e.pointerId); ini = pts.size ? foto() : null;
+    if (!pts.size) {
+      if (s < MIN) { const sv = [s, x, y]; s = MIN; limitar(); const tgt = [s, x, y]; [s, x, y] = sv; animarA(...tgt); return; }
+      limitar(); pintar();
+      if (performance.now() - vel.t < 80 && Math.hypot(vel.x, vel.y) > .15) {
+        let vx = vel.x * 16, vy = vel.y * 16;
+        const paso = () => { x += vx; y += vy; vx *= .92; vy *= .92; const ox = x, oy = y; limitar(); if (x !== ox) vx = 0; if (y !== oy) vy = 0; pintar(); if (Math.hypot(vx, vy) > .4) inercia = requestAnimationFrame(paso); };
+        inercia = requestAnimationFrame(paso);
+      }
+    }
+  };
+  vw.addEventListener('pointerup', fin); vw.addEventListener('pointercancel', fin);
+  vw.addEventListener('wheel', e => { e.preventDefault(); const r = vw.getBoundingClientRect(); zoomEn(s * (e.deltaY < 0 ? 1.15 : .87), e.clientX - r.left, e.clientY - r.top); }, { passive:false });
+}
+
+/* ---------- Ajustes → IA (opcional) ---------- */
 function ekIaUI(){
-  const k = ekIaClave(), pf = ekPF(), u = pf ? pf.pfApi.usuario() : null, ayer = pf ? pf.pfApi.fechaAyerOn() : false;
-  return `<div class="sec"><h4>Clave de Claude</h4>
-      <div class="msgs" style="margin-bottom:10px"><div class="msg ${k ? 'ok' : 'info'}"><span>${k ? 'Clave guardada en este celular. "Escanear" lee las guías con IA.' : 'Sin clave: "Escanear" no podrá leer con IA. La lectura sin IA de Recepciones funciona igual.'}</span></div></div>
-      <div class="fld"><label>Clave de API</label><input class="inp" id="iaKey" type="password" autocomplete="off" placeholder="sk-ant-…" value="${esc(k)}"></div>
-      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn pri" style="flex:1" id="iaSave">Guardar clave</button>${k ? '<button class="btn danger" id="iaDel">Quitar</button>' : ''}</div></div>
-    <div class="sec"><h4>Rótulos del escaneo</h4>
-      <label class="tm-sw"><span>Fecha de ayer<small>Todos los rótulos salen con la fecha de ayer</small></span><input type="checkbox" id="iaAyer" ${ayer ? 'checked' : ''}></label>
-      <button class="btn full" id="iaManual">${ico('calEdit', 'ico-sm')}Rótulos con fecha manual</button></div>
-    <div class="sec"><h4>Usuario</h4>
-      <div class="mrow" style="grid-template-columns:44px 1fr auto"><b style="font-size:13px">${esc(u ? u.ini : '—')}</b><div>${esc(u ? u.nombre : 'Sin usuario')}<small>${esc(u ? u.rol : '')}</small></div><button class="ibtn" id="iaLock" aria-label="Bloquear">${ico('lock', 'ico-sm')}</button></div></div>
-    <div class="sec"><h4>Opciones avanzadas</h4>
-      <button class="btn full" id="iaAdv">${ico('gear', 'ico-sm')}Conexión, sincronización y respaldo de escaneos</button>
-      <div style="font-size:12px;color:var(--mut);margin-top:8px">Sincronización entre José y Luis, respaldo de los escaneos y temas del escaneo.</div></div>`;
+  const k = ekIaClave();
+  return `<div class="sec"><h4>Leer con IA (opcional)</h4>
+      <div class="msgs" style="margin-bottom:10px"><div class="msg info"><span>EUREKA lee las guías sin IA. La IA solo se usa cuando tú tocas "Leer con IA" en una guía que no se pudo leer. Necesita internet y una clave de Claude.</span></div></div>
+      <div class="fld"><label>Clave de Claude</label><input class="inp" id="iaKey" type="password" autocomplete="off" placeholder="sk-ant-…" value="${esc(k)}"></div>
+      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn pri" style="flex:1" id="iaSave">${ico('key', 'ico-sm')}Guardar clave</button>${k ? `<button class="btn danger" id="iaDel">Quitar</button>` : ''}</div></div>
+    <div class="sec"><h4>PalletFlow</h4>
+      <button class="btn full" id="iaAdv">${ico('gear', 'ico-sm')}Sincronización y respaldo de PalletFlow</button></div>`;
 }
 function ekIaWire(el){
   $id('iaSave').onclick = () => { try { localStorage.setItem('pf9:apiKey', $id('iaKey').value.trim()); } catch (e) {} ekToast('Clave guardada', 'ok'); ekRenderSettings(); };
   if ($id('iaDel')) $id('iaDel').onclick = async () => { if (await ekConfirm('¿Quitar la clave de este celular?', 'Quitar', true)) { try { localStorage.removeItem('pf9:apiKey'); } catch (e) {} ekRenderSettings(); } };
-  $id('iaAyer').onchange = () => { const pf = ekPF(); if (pf) { const on = pf.pfApi.fechaAyer(); $id('iaAyer').checked = on; } };
-  $id('iaManual').onclick = () => { const pf = ekPF(); if (!pf) return; ekClose('settings'); setTimeout(() => { ekIr('scan'); pf.pfApi.rotulosFechaManual(); }, 140); };
-  $id('iaLock').onclick = () => location.reload();
-  $id('iaAdv').onclick = () => { ekClose('settings'); setTimeout(() => ekIr('ajustes'), 140); };
+  $id('iaAdv').onclick = () => { ekClose('settings'); setTimeout(() => ekIr('ajustes'), 150); };
 }
 
 /* ============================================================
@@ -4529,19 +5041,21 @@ function ekIaWire(el){
   ekRenderHome(); ekRenderFab();
   $id('fabScrim').onclick = () => { $id('fab').classList.remove('open'); $id('fabScrim').classList.add('hide'); ekRenderFab(); };
   const wire = (id, fn) => $id(id).addEventListener('change', e => { const fs = Array.from(e.target.files || []); e.target.value = ''; if (fs.length) fn(fs); });
-  wire('inPdf', fs => ekProcesar(fs, 'pdf'));
-  wire('inImg', fs => ekProcesar(fs, 'image'));
-  wire('inCam', fs => tabCfg(EK.ui.tab).multi ? ekDbSheet(fs, 'image') : ekProcesar(fs, 'camera'));
-  wire('inPdfMulti', fs => ekDbSheet(fs, 'pdf'));
-  wire('inImgMulti', fs => ekDbSheet(fs, 'image'));
+  wire('inPdf', fs => ekEscanearArchivos(fs, 'pdf'));
+  wire('inImg', fs => ekEscanearArchivos(fs, 'image'));
+  wire('inCam', fs => ekEscanearArchivos(fs, 'camera'));
+  wire('inPdfMulti', fs => ekEscanearArchivos(fs, 'pdf'));
+  wire('inImgMulti', fs => ekEscanearArchivos(fs, 'image'));
   wire('inXls', fs => ekCargarMaestroExcel(fs[0]));
   wire('inJson', fs => ekCargarRespaldo(fs[0]));
   window.addEventListener('resize', ekPosTab);
   if (window.PDFJS) { try { PDFJS.disableWorker = true; } catch (e) {} }
   ekExtrasAplicar();
   _ekListo = true; window.__ekListo = true;
+  EKS.listo = true;
   ekNavPintar();
-  ekEsperarPin();
+  ekEsperarMotor();
+  ekNativeFiles();
   setTimeout(ekRespaldoAuto, 4000);
 })();
 

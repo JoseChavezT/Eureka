@@ -28,10 +28,10 @@ nit = '\n'.join(lines[start:end])
 sk = nit.replace('pf2-cards-nitido', 'pf2-cards-eureka')
 swaps = [
     ('PALLETFLOW 4 — ESTILO "NÍTIDO"', 'EUREKA — piel de EUREKA para el motor PalletFlow'),
-    ('--n-bg:#000000;', '--n-bg:#050506;'),
-    ('--n-s1:#0A0A0C;', '--n-s1:#0e0e11;'),
-    ('--n-s2:#111114;', '--n-s2:#141418;'),
-    ('--n-s3:#18181C;', '--n-s3:#1b1b20;'),
+    ('--n-bg:#000000;', '--n-bg:#000000;'),
+    ('--n-s1:#0A0A0C;', '--n-s1:#0a0a0a;'),
+    ('--n-s2:#111114;', '--n-s2:#111111;'),
+    ('--n-s3:#18181C;', '--n-s3:#181818;'),
     ('--n-line:rgba(255,255,255,.075);', '--n-line:rgba(255,255,255,.08);'),
     ('--n-tx:#F5F5F7;', '--n-tx:#f7f7f8;'),
     ('--n-r:14px; --n-r-sm:10px;', '--n-r:18px; --n-r-sm:12px;'),
@@ -120,9 +120,11 @@ MOTOR = r'''
 <style>
 /* ===== PalletFlow dentro de EUREKA: sin menú propio (EUREKA pone la barra de abajo) ===== */
 html.pf-embed, html.pf-embed body{--pf-sb-w:0px !important; --pf4-nav-h:0px !important;}
-html.pf-embed #pfSidebar, html.pf-embed #pfSbToggle{display:none !important;}
+html.pf-embed #pfSidebar, html.pf-embed #pfSbToggle, html.pf-embed #pfLock{display:none !important;}
 html.pf-embed body .pf-shell::before{left:0 !important;}
 html.pf-embed body #app{padding-bottom:24px !important;}
+/* todo en negro (o el fondo del tema de EUREKA); los gráficos no cambian */
+html.pf-embed body :is(#ffOverlay, #klOverlay, #ingresoRoot, #ubOv, #masterOverlay, #hfOverlay){background:var(--n-bg, #000) !important;}
 html.pf-embed body :is(#diaOverlay, #ubOv, #pesajeOverlay, #masterOverlay){left:0 !important; bottom:0 !important;}
 /* sin calculadora: Recepción muestra escanear guías y correlativos impresos */
 html body #app #calcView > .pf-calc-card{display:none !important;}
@@ -132,6 +134,16 @@ html body #app #calcView > .pf-calc-side > .pf-card{flex:1 1 380px; min-width:0;
 @media (max-width:900px){ html body #app #calcView > .pf-calc-side{flex-direction:column;} html body #app #calcView > .pf-calc-side > .pf-card{flex:none;} }
 </style>
 <script>
+/* Sin PIN: dentro de EUREKA entra solo, como usuario general */
+(function(){
+  if (!document.documentElement.classList.contains('pf-embed')) return;
+  const pad = document.getElementById('pfLockPad'); if (!pad) return;
+  // sin sonido de "PIN correcto" al abrir la app
+  const AC = window.AudioContext, WAC = window.webkitAudioContext;
+  window.AudioContext = undefined; window.webkitAudioContext = undefined;
+  try { ['1','2','3','6'].forEach(k => { const b = pad.querySelector('[data-k="' + k + '"]'); if (b) b.click(); }); }
+  finally { window.AudioContext = AC; window.webkitAudioContext = WAC; }
+})();
 (function(){
   const P = { dia:['diaBtn','diaOverlay'], ub:['ubBtn','ubOv'], ingreso:['ingresoBtn','ingresoOverlay'], ff:['ffBtn','ffOverlay'], kl:['klBtn','klOverlay'],
               kpi:['kpiBtn','kpiOv'], hf:['hfBtn','hfOverlay'], master:['masterBtn','masterOverlay'], ajustes:['themeBtn','themeOverlay'] };
@@ -151,6 +163,11 @@ html body #app #calcView > .pf-calc-side > .pf-card{flex:1 1 380px; min-width:0;
     rotulosFechaManual(){ el('rotuloManualBtn').click(); },
     fechaAyer(){ el('rotuloAyerBtn').click(); return !!rotuloFechaAyer; },
     fechaAyerOn(){ return !!rotuloFechaAyer; },
+    // Almacén: usa las guías que EUREKA leyó en el turno (mismo formato del motor)
+    setGuias(lista, corr){ try { guides = JSON.parse(JSON.stringify(lista || [])); if (corr) correlativoAutoState = JSON.parse(JSON.stringify(corr)); } catch (e) { console.error(e); } },
+    // colores del tema de EUREKA
+    tema(v){ const b = document.body.style; Object.keys(v || {}).forEach(k => b.setProperty(k, v[k])); document.documentElement.style.setProperty('--pf-bg', v['--n-bg'] || '#000'); },
+    leerConIA(file){ return extractGuideViaAI(file); },
     guiasAbiertas(){ return (typeof guides !== 'undefined' && guides) ? guides.length : 0; },
   };
 })();
