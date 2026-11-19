@@ -1,0 +1,20 @@
+name: Compilar APK
+on:
+  push:
+    paths: ["web/**", "app/**", "tools/**", "build.sh", "version.properties", ".github/workflows/**"]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Herramientas Android
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq android-sdk-platform-23 android-sdk-build-tools apksigner zipalign zip
+      - name: Compilar
+        run: ANDROID_SDK=/usr/lib/android-sdk ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EUREKA-apk
+          path: dist/*.apk
