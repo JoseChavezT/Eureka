@@ -546,6 +546,105 @@ body.ek-tab-scan #home{visibility:hidden}
 .viewer2 .vz button{width:46px;height:46px;border-radius:999px;display:grid;place-items:center;background:rgba(18,18,18,.88);border:1px solid var(--line2);color:var(--fg);backdrop-filter:blur(10px)}
 .viewer2 .vpct{position:absolute;left:14px;bottom:calc(26px + var(--sab));font-family:var(--mono);font-size:12px;color:var(--mut);background:rgba(18,18,18,.8);padding:5px 10px;border-radius:999px}
 
+/* =====================================================================
+   EUREKA 5 — Escanear como inicio, rueda de "Más", Ajustes arriba,
+   animación nueva al escanear
+   ===================================================================== */
+#home{display:none!important}
+#scanScr{display:flex!important}
+.ek-nav{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* ---------- Encabezado de Escanear + engrane ---------- */
+.sc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sc-cfg{flex:none;width:48px;height:48px;border-radius:999px;display:grid;place-items:center;background:var(--s1);border:1px solid var(--line2);color:var(--fg2);margin-top:2px}
+.sc-cfg .ico{width:22px;height:22px}
+.sc-cfg.spin .ico{animation:cfgSpin .6s var(--k-spring)}
+@keyframes cfgSpin{from{transform:rotate(0)}to{transform:rotate(150deg)}}
+/* Ajustes se abre como un círculo que crece desde el engrane */
+.screen.layer.reveal{animation:ekReveal .6s cubic-bezier(.7,0,.2,1) both}
+.screen.layer.reveal.closing{animation:ekUnreveal .26s cubic-bezier(.5,0,.75,0) forwards}
+@keyframes ekReveal{from{clip-path:circle(0 at var(--ox) var(--oy))}to{clip-path:circle(160vmax at var(--ox) var(--oy))}}
+@keyframes ekUnreveal{from{clip-path:circle(160vmax at var(--ox) var(--oy))}to{clip-path:circle(0 at var(--ox) var(--oy))}}
+
+/* ---------- Buscador e historial por turno ---------- */
+.sc-search{display:flex;align-items:center;gap:10px;margin:18px 0 4px;padding:0 16px;height:50px;border-radius:999px;background:var(--s1);border:1px solid var(--line)}
+.sc-search .ico-sm{color:var(--mut2);flex:none}
+.sc-search input{flex:1;min-width:0;background:none;border:0;outline:none;font-size:15px;color:var(--fg)}
+.sc-search input::placeholder{color:var(--mut2)}
+.sc-grp .sc-h{width:100%;background:none;border:0;padding:0}
+.sc-grp .sc-h:disabled{opacity:1}
+.sc-hn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);letter-spacing:0;color:var(--mut2);text-transform:none}
+.sc-hn .ico-sm{width:15px;height:15px;transition:transform .3s var(--k-ease)}
+.sc-grp.open .sc-hn .ico-sm{transform:rotate(180deg)}
+
+/* ---------- Rueda de "Más" ---------- */
+.rd{position:fixed;inset:0;z-index:45;touch-action:none}
+.rd-scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(14px) saturate(110%);-webkit-backdrop-filter:blur(14px) saturate(110%);opacity:0;transition:opacity .3s ease}
+.rd.on .rd-scrim{opacity:1}
+.rd>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.rd-g{transform:scale(.25) rotate(-25deg);opacity:0;transition:transform .5s var(--k-spring),opacity .25s ease}
+.rd.on .rd-g{transform:none;opacity:1}
+.rd-seg{fill:rgba(22,22,22,.78);stroke:rgba(255,255,255,.12);stroke-width:1;transition:fill .18s ease}
+.rd-seg.on{fill:color-mix(in srgb,var(--acc) 42%,#0b0b0b);stroke:var(--acc)}
+.rd-it{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:999px;display:grid;place-items:center;background:#0e0e0e;border:1px solid rgba(255,255,255,.16);color:#fff;
+  transform:translate(var(--fx),var(--fy)) scale(.2);opacity:0;transition:transform .5s var(--k-spring),opacity .25s ease,background .18s ease,box-shadow .18s ease;transition-delay:calc(var(--i) * 45ms)}
+.rd-it .ico{width:24px;height:24px}
+.rd-it small{position:absolute;top:70px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);transition:color .18s}
+.rd.on .rd-it{transform:none;opacity:1}
+.rd .rd-it.on{background:var(--acc);color:var(--acc-ink,#fff);border-color:transparent;box-shadow:0 0 0 6px color-mix(in srgb,var(--acc) 25%,transparent),0 0 40px var(--acc);transform:scale(1.18);transition-delay:0s}
+.rd .rd-it.on small{color:#fff}
+.rd-hub{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:999px;display:grid;place-items:center;background:var(--fg);color:var(--bg);box-shadow:0 10px 30px rgba(0,0,0,.6);transform:scale(.6);transition:transform .4s var(--k-spring)}
+.rd.on .rd-hub{transform:scale(1)}
+.rd-title{position:absolute;left:24px;right:24px;top:calc(var(--sat) + 18vh);opacity:0;transform:translateY(-10px);transition:opacity .35s ease .08s,transform .45s var(--k-ease) .08s;pointer-events:none}
+.rd.on .rd-title{opacity:1;transform:none}
+.rd-title small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mut2)}
+.rd-title b{display:block;margin-top:8px;font-family:var(--display);font-size:42px;font-weight:900;letter-spacing:-.05em;line-height:.95}
+.rd-title span{display:block;margin-top:8px;font-size:14px;color:var(--mut)}
+.rd-title b.sw{animation:tabIn .3s var(--k-ease)}
+.rd.out .rd-scrim,.rd.pick .rd-scrim{opacity:0}
+.rd.out .rd-g,.rd.pick .rd-g{transform:scale(.4) rotate(-15deg);opacity:0;transition-duration:.28s}
+.rd.out .rd-it{transform:translate(var(--fx),var(--fy)) scale(.2);opacity:0;transition-delay:0s;transition-duration:.25s}
+.rd.pick .rd-it{opacity:0;transition-delay:0s;transition-duration:.25s}
+.rd.pick .rd-it.on{opacity:1;transform:scale(1.5);opacity:0;transition:transform .32s var(--k-ease),opacity .32s ease}
+.rd.out .rd-hub,.rd.pick .rd-hub,.rd.out .rd-title,.rd.pick .rd-title{opacity:0;transform:scale(.8)}
+
+/* ---------- Animación al escanear ---------- */
+.scx{position:fixed;inset:0;z-index:58;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;transition:opacity .35s ease}
+.scx.on{opacity:1}
+.scx.out{opacity:0}
+.scx-doc{position:relative;width:min(56vw,220px);aspect-ratio:3/4;border-radius:22px;background:linear-gradient(170deg,#121212,#060606);border:1px solid rgba(255,255,255,.1);overflow:hidden;transform:translateY(24px) scale(.88) rotateX(18deg);transition:transform .7s var(--k-spring);box-shadow:0 40px 80px -30px rgba(0,0,0,.9)}
+.scx.on .scx-doc{transform:none}
+.scx-img{position:absolute;inset:0;background-size:cover;background-position:top center;opacity:0;filter:grayscale(1) contrast(1.1) brightness(.7)}
+.scx-img.in{animation:scxImg 1.1s ease forwards}
+@keyframes scxImg{to{opacity:.5}}
+.scx-lines{position:absolute;inset:24px 20px;display:flex;flex-direction:column;gap:12px;transition:opacity .3s}
+.scx-lines i{display:block;height:7px;width:var(--w);border-radius:4px;background:rgba(255,255,255,.07);position:relative;overflow:hidden}
+.scx-lines i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--acc),transparent);transform:translateX(-100%);animation:scxRead 1.9s ease-in-out var(--d) infinite}
+@keyframes scxRead{0%{transform:translateX(-110%)}55%,100%{transform:translateX(110%)}}
+.scx-beam{position:absolute;left:-10%;right:-10%;top:0;height:2px;background:var(--acc);box-shadow:0 0 16px 3px var(--acc),0 0 70px 14px color-mix(in srgb,var(--acc) 35%,transparent);animation:scxBeam 1.9s cubic-bezier(.45,0,.55,1) infinite alternate;transition:opacity .3s}
+@keyframes scxBeam{from{top:3%}to{top:97%}}
+.scx-c{position:absolute;width:24px;height:24px;border:3px solid var(--acc);animation:scxC 1.5s ease-in-out infinite;transition:opacity .3s}
+.scx-c.a{top:10px;left:10px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
+.scx-c.b{top:10px;right:10px;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
+.scx-c.c{bottom:10px;left:10px;border-right:0;border-top:0;border-radius:0 0 0 12px}
+.scx-c.d{bottom:10px;right:10px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+@keyframes scxC{50%{transform:scale(.82);opacity:.55}}
+.scx-ok{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;opacity:0;transform:scale(.6);transition:opacity .3s,transform .5s var(--k-spring)}
+.scx-ok circle{fill:color-mix(in srgb,var(--acc) 22%,transparent);stroke:var(--acc);stroke-width:2;stroke-dasharray:151;stroke-dashoffset:151}
+.scx-ok path{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+.scx.done .scx-beam,.scx.done .scx-lines,.scx.done .scx-c{opacity:0}
+.scx.done .scx-ok{opacity:1;transform:none}
+.scx.done .scx-ok circle{animation:scxDraw .55s ease forwards}
+.scx.done .scx-ok path{animation:scxDraw .4s .3s ease forwards}
+.scx.done .scx-doc{border-color:color-mix(in srgb,var(--acc) 60%,transparent);box-shadow:0 0 0 1px var(--acc),0 30px 90px -20px color-mix(in srgb,var(--acc) 60%,transparent)}
+@keyframes scxDraw{to{stroke-dashoffset:0}}
+.scx-t{text-align:center;min-height:52px}
+.scx-t b{display:block;font-family:var(--display);font-size:22px;font-weight:900;letter-spacing:-.03em}
+.scx-t b.sw{animation:tabIn .35s var(--k-ease)}
+.scx-t small{display:block;margin-top:6px;font-size:12.5px;color:var(--mut)}
+.scx-bar{width:min(56vw,220px);height:3px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.scx-bar i{display:block;height:100%;width:0;background:var(--acc);box-shadow:0 0 12px var(--acc);transition:width .6s var(--k-ease)}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -3213,6 +3312,7 @@ const IC = {
   spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
   calEdit:'<rect x="2" y="5" width="14" height="16" rx="2"/><path d="M2 10h14M18.4 15.4a1.9 1.9 0 0 1 2.7 2.7L16.8 22.4l-3 .6.6-3z"/>',
   ayer:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M13 16l-2-2 2-2"/>',
+  down:'<path d="m6 9 6 6 6-6"/>',
   minus:'<path d="M5 12h14"/>',
   key:'<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2M17 6l3 3M14 9l2 2"/>',
 };
@@ -3388,7 +3488,7 @@ window.addEventListener('popstate', () => {
   const top = EK.ui.layers[EK.ui.layers.length - 1];
   if (top) ekClose(top, true);
   else if (EK.ui.sel.size) { EK.ui.sel.clear(); ekRenderHome(); }
-  else if (typeof EKS !== 'undefined' && EKS.modo !== 'home') ekIr('home', true);
+  else if (typeof EKS !== 'undefined' && EKS.modo !== 'scan') ekIr('scan', true);
   else if (tag === undefined && EK_HIST) { /* nada abierto: deja salir */ }
 });
 function ekSheet(html){
@@ -4541,37 +4641,37 @@ const EK_INCRUSTADA = (() => { try { return window.parent !== window; } catch (e
    - La IA solo se usa si tú tocas "Leer con IA" (cuando la lectura falló).
    - PalletFlow corre detrás solo para Almacén, Gráficos, Hoja de peso por foto y Máster.
    ============================================================ */
-const EKS = { modo:'home', visto:false, t0:0, listo:false };
+const EKS = { modo:'scan', visto:false, t0:0, listo:false };
 function ekPF(){ try { const w = $id('pfFrame').contentWindow; return w && w.pfApi && !w.pfApi.bloqueado() ? w : null; } catch (e) { return null; } }
 function ekIaClave(){ try { return (localStorage.getItem('pf9:apiKey') || '').trim(); } catch (e) { return ''; } }
 function ekVibrar(){ try { if (navigator.vibrate && ekPref('vibrar', false)) navigator.vibrate(8); } catch (e) {} }
 
-/* ---------- Navegación ---------- */
+/* ---------- Navegación (Escanear es la pantalla principal) ---------- */
 const EK_GRAF = [
   { k:'ingreso', icon:'bars',  t:'Panel de Ingreso',           d:'El ingreso del día desde Google Sheets' },
   { k:'ff',      icon:'grid',  t:'Estadísticas por proveedor', d:'Kilos, lotes y variedades por proveedor' },
   { k:'kl',      icon:'kilos', t:'Kilos por lote',             d:'Peso neto ingresado por lote' },
 ];
-const EK_MAS = [
-  { k:'hf',     icon:'hojafoto', t:'Hoja de peso por foto', d:'Foto de la hoja llenada → PDF por WhatsApp' },
-  { k:'master', icon:'db',       t:'Máster',                d:'Lotes, variedades, SENASA y CLP' },
-  { k:'corr',   icon:'tag',      t:'Correlativos del turno', d:'Lo que ya se imprimió hoy' },
-  { k:'cfg',    icon:'gear',     t:'Ajustes',               d:'Tema, reglas, respaldo e IA' },
+const EK_RUEDA = [
+  { k:'hf',     icon:'hojafoto', t:'Hoja por foto',  d:'Foto de la hoja llenada → PDF por WhatsApp' },
+  { k:'master', icon:'db',       t:'Máster',         d:'Lotes, variedades, SENASA y CLP' },
+  { k:'corr',   icon:'tag',      t:'Correlativos',   d:'Lo que ya se imprimió en el turno' },
 ];
-const EK_NAV = [['home', 'layers', 'Recepciones'], ['scan', 'scan', 'Escanear'], ['ub', 'almacen', 'Almacén'], ['graf', 'bars', 'Gráficos'], ['mas', 'dots', 'Más']];
-const ekEsTab = m => m === 'home' || m === 'scan';
+const EK_NAV = [['scan', 'scan', 'Escanear'], ['ub', 'almacen', 'Almacén'], ['graf', 'bars', 'Gráficos'], ['mas', 'dots', 'Más']];
+const ekEsTab = m => m === 'scan';
 function ekNavActivo(){
-  if (ekEsTab(EKS.modo) || EKS.modo === 'ub') return EKS.modo;
+  if (EKS.modo === 'scan' || EKS.modo === 'ub') return EKS.modo;
   return EK_GRAF.some(x => x.k === EKS.modo) ? 'graf' : 'mas';
 }
 function ekNavPintar(){
   const n = $id('ekNav'); if (!n) return;
   if (!n.dataset.ok) {
     n.dataset.ok = '1';
+    n.style.gridTemplateColumns = `repeat(${EK_NAV.length},1fr)`;
     n.innerHTML = '<span class="ek-nav-ind" id="ekNavInd"></span>' + EK_NAV.map(([k, i, t]) => `<button data-nav="${k}" aria-label="${t}">${ico(i)}<span>${t}</span></button>`).join('');
-    n.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => {
-      ekVibrar(); const k = b.dataset.nav;
-      if (k === 'mas') ekMas(); else if (k === 'graf') ekGraficos(); else ekIr(k);
+    n.querySelectorAll('[data-nav]').forEach(b => {
+      if (b.dataset.nav === 'mas') { ekRuedaBoton(b); return; }
+      b.onclick = () => { ekVibrar(); const k = b.dataset.nav; if (k === 'graf') ekGraficos(); else ekIr(k); };
     });
     window.addEventListener('resize', ekNavPintar);
   }
@@ -4581,31 +4681,28 @@ function ekNavPintar(){
   if (on && ind) { ind.style.transform = `translateX(${on.offsetLeft}px)`; ind.style.width = on.offsetWidth + 'px'; }
 }
 function ekIr(m, fromPop){
+  if (m === 'home') m = 'scan';
   const prev = EKS.modo;
-  if (m === prev && ekEsTab(m)) return;
+  if (m === prev && m === 'scan') return;
   const pf = ekPF();
-  if (!ekEsTab(m) && !pf) { ekToast('Un momento, se está preparando…'); return; }
-  if (prev === 'home' && m !== 'home') ekPush('tab');
-  if (m === 'home' && prev !== 'home' && !fromPop) ekPopHist('tab');
-  if (!ekEsTab(prev) && pf) { try { pf.pfApi.cerrarTodo(); } catch (e) {} if (prev === 'master') ekMasterDesdePF(); }
+  if (m !== 'scan' && !pf) { ekToast('Un momento, se está preparando…'); return; }
+  if (prev === 'scan' && m !== 'scan') ekPush('tab');
+  if (m === 'scan' && prev !== 'scan' && !fromPop) ekPopHist('tab');
+  if (prev !== 'scan' && pf) { try { pf.pfApi.cerrarTodo(); } catch (e) {} if (prev === 'master') ekMasterDesdePF(); }
   EKS.modo = m; EKS.visto = false; EKS.t0 = Date.now();
-  document.body.classList.toggle('ek-pf', !ekEsTab(m));
-  document.body.classList.toggle('ek-tab-scan', m === 'scan');
-  if (m === 'scan') ekRenderScan();
-  if (m === 'home') ekRenderHome();
+  document.body.classList.toggle('ek-pf', m !== 'scan');
+  if (m === 'scan') { ekRenderScan(); const scr = $id('scanScr'); scr.classList.remove('tab-in'); void scr.offsetWidth; scr.classList.add('tab-in'); }
   if (m === 'ub') ekPrepUbicacion(pf);
-  if (!ekEsTab(m)) { try { pf.pfApi.abrir(m); } catch (e) { console.error(e); } }
+  if (m !== 'scan') { try { pf.pfApi.abrir(m); } catch (e) { console.error(e); } }
   ekNavPintar();
-  const scr = m === 'scan' ? $id('scanScr') : m === 'home' ? $id('home') : null;
-  if (scr) { scr.classList.remove('tab-in'); void scr.offsetWidth; scr.classList.add('tab-in'); }
 }
-// si un apartado del motor se cierra con su ×, EUREKA vuelve a Recepciones
+// si un apartado del motor se cierra con su ×, vuelve a Escanear
 setInterval(() => {
-  if (ekEsTab(EKS.modo)) return;
+  if (EKS.modo === 'scan') return;
   const pf = ekPF(); if (!pf) return;
   let ab = false; try { ab = pf.pfApi.abierto(EKS.modo); } catch (e) {}
   if (ab) EKS.visto = true;
-  else if (EKS.visto || Date.now() - EKS.t0 > 8000) ekIr('home');
+  else if (EKS.visto || Date.now() - EKS.t0 > 8000) ekIr('scan');
 }, 350);
 function ekLista(titulo, sub, items, alElegir){
   const d = ekSheet(`<div class="sh"><div><h3>${esc(titulo)}</h3><p>${esc(sub)}</p></div><button class="ibtn" id="lsX" aria-label="Cerrar">${ico('x')}</button></div>
@@ -4614,13 +4711,93 @@ function ekLista(titulo, sub, items, alElegir){
   d.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { const k = b.dataset.m; ekCloseSheet(); setTimeout(() => alElegir(k), 150); });
 }
 function ekGraficos(){ ekLista('Gráficos', 'Elige qué quieres ver', EK_GRAF, k => ekIr(k)); }
-function ekMas(){
-  ekLista('Más', 'Herramientas de recepción', EK_MAS, k => {
-    if (k === 'cfg') { if (EKS.modo !== 'home') { ekIr('home'); setTimeout(ekOpenSettings, 150); } else ekOpenSettings(); }
-    else if (k === 'corr') { const go = () => { EK.ui.settingsTab = 'turno'; ekOpenSettings(); }; if (EKS.modo !== 'home') { ekIr('home'); setTimeout(go, 150); } else go(); }
-    else ekIr(k);
-  });
+function ekMasAccion(k){
+  if (k === 'corr') { const go = () => { EK.ui.settingsTab = 'turno'; ekOpenSettings(); }; if (EKS.modo !== 'scan') { ekIr('scan'); setTimeout(go, 150); } else go(); }
+  else ekIr(k);
 }
+
+/* ---------- Rueda de "Más" (mantener presionado, soltar sobre la opción) ---------- */
+const EKR = { t:null, abierta:false, arrastre:false, sel:-1, el:null, ax:0, ay:0, r1:0, r2:0, a0:0, a1:0 };
+function ekRuedaBoton(b){
+  b.style.touchAction = 'none';
+  b.addEventListener('contextmenu', e => e.preventDefault());
+  b.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    try { b.setPointerCapture(e.pointerId); } catch (x) {}
+    clearTimeout(EKR.t);
+    EKR.t = setTimeout(() => { EKR.t = null; ekRuedaAbrir(b, true); try { navigator.vibrate && navigator.vibrate(14); } catch (x) {} ekRuedaMover(e.clientX, e.clientY); }, 240);
+  });
+  b.addEventListener('pointermove', e => { if (EKR.abierta && EKR.arrastre) ekRuedaMover(e.clientX, e.clientY); });
+  const suelta = e => {
+    if (EKR.t) { clearTimeout(EKR.t); EKR.t = null; ekRuedaAbrir(b, false); return; }   // toque corto: rueda para tocar
+    if (EKR.abierta && EKR.arrastre) ekRuedaSoltar();
+  };
+  b.addEventListener('pointerup', suelta);
+  b.addEventListener('pointercancel', () => { if (EKR.t) { clearTimeout(EKR.t); EKR.t = null; } if (EKR.abierta && EKR.arrastre) ekRuedaCerrar(); });
+}
+function ekRuedaAbrir(btn, arrastre){
+  if (EKR.abierta) return;
+  ekVibrar();
+  const rc = btn.getBoundingClientRect();
+  const ax = rc.left + rc.width / 2, ay = rc.top + rc.height / 2;
+  const N = EK_RUEDA.length, R = Math.min(window.innerWidth * .6, 250);
+  const r1 = 64, r2 = R + 52, a0 = 184, a1 = 266, paso = (a1 - a0) / N;
+  Object.assign(EKR, { abierta:true, arrastre, sel:-1, ax, ay, r1, r2, a0, a1 });
+  const rad = a => a * Math.PI / 180, P = (r, a) => [ax + r * Math.cos(rad(a)), ay + r * Math.sin(rad(a))];
+  const sector = (s, e) => { const [x1, y1] = P(r2, s), [x2, y2] = P(r2, e), [x3, y3] = P(r1, e), [x4, y4] = P(r1, s); return `M${x1} ${y1} A${r2} ${r2} 0 0 1 ${x2} ${y2} L${x3} ${y3} A${r1} ${r1} 0 0 0 ${x4} ${y4} Z`; };
+  const el = document.createElement('div'); el.className = 'rd'; el.id = 'rueda';
+  el.innerHTML = `<div class="rd-scrim"></div>
+    <div class="rd-title"><small>Más</small><b id="rdT">${arrastre ? 'Desliza y suelta' : 'Elige una opción'}</b><span id="rdD">${arrastre ? 'Suelta el dedo sobre la opción' : 'Toca fuera para cerrar'}</span></div>
+    <svg><g class="rd-g" style="transform-origin:${ax}px ${ay}px">${EK_RUEDA.map((x, i) => `<path class="rd-seg" data-i="${i}" d="${sector(a0 + i * paso + .8, a0 + (i + 1) * paso - .8)}"/>`).join('')}</g></svg>
+    ${EK_RUEDA.map((x, i) => { const a = a0 + (i + .5) * paso, [px, py] = P((r1 + r2) / 2, a); return `<button class="rd-it" data-i="${i}" style="left:${px}px;top:${py}px;--fx:${ax - px}px;--fy:${ay - py}px;--i:${i}">${ico(x.icon)}<small>${esc(x.t)}</small></button>`; }).join('')}
+    <span class="rd-hub" style="left:${ax}px;top:${ay}px">${ico('dots')}</span>`;
+  document.body.appendChild(el); EKR.el = el;
+  requestAnimationFrame(() => el.classList.add('on'));
+  if (!arrastre) {
+    el.querySelector('.rd-scrim').onclick = () => ekRuedaCerrar();
+    el.querySelector('.rd-hub').onclick = () => ekRuedaCerrar();
+    el.querySelectorAll('.rd-it').forEach(b => {
+      b.onpointerenter = () => ekRuedaMarcar(+b.dataset.i);
+      b.onclick = () => { ekRuedaMarcar(+b.dataset.i); setTimeout(ekRuedaSoltar, 90); };
+    });
+  }
+}
+function ekRuedaMarcar(i){
+  if (!EKR.el || i === EKR.sel) return;
+  EKR.sel = i;
+  EKR.el.querySelectorAll('[data-i]').forEach(x => x.classList.toggle('on', +x.dataset.i === i));
+  const o = EK_RUEDA[i], t = $id('rdT'), d = $id('rdD');
+  if (t) { t.textContent = o ? o.t : 'Desliza y suelta'; t.classList.remove('sw'); void t.offsetWidth; t.classList.add('sw'); }
+  if (d) d.textContent = o ? o.d : 'Suelta el dedo sobre la opción';
+  if (i >= 0) try { navigator.vibrate && navigator.vibrate(6); } catch (x) {}
+}
+function ekRuedaMover(x, y){
+  const dx = x - EKR.ax, dy = y - EKR.ay, dist = Math.hypot(dx, dy);
+  let a = Math.atan2(dy, dx) * 180 / Math.PI; if (a < 0) a += 360;
+  const N = EK_RUEDA.length, paso = (EKR.a1 - EKR.a0) / N;
+  if (dist < EKR.r1 - 14 || a < EKR.a0 - 22 || a > EKR.a1 + 22) { ekRuedaMarcar(-1); return; }
+  ekRuedaMarcar(Math.max(0, Math.min(N - 1, Math.floor((a - EKR.a0) / paso))));
+}
+function ekRuedaSoltar(){
+  const i = EKR.sel; ekRuedaCerrar(i >= 0);
+  if (i >= 0) setTimeout(() => ekMasAccion(EK_RUEDA[i].k), 180);
+}
+function ekRuedaCerrar(elegido){
+  const el = EKR.el; EKR.abierta = false; EKR.el = null; EKR.sel = -1;
+  if (!el) return;
+  el.classList.remove('on'); el.classList.add(elegido ? 'pick' : 'out');
+  setTimeout(() => el.remove(), 320);
+}
+
+/* ---------- Ajustes: solo el engrane de arriba a la derecha ---------- */
+const _ekOpenSettings0 = ekOpenSettings;
+ekOpenSettings = function(origen){
+  if (!origen) { const g = $id('scCfg'); if (g) { const r = g.getBoundingClientRect(); origen = { x:r.left + r.width / 2, y:r.top + r.height / 2 }; } }
+  _ekOpenSettings0();
+  const el = $id('settings');
+  if (el && origen) { el.style.setProperty('--ox', origen.x + 'px'); el.style.setProperty('--oy', origen.y + 'px'); el.classList.add('reveal'); }
+};
+
 function ekPrepUbicacion(pf){
   if (!pf) return;
   try { ekUsarTurno(ekTurnoISO()); pf.pfApi.setGuias(guides, correlativoAutoState); } catch (e) { console.error(e); }
@@ -4659,19 +4836,19 @@ ekSave = function(){
   try { const m = JSON.stringify(EK.state.master || []); if (m !== _ekMasterSnap) { _ekMasterSnap = m; pf.pfApi.masterSet(JSON.parse(m)); } } catch (e) {}
 };
 
-/* ---------- Pantalla Escanear ---------- */
+/* ---------- Pantalla Escanear (principal) ---------- */
 function ekJabasRec(r){ return r.guias.reduce((s, g) => s + g.lotes.reduce((t, l) => t + (parseInt(l.cantidad, 10) || 0), 0), 0); }
 function ekRenderScan(){
   const el = $id('scanScr'); if (!el) return;
-  const hoy = ekTurnoISO();
-  const recs = EK.state.receptions.filter(r => r.turno === hoy).sort((a, b) => String(b.created).localeCompare(String(a.created)));
   const tiles = [['pdf', 'file', 'PDF de la guía', 'Uno o varios a la vez', 'big'], ['cam', 'camera', 'Tomar foto', 'Con la cámara'], ['img', 'image', 'Galería', 'Fotos guardadas'], ['man', 'pencil', 'A mano', 'Sin archivo']];
-  el.innerHTML = `<div class="sc-head"><h1>Escanear</h1><p>EUREKA lee la guía · sin IA</p></div>
-    <div class="sc-body">
+  const q = EK.ui.scQ || '';
+  el.innerHTML = `<div class="sc-head"><div><h1>Escanear</h1><p>EUREKA lee la guía · sin IA</p></div>
+      <button class="sc-cfg" id="scCfg" aria-label="Ajustes">${ico('gear')}</button></div>
+    <div class="sc-body" id="scBody">
       <div class="sc-grid">${tiles.map(([k, i, t, d, c], n) => `<button class="sc-tile k-in ${c || ''}" style="--i:${n}" data-sc="${k}"><i>${ico(i)}</i><span><b>${t}</b><small>${d}</small></span></button>`).join('')}</div>
-      <div class="sc-note">${ico('alert', 'ico-sm')}<span>Diamond Bridge: elige sus PDF juntos y quedan en una sola recepción. Si una guía no se puede leer, ahí mismo tendrás "Leer con IA".</span></div>
-      <h2 class="sc-h">En este turno <span>${recs.length}</span></h2>
-      ${recs.length ? recs.map((r, n) => { const c = tabCfg(r.codigo), v = ekResumenRec(r); return `<button class="sc-row k-in" style="--i:${n + 4};--c:${c.bg}" data-open="${r.id}"><span class="sc-dot"></span><span class="sc-t"><b>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))}</b><small>${esc(c.label)} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>${v.err ? `<em class="bad">${v.err}</em>` : `<em class="ok">${ico('check', 'ico-sm')}</em>`}${ico('right', 'ico-sm')}</button>`; }).join('') : '<div class="sc-empty">Aún no hay guías en este turno.</div>'}
+      <div class="sc-note">${ico('alert', 'ico-sm')}<span>Diamond Bridge: elige sus PDF juntos y quedan en una sola recepción.</span></div>
+      <div class="sc-search k-in" style="--i:4">${ico('search', 'ico-sm')}<input id="scQ" type="search" placeholder="Buscar guía, lote o variedad" value="${esc(q)}" autocomplete="off"></div>
+      <div id="scList"></div>
     </div>`;
   el.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => {
     const k = b.dataset.sc;
@@ -4680,8 +4857,73 @@ function ekRenderScan(){
     else if (k === 'img') $id('inImgMulti').click();
     else ekOpenReview([ekGuiaVacia(EK.ui.tab)], { nuevo:true, source:'manual' });
   });
-  el.querySelectorAll('[data-open]').forEach(b => b.onclick = () => ekOpenDetail(b.dataset.open));
+  const cfg = $id('scCfg');
+  cfg.onclick = () => {
+    ekVibrar(); cfg.classList.remove('spin'); void cfg.offsetWidth; cfg.classList.add('spin');
+    const r = cfg.getBoundingClientRect(); setTimeout(() => ekOpenSettings({ x:r.left + r.width / 2, y:r.top + r.height / 2 }), 120);
+  };
+  $id('scQ').oninput = e => { EK.ui.scQ = e.target.value; ekRenderScanLista(); };
+  ekRenderScanLista();
 }
+function ekRenderScanLista(){
+  const box = $id('scList'); if (!box) return;
+  const hoy = ekTurnoISO(), q = ekNorm(EK.ui.scQ || '').trim();
+  const recs = EK.state.receptions.filter(r => !q || q.split(' ').every(w => ekBuscable(r).includes(w)))
+    .sort((a, b) => String(b.created).localeCompare(String(a.created)));
+  const grupos = new Map();
+  recs.forEach(r => { const k = r.turno || ekTurnoISO(r.created); if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(r); });
+  if (!grupos.has(hoy) && !q) grupos.set(hoy, []);
+  const orden = [...grupos.keys()].sort((a, b) => b.localeCompare(a));
+  if (!EK.ui.scAbiertos) EK.ui.scAbiertos = new Set();
+  let n = 5;
+  const fila = r => { const c = tabCfg(r.codigo), v = ekResumenRec(r); return `<button class="sc-row k-in" style="--i:${n++};--c:${c.bg}" data-open="${r.id}"><span class="sc-dot"></span><span class="sc-t"><b>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))}</b><small>${esc(c.label)} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>${v.err ? `<em class="bad">${v.err}</em>` : `<em class="ok">${ico('check', 'ico-sm')}</em>`}${ico('right', 'ico-sm')}</button>`; };
+  box.innerHTML = orden.map(t => {
+    const lista = grupos.get(t), esHoy = t === hoy, abierto = esHoy || !!q || EK.ui.scAbiertos.has(t);
+    const jabas = lista.reduce((s, r) => s + ekJabasRec(r), 0);
+    return `<div class="sc-grp ${abierto ? 'open' : ''}">
+      <button class="sc-h" data-t="${t}" ${esHoy ? 'disabled' : ''}><span>${esHoy ? 'En este turno' : 'Turno ' + esc(ekFechaCorta(t))}</span><span class="sc-hn">${lista.length} · ${jabas.toLocaleString('es-PE')} jabas ${esHoy ? '' : ico('down', 'ico-sm')}</span></button>
+      <div class="sc-gl">${abierto ? (lista.length ? lista.map(fila).join('') : '<div class="sc-empty">Aún no hay guías en este turno.</div>') : ''}</div></div>`;
+  }).join('') || '<div class="sc-empty">Sin resultados.</div>';
+  box.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { const t = b.dataset.t; EK.ui.scAbiertos.has(t) ? EK.ui.scAbiertos.delete(t) : EK.ui.scAbiertos.add(t); ekRenderScanLista(); });
+  box.querySelectorAll('[data-open]').forEach(b => b.onclick = () => ekOpenDetail(b.dataset.open));
+}
+// la lista se actualiza cuando cambia algo (guardar, editar, borrar)
+const _ekRender0 = ekRender;
+ekRender = function(){ _ekRender0(); if (EKS.modo === 'scan') ekRenderScanLista(); };
+
+/* ---------- Animación al escanear ---------- */
+const ekScanner = (() => {
+  let el = null, tick = null, k = 0, t0 = 0;
+  const FRASES = ['Leyendo el texto', 'Buscando la guía', 'Encontrando los lotes', 'Comparando con el máster'];
+  function abrir(){
+    cerrar(true); t0 = Date.now(); k = 0;
+    el = document.createElement('div'); el.className = 'scx';
+    el.innerHTML = `<div class="scx-doc"><div class="scx-img" id="scxImg"></div>
+        <div class="scx-lines">${[92, 70, 84, 56, 88, 64, 78, 48, 82, 60, 74].map((w, i) => `<i style="--w:${w}%;--d:${(i * .13).toFixed(2)}s"></i>`).join('')}</div>
+        <span class="scx-beam"></span><span class="scx-c a"></span><span class="scx-c b"></span><span class="scx-c c"></span><span class="scx-c d"></span>
+        <svg class="scx-ok" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-15"/></svg></div>
+      <div class="scx-t"><b id="scxT">${FRASES[0]}</b><small id="scxS">&nbsp;</small></div>
+      <div class="scx-bar"><i id="scxBar"></i></div>`;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el && el.classList.add('on'));
+    tick = setInterval(() => { if (!el) return; k = (k + 1) % FRASES.length; const t = el.querySelector('#scxT'); t.textContent = FRASES[k]; t.classList.remove('sw'); void t.offsetWidth; t.classList.add('sw'); }, 950);
+  }
+  function paso(i, total, nombre){ if (!el) return; el.querySelector('#scxS').textContent = total > 1 ? `Guía ${i + 1} de ${total}` : (nombre || ''); el.querySelector('#scxBar').style.width = Math.max(8, i / total * 100) + '%'; }
+  function imagen(src){ if (!el || !src) return; const im = el.querySelector('#scxImg'); im.style.backgroundImage = `url("${src}")`; im.classList.remove('in'); void im.offsetWidth; im.classList.add('in'); }
+  async function listo(texto){
+    if (!el) return;
+    const falta = 1300 - (Date.now() - t0); if (falta > 0) await new Promise(r => setTimeout(r, falta));   // que se alcance a ver
+    clearInterval(tick); if (!el) return;
+    el.querySelector('#scxBar').style.width = '100%';
+    const t = el.querySelector('#scxT'); t.textContent = texto || 'Listo'; t.classList.remove('sw'); void t.offsetWidth; t.classList.add('sw');
+    el.classList.add('done'); try { navigator.vibrate && navigator.vibrate([10, 40, 18]); } catch (e) {}
+    await new Promise(r => setTimeout(r, 900));
+    cerrar();
+  }
+  function cerrar(inst){ clearInterval(tick); if (!el) return; const e = el; el = null; if (inst) { e.remove(); return; } e.classList.remove('on'); e.classList.add('out'); setTimeout(() => e.remove(), 420); }
+  return { abrir, paso, imagen, listo, cerrar };
+})();
+
 function ekNumGuiaNorm(s){
   const t = String(s || '').toUpperCase().replace(/\s+/g, '');
   const m = t.match(/^([A-Z]{1,3}\d{0,3})[-]?0*(\d+)$/);
@@ -4691,12 +4933,14 @@ async function ekEscanearArchivos(files, source){
   files = Array.from(files || []).filter(Boolean); if (!files.length) return;
   if (files.length > 10) { ekToast(`Máximo 10 a la vez; se tomaron las primeras 10.`); files = files.slice(0, 10); }
   const leidas = [];
+  ekScanner.abrir();
   for (let i = 0; i < files.length; i++) {
-    ekBusy(files.length > 1 ? `Leyendo guía ${i + 1} de ${files.length}…` : 'Leyendo la guía…');
-    try { leidas.push(await ekLeerArchivo(files[i], EK.ui.tab)); }
+    ekScanner.paso(i, files.length, files[i].name);
+    try { const g = await ekLeerArchivo(files[i], EK.ui.tab); leidas.push(g); ekScanner.imagen(g._preview); }
     catch (e) { console.error(e); const g = ekGuiaVacia(EK.ui.tab); g._avisos.push({ tipo:'error', txt:`No se pudo abrir ${files[i].name}` }); g._file = files[i]; g._nombre = files[i].name; leidas.push(g); }
   }
-  ekBusy(null);
+  const okL = leidas.filter(ekGuiaLeida).length;
+  await ekScanner.listo(okL === leidas.length ? (leidas.length > 1 ? `${leidas.length} guías leídas` : 'Guía leída') : (okL ? `${okL} de ${leidas.length} leídas` : 'Revisa la guía'));
   const cod = g => (g._codigoLeido && tabCfg(g._codigoLeido).codigo === g._codigoLeido) ? g._codigoLeido : EK.ui.tab;
   const grupos = [];
   const multi = leidas.filter(g => tabCfg(cod(g)).multi);
@@ -4715,7 +4959,7 @@ async function ekEscanearArchivos(files, source){
     ekUnificarProveedor(gr.guias, gr.codigo, true);
     ultima = await ekGuardarReview();
   }
-  if (EKS.modo === 'scan') ekRenderScan();
+  if (EKS.modo === 'scan') ekRenderScanLista();
   if (ultima) ekOpenDetail(ultima, true);
 }
 
@@ -5053,6 +5297,7 @@ function ekIaWire(el){
   ekExtrasAplicar();
   _ekListo = true; window.__ekListo = true;
   EKS.listo = true;
+  ekRenderScan();
   ekNavPintar();
   ekEsperarMotor();
   ekNativeFiles();
