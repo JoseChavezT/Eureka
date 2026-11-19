@@ -985,6 +985,20 @@ html.ek-light .ek-logo.mono{filter:invert(1)}
 .pen-ripple{position:fixed;z-index:9998;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:99px;border:2px solid var(--acc);pointer-events:none;animation:penR .55s ease-out forwards}
 @keyframes penR{to{transform:scale(7);opacity:0}}
 
+
+/* ---------- Logos: misma altura de letra en todos ---------- */
+img.ek-logo{height:calc(var(--cap,13px) * var(--lgs,1) * var(--lgp,1) / var(--lf,1))!important;width:auto;max-width:none}
+.ek-logo-t{font-size:calc(var(--cap,13px) * 1.38 * var(--lgs,1) * var(--lgp,1))!important}
+.sc-prov{--cap:12.5px}
+.dt-logo{--cap:15px;height:auto!important;min-height:20px;align-items:flex-end}
+.rt-g h5{--cap:12px}
+.ap-logos{--cap:13px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px 8px;align-items:center;justify-items:center;padding:12px 8px;border-radius:16px;background:var(--s2)}
+.ap-logos span{display:flex;align-items:center;justify-content:center;min-height:30px}
+.sc-row b.sc-prov{overflow:visible!important;white-space:normal;line-height:0;height:auto!important;display:flex;align-items:flex-end;margin-bottom:4px}
+.sc-row b.sc-prov .ek-logo-t{line-height:1.1}
+.ap-logos span{max-width:100%;overflow:hidden}
+.ap-logos .ek-logo-t{white-space:nowrap}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -1022,6 +1036,7 @@ const EKTEMA = (() => {
     font:'inter', display:'tight', scale:1, ls:0,
     navA:92, icon:21, navLbl:true,
     anim:'suave',
+    logoS:1, logoP:{},
     rowA:'#141416', rowB:'#000000', lotColor:true, lotPal:['#8FBCD4','#C9A9DD','#8FD4B8','#D4B88F','#D48F9E','#A9C9DD','#B8D48F','#D4C08F','#9E8FD4','#D48FC0'] };
   const FONTS = {
     inter:   { n:'Inter',   v:'"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif' },
@@ -1073,7 +1088,7 @@ const EKTEMA = (() => {
     let s = `:root{--bg:${th.bg};--bg2:${mix(th.bg, th.sf, .05 * k)};--s1:${rgba(th.sf, .035 * k)};--s2:${rgba(th.sf, .06 * k)};--s3:${rgba(th.sf, .09 * k)};
       --line:${rgba(th.sf, .08 * Math.max(k, .5))};--line2:${rgba(th.sf, .14 * Math.max(k, .5))};--hair:${rgba(th.sf, .05)};
       --fg:${th.fg};--fg2:${mix(th.fg, th.mut, .35)};--mut:${th.mut};--mut2:${mix(th.mut, th.bg, .3)};--yellow:${th.hl};
-      --rowA:${th.rowA || '#141416'};--rowB:${th.rowB || th.bg};
+      --rowA:${th.rowA || '#141416'};--rowB:${th.rowB || th.bg};--lgs:${+th.logoS || 1};
       --r:${Math.round(R * .66)}px;--r2:${R}px;--r3:${R + 4}px;--rc:${R}px;--rb:${rb};--font:${f};--display:${d};color-scheme:${light ? 'light' : 'dark'}}
       body{letter-spacing:${(+th.ls || 0) * .5}px}
       .screen,.ap-scr,#pfWrap{background:${fondoCss()}}
@@ -1089,6 +1104,7 @@ const EKTEMA = (() => {
       .ek-nav,.gv-bar,.sel-bar{background:${rgba(navBg, th.navA / 100)};border-radius:${Math.max(R + 2, 8)}px}
       .ek-nav-ind{border-radius:${Math.max(R - 3, 6)}px}
       .ek-nav button .ico,.gv-bar button .ico{width:${th.icon}px;height:${th.icon}px}`;
+    Object.entries(th.logoP || {}).forEach(([k, v]) => { s += `[data-p="${k}"]{--lgp:${+v || 1}}`; });
     if (th.bw > 0) s += `${CARDS}{border:${th.bw}px ${th.bst} ${th.bc || rgba(th.sf, .16 * Math.max(k, .5))}!important}`;
     else s += `${CARDS}{border-color:transparent!important}`;
     if (th.blur > 0) s += `${CARDS},.lr-list{backdrop-filter:blur(${th.blur}px);-webkit-backdrop-filter:blur(${th.blur}px)}`;
@@ -6130,7 +6146,7 @@ document.addEventListener('click', e => {
 }, true);
 
 /* ---------- Apariencia ---------- */
-const AP_SECS = [['temas', 'Temas'], ['colores', 'Colores'], ['filas', 'Filas y lotes'], ['fondo', 'Fondo'], ['tarjetas', 'Tarjetas'], ['botones', 'Botones'], ['bordes', 'Bordes y esquinas'], ['texto', 'Texto'], ['barra', 'Barra'], ['anim', 'Animaciones']];
+const AP_SECS = [['temas', 'Temas'], ['colores', 'Colores'], ['filas', 'Filas y lotes'], ['logos', 'Logos'], ['fondo', 'Fondo'], ['tarjetas', 'Tarjetas'], ['botones', 'Botones'], ['bordes', 'Bordes y esquinas'], ['texto', 'Texto'], ['barra', 'Barra'], ['anim', 'Animaciones']];
 function apCol(k, n){ const v = EKTEMA.get()[k] || '#000000'; return `<label class="ap-col"><span>${n}</span><input type="color" data-c="${k}" value="${esc(v)}"></label>`; }
 function apRng(k, n, min, max, step, u, mul){ const v = +EKTEMA.get()[k]; mul = mul || 1; return `<div class="ap-rng"><div><span>${n}</span><b id="apv-${k}">${Math.round(v * mul)}${u}</b></div><input type="range" data-r="${k}" data-mul="${mul}" data-u="${u}" min="${min}" max="${max}" step="${step}" value="${v}"></div>`; }
 function apSeg(k, ops){ const v = String(EKTEMA.get()[k]); return `<div class="ap-seg">${ops.map(([a, t]) => `<button data-s="${k}" data-v="${a}" class="${v === String(a) ? 'on' : ''}">${t}</button>`).join('')}</div>`; }
@@ -6149,6 +6165,12 @@ function apSec(id){
       ${th.accentMode === 'unico' ? `<div class="ap-cols">${apCol('accent', 'Acento')}</div>` : `<div class="ap-cols">${EK_TABS.map(x => `<label class="ap-col"><span>${esc(x.codigo)}</span><input type="color" data-pv="${x.codigo}" value="${esc(x.bg)}"></label>`).join('')}</div>`}`;
   if (id === 'filas') return `<div class="ap-cols">${apCol('rowA', 'Fila 1')}${apCol('rowB', 'Fila 2')}</div>` + apSw('lotColor', 'Un color por lote') +
       (th.lotColor ? `<div class="ap-pal">${(th.lotPal || []).map((c, i) => `<label style="--c:${esc(c)}"><input type="color" data-pal="${i}" value="${esc(c)}"></label>`).join('')}</div>` : '');
+  if (id === 'logos') {
+    const P = th.logoP || {};
+    return `<div class="ap-logos">${EK_TABS.map(x => `<span>${ekLogo(x.codigo, 'ap')}</span>`).join('')}</div>` + apRng('logoS', 'Todos', .6, 1.6, .05, '%', 100) +
+      EK_TABS.map(x => `<div class="ap-rng"><div><span>${esc(x.label)}</span><b id="apl-${x.codigo}">${Math.round((+P[x.codigo] || 1) * 100)}%</b></div><input type="range" data-lp="${x.codigo}" min=".6" max="1.6" step=".05" value="${+P[x.codigo] || 1}"></div>`).join('') +
+      `<button class="k-btn sm" id="apLgR">${ico('x', 'ico-sm')}Igualar todos</button>`;
+  }
   if (id === 'fondo') return apSeg('bgMode', [['solid', 'Sólido'], ['grad', 'Degradé'], ['img', 'Imagen']]) +
       (th.bgMode === 'grad' ? `<div class="ap-cols">${apCol('bg2', 'Segundo color')}</div><div class="ap-l">Dirección</div>${apSeg('bgDir', [['v', '↓'], ['d', '↘'], ['h', '→']])}` : '') +
       (th.bgMode === 'img' ? `<div class="ap-row2"><button class="k-btn sm" id="apImg">${ico('image', 'ico-sm')}${EKTEMA.tieneImagen() ? 'Cambiar' : 'Subir'}</button><button class="k-btn sm" id="apImgDel" ${EKTEMA.tieneImagen() ? '' : 'disabled'}>${ico('trash', 'ico-sm')}Quitar</button></div>${apRng('bgDim', 'Oscurecer', 0, 90, 5, '%')}` : '');
@@ -6169,7 +6191,7 @@ function apPreview(){
   const c = tabCfg(EK.ui.tab);
   return `<div class="ap-prev"><div class="ap-scr">
     <div class="ap-top"><b class="ap-ttl">Guías</b><span class="sc-cfg">${ico('gear')}</span></div>
-    <div class="sc-row" style="--c:${c.bg}"><span class="sc-chk"></span><span class="sc-t"><b>${esc(c.label)}</b><small>T013-0002337 · 2 lotes · 788 jabas</small></span><em class="ok">${ico('check', 'ico-sm')}</em></div>
+    <div class="sc-row" style="--c:${c.bg}"><span class="sc-chk"></span><span class="sc-t"><b class="sc-prov">${ekLogo(c.codigo, 'sm')}</b><small>T013-0002337 · 2 lotes · 788 jabas</small></span><em class="ok">${ico('check', 'ico-sm')}</em></div>
     <div class="lr-list ap-lrs">${[['FF26EU-15', 'LOTE 1', 'EUREKA · 530 jabas · CLP:01', 2, 34], ['FF26FB-16', 'LOTE 2', 'FIRST BLUSH · 258 jabas · CLP:01', 1, 10]].map(([c, l, d, p, q], i) => `<div class="lr" style="--lc:${ekLoteColor(l)}"><span class="lr-a"><span class="lr-c">${c}</span><b class="lr-l">${l}</b><small>${d}</small></span><span class="lr-b"><b>${p}</b><small>pallets</small><em>+${q}</em></span></div>`).join('')}</div>
     <div class="ap-bt"><span class="k-btn sm">${ico('check', 'ico-sm')}Fijar</span><span class="k-btn sm pri">${ico('print', 'ico-sm')}Imprimir</span></div>
     <div class="ek-nav ap-nav">${[['layers', 'Guías', 1], ['almacen', 'Almacén'], ['dots', 'Más']].map(([i, t, on]) => `<span class="${on ? 'on' : ''}">${ico(i)}<span>${t}</span></span>`).join('')}</div>
@@ -6195,6 +6217,8 @@ function ekTemaWireSec(el, s, id){
   s.querySelectorAll('[data-r]').forEach(i => i.oninput = () => { const v = +i.value; $id('apv-' + i.dataset.r).textContent = Math.round(v * +i.dataset.mul) + i.dataset.u; EKTEMA.set(i.dataset.r, v, false); });
   s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { const k = b.dataset.s; let v = b.dataset.v; if (k === 'bgMode' && v === 'img' && !EKTEMA.tieneImagen()) { EKTEMA.set('bgMode', 'img', false); re(); $id('apImg') && $id('apImg').click(); return; } EKTEMA.set(k, v, k === 'accentMode'); re(); });
   s.querySelectorAll('[data-b]').forEach(i => i.onchange = () => { EKTEMA.set(i.dataset.b, i.checked, false); if (i.dataset.b === 'lotColor') re(); else el._apRe.pintar(); });
+  s.querySelectorAll('[data-lp]').forEach(i => i.oninput = () => { const P = Object.assign({}, EKTEMA.get().logoP || {}); P[i.dataset.lp] = +i.value; $id('apl-' + i.dataset.lp).textContent = Math.round(+i.value * 100) + '%'; EKTEMA.set('logoP', P, false); });
+  if (s.querySelector('#apLgR')) s.querySelector('#apLgR').onclick = () => { EKTEMA.set('logoP', {}, false); EKTEMA.set('logoS', 1, false); re(); };
   s.querySelectorAll('[data-pal]').forEach(i => i.oninput = () => { const p = (EKTEMA.get().lotPal || []).slice(); p[+i.dataset.pal] = i.value; i.parentElement.style.setProperty('--c', i.value); EKTEMA.set('lotPal', p, false); if ($id('detail')) ekRenderDetail(); el._apRe.pintar(); });
   if (s.querySelector('#apSave')) s.querySelector('#apSave').onclick = () => { EKTEMA.guardarTema(($id('apNom').value || '').trim() || 'Mi tema'); ekToast('Tema guardado', 'ok'); re(); };
   s.querySelectorAll('[data-tap]').forEach(b => b.onclick = () => { EKTEMA.aplicarTema(b.dataset.tap); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); ekToast('Tema aplicado', 'ok'); });
@@ -6216,12 +6240,13 @@ function ekTemaWireSec(el, s, id){
    ============================================================ */
 
 /* ---------- Logos de proveedor (de PalletFlow) ---------- */
-const EK_LOGOS = { FF:{ src:'logos/FF.png', claro:'logos/FF_claro.png' }, POB:{ src:'logos/POB.png', mono:true }, SRX:{ src:'logos/SRX.png' }, DB:{ src:'logos/DB.png', mono:true } };
+// lf = qué parte del alto de la imagen ocupa la letra mayúscula (medido en cada PNG), así todos salen con la misma letra
+const EK_LOGOS = { FF:{ src:'logos/FF.png', claro:'logos/FF_claro.png', lf:.55 }, POB:{ src:'logos/POB.png', mono:true, lf:.96 }, SRX:{ src:'logos/SRX.png', lf:.372 }, DB:{ src:'logos/DB.png', mono:true, lf:.79 } };
 function ekLogo(codigo, cls){
   const L = EK_LOGOS[codigo], c = tabCfg(codigo);
-  if (!L) return `<span class="ek-logo-t ${cls || ''}">${esc(c.label)}</span>`;
+  if (!L) return `<span class="ek-logo-t ${cls || ''}" data-p="${esc(codigo)}">${esc(c.label)}</span>`;
   const claro = document.documentElement.classList.contains('ek-light');
-  return `<img class="ek-logo ${L.mono ? 'mono' : ''} ${cls || ''}" src="${claro && L.claro ? L.claro : L.src}" alt="${esc(c.label)}" draggable="false">`;
+  return `<img class="ek-logo ${L.mono ? 'mono' : ''} ${cls || ''}" data-p="${esc(codigo)}" style="--lf:${L.lf}" src="${claro && L.claro ? L.claro : L.src}" alt="${esc(c.label)}" draggable="false">`;
 }
 
 /* ---------- Formatos cortos para la lista ---------- */
