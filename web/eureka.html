@@ -645,6 +645,33 @@ body.ek-tab-scan #home{visibility:hidden}
 .scx-bar{width:min(56vw,220px);height:3px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
 .scx-bar i{display:block;height:100%;width:0;background:var(--acc);box-shadow:0 0 12px var(--acc);transition:width .6s var(--k-ease)}
 
+/* ---------- Opciones flotantes (Imprimir) ---------- */
+.gv-bar{grid-template-columns:repeat(3,1fr)}
+.fl{position:fixed;inset:0;z-index:46;touch-action:none}
+.fl-scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .3s ease}
+.fl.on .fl-scrim{opacity:1}
+.fl-op{position:absolute;width:96px;margin-left:-48px;margin-top:-48px;display:flex;flex-direction:column;align-items:center;gap:9px;background:none;border:0;color:#fff;
+  transform:translate(var(--fx),var(--fy)) scale(.2);opacity:0;transition:transform .55s var(--k-spring),opacity .25s ease;transition-delay:calc(var(--i) * 60ms)}
+.fl.on .fl-op{transform:none;opacity:1}
+.fl-b{width:96px;height:96px;border-radius:999px;display:grid;place-items:center;background:#111;border:1px solid rgba(255,255,255,.16);box-shadow:0 20px 40px -18px rgba(0,0,0,.9);transition:background .2s,box-shadow .2s,transform .25s var(--k-spring)}
+.fl.on .fl-b{animation:flBob 3.2s ease-in-out infinite;animation-delay:calc(var(--i) * -1.4s + .6s)}
+.fl-b .ico{width:30px;height:30px}
+.fl-op b{font-size:13px;font-weight:800;letter-spacing:.02em}
+.fl-op small{font-size:11px;color:var(--mut);margin-top:-6px;white-space:nowrap}
+.fl-op.on .fl-b{background:var(--acc);color:var(--acc-ink,#fff);border-color:transparent;transform:scale(1.14);box-shadow:0 0 0 7px color-mix(in srgb,var(--acc) 25%,transparent),0 0 46px var(--acc)}
+@keyframes flBob{0%,100%{translate:0 0;rotate:0deg}30%{translate:3px -7px;rotate:2deg}65%{translate:-3px 4px;rotate:-2deg}}
+.fl-x{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:999px;display:grid;place-items:center;background:rgba(239,68,68,.16);border:1.5px solid rgba(239,68,68,.55);color:#f87171;transform:scale(.4);opacity:0;transition:transform .4s var(--k-spring),opacity .2s,background .2s}
+.fl.on .fl-x{transform:scale(1);opacity:1}
+.fl .fl-x.on{background:#ef4444;color:#fff;border-color:#ef4444;transform:scale(1.12);box-shadow:0 0 30px rgba(239,68,68,.6)}
+.fl-x .ico{width:24px;height:24px}
+.fl-hint{position:absolute;left:20px;right:20px;top:calc(var(--sat) + 16vh);text-align:center;font-size:13px;color:var(--mut);opacity:0;transition:opacity .3s .15s}
+.fl.on .fl-hint{opacity:1}
+.fl.out .fl-scrim,.fl.pick .fl-scrim,.fl.out .fl-hint,.fl.pick .fl-hint{opacity:0}
+.fl.out .fl-op{transform:translate(var(--fx),var(--fy)) scale(.2);opacity:0;transition-delay:0s;transition-duration:.28s}
+.fl.pick .fl-op{opacity:0;transition-delay:0s;transition-duration:.25s}
+.fl.pick .fl-op.on{opacity:0;transform:scale(1.5);transition:transform .32s var(--k-ease),opacity .32s ease}
+.fl.out .fl-x,.fl.pick .fl-x{transform:scale(.4);opacity:0}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -3313,6 +3340,7 @@ const IC = {
   calEdit:'<rect x="2" y="5" width="14" height="16" rx="2"/><path d="M2 10h14M18.4 15.4a1.9 1.9 0 0 1 2.7 2.7L16.8 22.4l-3 .6.6-3z"/>',
   ayer:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M13 16l-2-2 2-2"/>',
   down:'<path d="m6 9 6 6 6-6"/>',
+  print:'<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
   minus:'<path d="M5 12h14"/>',
   key:'<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2M17 6l3 3M14 9l2 2"/>',
 };
@@ -4789,6 +4817,71 @@ function ekRuedaCerrar(elegido){
   setTimeout(() => el.remove(), 320);
 }
 
+
+/* ---------- Botón con opciones flotantes (Imprimir): tocar o mantener y soltar ---------- */
+const EKF = { t:null, el:null, arrastre:false, sel:-1, ops:[], ax:0, ay:0, pos:[] };
+function ekFlotarBoton(btn, ops){
+  btn.style.touchAction = 'none';
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (x) {}
+    clearTimeout(EKF.t);
+    EKF.t = setTimeout(() => { EKF.t = null; ekFlotarAbrir(btn, ops, true); try { navigator.vibrate && navigator.vibrate(14); } catch (x) {} }, 240);
+  });
+  btn.addEventListener('pointermove', e => { if (EKF.el && EKF.arrastre) ekFlotarMover(e.clientX, e.clientY); });
+  btn.addEventListener('pointerup', () => {
+    if (EKF.t) { clearTimeout(EKF.t); EKF.t = null; ekFlotarAbrir(btn, ops, false); return; }
+    if (EKF.el && EKF.arrastre) ekFlotarSoltar();
+  });
+  btn.addEventListener('pointercancel', () => { if (EKF.t) { clearTimeout(EKF.t); EKF.t = null; } if (EKF.el && EKF.arrastre) ekFlotarCerrar(false); });
+}
+function ekFlotarAbrir(btn, ops, arrastre){
+  if (EKF.el) return;
+  ekVibrar();
+  const rc = btn.getBoundingClientRect(), W = window.innerWidth;
+  const ax = rc.left + rc.width / 2, ay = rc.top + rc.height / 2;
+  const sep = Math.min(104, W * .26), alto = Math.min(190, window.innerHeight * .26);
+  const cx = Math.max(sep + 66, Math.min(W - sep - 66, ax));
+  const pos = ops.map((o, i) => [cx + (i - (ops.length - 1) / 2) * sep * 2, ay - alto - (i % 2 ? 0 : 18)]);
+  Object.assign(EKF, { arrastre, sel:-1, ops, ax, ay, pos });
+  const el = document.createElement('div'); el.className = 'fl';
+  el.innerHTML = `<div class="fl-scrim"></div>
+    ${ops.map((o, i) => `<button class="fl-op" data-i="${i}" style="left:${pos[i][0]}px;top:${pos[i][1]}px;--fx:${ax - pos[i][0]}px;--fy:${ay - pos[i][1]}px;--i:${i}"><span class="fl-b">${ico(o.icon)}</span><b>${esc(o.t)}</b>${o.d ? `<small>${esc(o.d)}</small>` : ''}</button>`).join('')}
+    <button class="fl-x on" style="left:${ax}px;top:${ay}px" aria-label="Cancelar">${ico('x')}</button>
+    <div class="fl-hint">${arrastre ? 'Suelta sobre una opción · suelta aquí para cancelar' : 'Toca una opción'}</div>`;
+  document.body.appendChild(el); EKF.el = el;
+  requestAnimationFrame(() => el.classList.add('on'));
+  if (!arrastre) {
+    el.querySelector('.fl-scrim').onclick = () => ekFlotarCerrar(false);
+    el.querySelector('.fl-x').onclick = () => ekFlotarCerrar(false);
+    el.querySelectorAll('.fl-op').forEach(b => b.onclick = () => { ekFlotarMarcar(+b.dataset.i); setTimeout(ekFlotarSoltar, 90); });
+  }
+}
+function ekFlotarMarcar(i){
+  if (!EKF.el || i === EKF.sel) return;
+  EKF.sel = i;
+  EKF.el.querySelectorAll('.fl-op').forEach(b => b.classList.toggle('on', +b.dataset.i === i));
+  EKF.el.querySelector('.fl-x').classList.toggle('on', i < 0);
+  try { navigator.vibrate && navigator.vibrate(6); } catch (x) {}
+}
+function ekFlotarMover(x, y){
+  let mejor = -1, dMin = 1e9;
+  EKF.pos.forEach(([px, py], i) => { const d = Math.hypot(x - px, y - py); if (d < dMin) { dMin = d; mejor = i; } });
+  const dX = Math.hypot(x - EKF.ax, y - EKF.ay);
+  ekFlotarMarcar(dMin < 92 && dMin < dX ? mejor : -1);
+}
+function ekFlotarSoltar(){
+  const i = EKF.sel, o = EKF.ops[i];
+  ekFlotarCerrar(i >= 0);
+  if (o) setTimeout(o.run, 200);
+}
+function ekFlotarCerrar(elegido){
+  const el = EKF.el; EKF.el = null; EKF.sel = -1;
+  if (!el) return;
+  el.classList.remove('on'); el.classList.add(elegido ? 'pick' : 'out');
+  setTimeout(() => el.remove(), 340);
+}
+
 /* ---------- Ajustes: solo el engrane de arriba a la derecha ---------- */
 const _ekOpenSettings0 = ekOpenSettings;
 ekOpenSettings = function(origen){
@@ -5017,7 +5110,7 @@ function ekRenderDetail(){
       <div class="ttl"><b id="dtNum">${esc(titulo)}</b><small>${esc(cfg.label)} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></div>
       <div class="right"><button class="ibtn" id="dtEdit" aria-label="Editar">${ico('pencil')}</button></div></div>
     <div class="body gv">${cuerpo}<button class="gv-ia" id="dtIA">${ico('spark', 'ico-sm')}¿Algo no se leyó bien? Leer con IA</button></div>
-    <div class="gv-bar"><button id="bGuia" ${tienePrev ? '' : 'disabled'}>${ico('eye')}<span>Ver guía</span></button><button id="bPeso">${ico('scale')}<span>Pesos</span></button><button id="bRot">${ico('tag')}<span>Rótulos</span></button><button id="bHoja" class="pri">${ico('sheet')}<span>Hoja de peso</span></button></div>`;
+    <div class="gv-bar"><button id="bGuia" ${tienePrev ? '' : 'disabled'}>${ico('eye')}<span>Ver guía</span></button><button id="bPeso">${ico('scale')}<span>Pesos</span></button><button id="bImp" class="pri">${ico('print')}<span>Imprimir</span></button></div>`;
   $id('dtBack').onclick = () => ekClose('detail');
   $id('dtEdit').onclick = () => ekOpenReview(clone(r.guias).map((x, i) => Object.assign(x, { _preview:null, previewKey:r.guias[i].previewKey })), { nuevo:false, rec:r });
   el.querySelectorAll('[data-err]').forEach(b => b.onclick = () => ekOpenErrors(r.id));
@@ -5036,8 +5129,10 @@ function ekRenderDetail(){
   el.querySelectorAll('[data-3d]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset['3d'].split(':').map(Number); ek3DSheet(r, gi, li); });
   $id('bGuia').onclick = () => { if (r.guias.length === 1) ekVerGuia(r.guias[0]); else ekLista('Ver guía', '¿Cuál?', r.guias.map((g, gi) => ({ k:String(gi), icon:'eye', t:g.numero_guia || 'Guía ' + (gi + 1), d:'Abrir la guía' })), k => ekVerGuia(r.guias[+k])); };
   $id('bPeso').onclick = () => ekOpenPeso(r.id);
-  $id('bRot').onclick = () => ekRotulosSheet(r.id);
-  $id('bHoja').onclick = () => ekHojaSheet([r]);
+  ekFlotarBoton($id('bImp'), [
+    { k:'rot', icon:'tag', t:'Rótulos', d:'Por lote o toda la guía', run:() => ekRotulosSheet(r.id) },
+    { k:'hoja', icon:'sheet', t:'Hoja de peso', d:'Esta guía o el turno', run:() => ekHojaSheet([r]) },
+  ]);
   if (_det.recien) { _det.recien = false; ekDecode($id('dtNum')); }
 }
 function ek3DSheet(r, gi, li){
