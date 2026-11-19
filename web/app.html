@@ -3364,7 +3364,7 @@ img.pf-mono.pf-mono-neg{filter:brightness(0);}
 
   <div class="pf-sb-sec pf-nav-t">Operación</div>
   <button class="pf-nav on" id="pfNavHome" data-nav="home" title="Recepción">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="3"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 011-1h2M17 4h2a1 1 0 011 1v2M20 17v2a1 1 0 01-1 1h-2M7 20H5a1 1 0 01-1-1v-2"/><path d="M8 12h8M8 9h5M8 15h6"/></svg>
     <span class="pf-nav-t">Recepción</span>
   </button>
   <button class="pf-nav" id="ekBtn" data-nav="eureka" title="Recepciones por proveedor (EUREKA): guías sin IA, lotes, pallets en 3D, rótulos">
@@ -16563,6 +16563,11 @@ window.pfKpiEstado = () => ({ unidades:KPI.unidades, diag:KPI.diag, inc:KPI.inc,
 body.light-mode #ekOverlay iframe{filter:invert(1) hue-rotate(180deg);}
 html body.pf2-cards-flow #pfLock .pf-lock-pad button:not(#x){border-radius:24px !important;}
 html body.pf2-cards-flow #app .result-block .num{padding-right:.08em;}
+/* Sin calculadora (para eso está Cuadre): Recepción muestra solo escanear guías y correlativos */
+html body #app #calcView > .pf-calc-card{display:none !important;}
+html body #app #calcView > .pf-calc-side{flex:1 1 100%; flex-direction:row; flex-wrap:wrap; align-items:stretch;}
+html body #app #calcView > .pf-calc-side > .pf-card{flex:1 1 380px; min-width:0;}
+@media (max-width:900px){ html body #app #calcView > .pf-calc-side{flex-direction:column;} html body #app #calcView > .pf-calc-side > .pf-card{flex:none;} }
 </style>
 <script>
 /* Recepciones: EUREKA dentro de Eureka Flow (mismo origen: comparte el teléfono, no los datos de PalletFlow) */
