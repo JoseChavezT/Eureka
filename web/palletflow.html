@@ -16541,6 +16541,9 @@ html.pf-embed, html.pf-embed body{--pf-sb-w:0px !important; --pf4-nav-h:0px !imp
 html.pf-embed #pfSidebar, html.pf-embed #pfSbToggle, html.pf-embed #pfLock{display:none !important;}
 html.pf-embed body .pf-shell::before{left:0 !important;}
 html.pf-embed body #app{padding-bottom:24px !important;}
+/* la X para salir, siempre arriba a la derecha */
+html.pf-embed :is(#klOverlay, #ffOverlay, #ingresoOverlay, #ubOv, #hfOverlay, #masterOverlay, #kpiOv) button:has(path[d^="M18 6"]){order:99 !important; margin-left:auto !important;}
+html.pf-embed, html.pf-embed body{touch-action:pan-x pan-y;}
 /* todo en negro (o el fondo del tema de EUREKA); los gráficos no cambian */
 html.pf-embed body :is(#ffOverlay, #klOverlay, #ingresoRoot, #ubOv, #masterOverlay, #hfOverlay){background:var(--n-bg, #000) !important;}
 html.pf-embed body :is(#diaOverlay, #ubOv, #pesajeOverlay, #masterOverlay){left:0 !important; bottom:0 !important;}
@@ -16552,6 +16555,13 @@ html body #app #calcView > .pf-calc-side > .pf-card{flex:1 1 380px; min-width:0;
 @media (max-width:900px){ html body #app #calcView > .pf-calc-side{flex-direction:column;} html body #app #calcView > .pf-calc-side > .pf-card{flex:none;} }
 </style>
 <script>
+/* Capturas y gráficos: tocarlos abre el visor de EUREKA (ahí sí hay zoom con los dedos) */
+document.addEventListener('click', e => {
+  if (!document.documentElement.classList.contains('pf-embed')) return;
+  const im = e.target.closest && e.target.closest('img');
+  if (!im || im.closest('button, a, label') || (im.naturalWidth || 0) < 360 || !im.closest('#klOverlay, #ffOverlay, #ingresoOverlay, #ubOv, #hfOverlay')) return;
+  try { window.parent.ekOpenViewer(im.src); } catch (x) {}
+}, true);
 /* Sin PIN: dentro de EUREKA entra solo, como usuario general */
 (function(){
   if (!document.documentElement.classList.contains('pf-embed')) return;
@@ -16586,6 +16596,7 @@ html body #app #calcView > .pf-calc-side > .pf-card{flex:1 1 380px; min-width:0;
     // colores del tema de EUREKA
     tema(v){ const b = document.body.style; Object.keys(v || {}).forEach(k => b.setProperty(k, v[k])); document.documentElement.style.setProperty('--pf-bg', v['--n-bg'] || '#000'); },
     leerConIA(file){ return extractGuideViaAI(file); },
+    verImagen(src){ try { window.parent.ekOpenViewer(src); } catch (e) {} },
     guiasAbiertas(){ return (typeof guides !== 'undefined' && guides) ? guides.length : 0; },
   };
 })();

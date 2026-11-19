@@ -777,6 +777,91 @@ body.ek-sel .sc-row.sel .sc-chk{background:var(--c);border-color:var(--c);box-sh
 .rt-e small{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .rt-e .lr-c{font-size:13px}
 
+/* =====================================================================
+   EUREKA 7 — Apariencia con vista previa, X a la derecha, selección
+   ===================================================================== */
+html,body{touch-action:pan-x pan-y}
+/* ---------- Encabezados: título centrado, la X para salir siempre arriba a la derecha ---------- */
+.hdr{position:relative}
+.hdr .ttl{position:absolute;left:104px;right:104px;top:50%;transform:translateY(-50%)}
+.hdr .right{margin-left:auto;order:4}
+.hdr>.back:has(path[d="M18 6 6 18M6 6l12 12"]){order:5}
+
+/* ---------- Barra de selección: dos pisos ---------- */
+.sel-bar{display:block;padding:8px;border-radius:26px}
+.sel-top{display:flex;align-items:center;gap:8px;padding:0 2px 8px}
+.sel-top .sel-n{flex:1;display:block;text-align:center;font-size:12px;letter-spacing:.04em;text-transform:none;font-weight:600;color:var(--mut)}
+.sel-top .sel-n b{display:inline;font-size:16px;color:var(--fg);font-family:var(--display)}
+.sel-acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.sel-acts button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 0 8px;border-radius:18px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);background:var(--s2)}
+.sel-acts button .ico{width:20px;height:20px}
+.sel-acts button.pri{background:var(--acc);color:var(--acc-ink,#fff)}
+.sel-acts button.del{color:var(--red);background:rgba(239,68,68,.1)}
+body.ek-sel #scanScr .sc-body{padding-bottom:calc(var(--nav-h) + 160px + var(--sab))}
+
+/* ---------- Pesos: el pallet nuevo entra con animación ---------- */
+@keyframes wNuevo{0%{opacity:0;transform:translateY(-8px) scale(.97);box-shadow:0 0 0 2px var(--acc)}60%{opacity:1;transform:none;box-shadow:0 0 0 2px var(--acc)}100%{box-shadow:0 0 0 0 transparent}}
+.wcard.nuevo{animation:wNuevo .9s var(--k-ease)}
+
+/* ---------- Apariencia ---------- */
+.ap-prev{position:sticky;top:-16px;z-index:6;margin:-16px -16px 12px;padding:12px 16px 12px;background:linear-gradient(var(--bg) 82%,transparent)}
+.ap-scr{position:relative;border-radius:24px;padding:12px;border:1px solid var(--line2);overflow:hidden;box-shadow:0 18px 40px -22px rgba(0,0,0,.9)}
+.ap-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ap-ttl{font-family:var(--display);font-size:26px;font-weight:900;letter-spacing:-.05em;background:linear-gradient(180deg,var(--fg) 30%,var(--mut) 150%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-top .sc-cfg{width:34px;height:34px;margin:0}
+.ap-top .sc-cfg .ico{width:17px;height:17px}
+.ap-scr .sc-row{margin-bottom:6px;padding:10px 12px}
+.ap-scr .sc-row b{font-size:15px}
+.ap-lrs .lr{padding:8px 2px}
+.ap-lrs .lr-l{font-size:18px}
+.ap-lrs .lr-b b{font-size:26px}
+.ap-bt{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.ap-bt .k-btn{min-height:36px}
+.ek-nav.ap-nav{position:relative!important;left:auto;right:auto;bottom:auto;margin:10px 0 0;max-width:none;grid-template-columns:repeat(3,1fr);padding:4px;z-index:auto;box-shadow:none}
+.ap-nav>span{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 6px;font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border-radius:16px}
+.ap-nav>span.on{color:var(--fg);background:var(--s3)}
+.ap-nav>span .ico{width:18px;height:18px}
+.ap-sec{background:var(--s1);border:1px solid var(--line);border-radius:22px;margin-bottom:8px;overflow:hidden}
+.ap-h{width:100%;display:flex;justify-content:space-between;align-items:center;min-height:54px;padding:0 16px;background:none;font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--fg)}
+.ap-h .ico-sm{color:var(--mut2);transition:transform .4s var(--k-spring)}
+.ap-sec.open .ap-h .ico-sm{transform:rotate(180deg)}
+.ap-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--k-ease)}
+.ap-sec.open .ap-b{grid-template-rows:1fr}
+.ap-b>div{overflow:hidden;min-height:0}
+.ap-in{padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
+.ap-l{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin:2px 2px -4px}
+.ap-pres{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.ap-pres button{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;padding:0;font-size:10.5px;font-weight:700;color:var(--mut)}
+.ap-pres i,.ap-mio i{position:relative;width:100%;aspect-ratio:1;border-radius:16px;border:1px solid rgba(127,127,127,.3);overflow:hidden;transition:transform .3s var(--k-spring),box-shadow .2s}
+.ap-pres i em,.ap-mio i em{position:absolute;bottom:7px;width:12px;height:12px;border-radius:9px}
+.ap-pres i em:first-child,.ap-mio i em{left:7px}
+.ap-pres i em+em{left:23px}
+.ap-pres button.on{color:var(--fg)}
+.ap-pres button.on i{box-shadow:0 0 0 2px var(--fg);transform:scale(1.04)}
+.ap-pres span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ap-save{display:flex;gap:8px}
+.ap-save .inp{flex:1;min-width:0;height:42px;border-radius:999px;padding:0 16px}
+.ap-mio{display:flex;align-items:center;gap:10px}
+.ap-mio i{width:36px;flex:none;border-radius:12px}
+.ap-mio span{flex:1;font-weight:700;font-size:14px}
+.ap-row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ap-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ap-row3 .k-btn{padding-inline:8px}
+.ap-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ap-col{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:46px;padding:0 6px 0 14px;border-radius:16px;background:var(--s2);font-size:13px;font-weight:600;color:var(--fg2)}
+.ap-col input{width:34px;height:34px;flex:none;border:0;padding:0;background:none;border-radius:99px;cursor:pointer}
+.ap-col input::-webkit-color-swatch-wrapper{padding:0}
+.ap-col input::-webkit-color-swatch{border:2px solid var(--line2);border-radius:99px}
+.ap-seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:999px;background:var(--s2)}
+.ap-seg.wrap{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);border-radius:18px}
+.ap-seg button{min-height:38px;padding:0 6px;border-radius:999px;font-size:13px;font-weight:700;color:var(--mut);background:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-seg button.on{background:var(--fg);color:var(--bg)}
+.ap-rng{display:flex;flex-direction:column;gap:6px;padding:10px 14px;border-radius:16px;background:var(--s2)}
+.ap-rng>div{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--fg2)}
+.ap-rng b{font-family:var(--mono);font-size:12px;color:var(--fg)}
+.ap-rng input{width:100%;accent-color:var(--acc)}
+.ap-swi{margin:0;background:var(--s2);border:0}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -790,32 +875,41 @@ body.ek-sel .sc-row.sel .sc-chk{background:var(--c);border-color:var(--c);box-sh
    Se guarda en este dispositivo (localStorage 'ek:tema').
    ============================================================ */
 const EKTEMA = (() => {
+  /* Apariencia completa de EUREKA (inspirada en Cuadre, solo lo que sirve aquí).
+     Todo se guarda en localStorage 'ek:tema'; los temas propios en 'ek:temas'; la imagen de fondo en 'ek:fondoImg'. */
   const PRESETS = {
-    flow:       { n:'Tinta', bg:'#0a0816', bg2:'#110e22', sf:'#c9c2ff', fg:'#efeefb', mut:'#a6a2c6', hl:'#fcd34d', font:'manrope', display:'sora', accentMode:'prov' },
-    eureka:     { n:'EUREKA',     bg:'#050506', bg2:'#0a0a0c', sf:'#ffffff', fg:'#f7f7f8', mut:'#a3a3ad', hl:'#fcd34d' },
-    oled:       { n:'Negro AMOLED',  bg:'#000000', bg2:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d' },
-    grafito:    { n:'Grafito',    bg:'#16161a', bg2:'#1d1d22', sf:'#ffffff', fg:'#f4f4f5', mut:'#a1a1aa', hl:'#fcd34d' },
-    medianoche: { n:'Medianoche', bg:'#070b18', bg2:'#0c1326', sf:'#93b4ff', fg:'#eef2ff', mut:'#94a3c4', hl:'#7dd3fc' },
-    arandano:   { n:'Arándano',   bg:'#0b0716', bg2:'#130d24', sf:'#c4b5fd', fg:'#f5f3ff', mut:'#a59dc4', hl:'#a5b4fc' },
-    bosque:     { n:'Bosque',     bg:'#05100b', bg2:'#0a1a12', sf:'#a7f3d0', fg:'#ecfdf5', mut:'#94b8a6', hl:'#bef264' },
-    vino:       { n:'Vino',       bg:'#12060a', bg2:'#1c0b12', sf:'#fecdd3', fg:'#fff1f2', mut:'#c4a1a9', hl:'#fda4af' },
-    cafe:       { n:'Café',       bg:'#120d08', bg2:'#1b140d', sf:'#fde68a', fg:'#fef6e7', mut:'#bfae94', hl:'#fbbf24' },
-    claro:      { n:'Claro',      bg:'#f2f3f5', bg2:'#ffffff', sf:'#000000', fg:'#0b0b0f', mut:'#5b5b66', hl:'#b45309' },
-    papel:      { n:'Papel',      bg:'#f6f1e7', bg2:'#fffaf0', sf:'#3b2f1e', fg:'#2a2118', mut:'#7a6a55', hl:'#9a3412' },
+    oled:       { n:'AMOLED',     bg:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d' },
+    eureka:     { n:'EUREKA',     bg:'#050506', sf:'#ffffff', fg:'#f7f7f8', mut:'#a3a3ad', hl:'#fcd34d' },
+    grafito:    { n:'Grafito',    bg:'#141417', sf:'#ffffff', fg:'#f4f4f5', mut:'#a1a1aa', hl:'#fcd34d' },
+    azul:       { n:'Azul noche', bg:'#0a1020', sf:'#93b4ff', fg:'#e8eeff', mut:'#9aa7c7', hl:'#7dd3fc' },
+    aurora:     { n:'Aurora',     bg:'#050810', sf:'#a5c8ff', fg:'#eaf1ff', mut:'#93a4c8', hl:'#5eead4', ui:{ bgMode:'grad', bg2:'#13244d', bgDir:'d', btnMode:'grad', btnA:'#5eead4', btnB:'#60a5fa' } },
+    atardecer:  { n:'Atardecer',  bg:'#140a12', sf:'#ffd0e0', fg:'#fff1ea', mut:'#c9a8b8', hl:'#fdba74', ui:{ bgMode:'grad', bg2:'#3a1530', bgDir:'v', btnMode:'grad', btnA:'#fb923c', btnB:'#f472b6' } },
+    arandano:   { n:'Arándano',   bg:'#0b0716', sf:'#c4b5fd', fg:'#f5f3ff', mut:'#a59dc4', hl:'#a5b4fc' },
+    bosque:     { n:'Bosque',     bg:'#05100b', sf:'#a7f3d0', fg:'#ecfdf5', mut:'#94b8a6', hl:'#bef264' },
+    claro:      { n:'Claro',      bg:'#f2f3f5', sf:'#000000', fg:'#0b0b0f', mut:'#5b5b66', hl:'#b45309' },
+    papel:      { n:'Papel',      bg:'#f6f1e7', sf:'#3b2f1e', fg:'#2a2118', mut:'#7a6a55', hl:'#9a3412' },
   };
-  const BASE = { preset:'eureka', tt:'', sfk:1, radius:1, scale:1, font:'inter', display:'tight', glow:true, anim:true, accentMode:'prov', accent:'#3b82f6', prov:{} };
+  const COLORES = ['bg', 'sf', 'fg', 'mut', 'hl'];
+  const BASE = { preset:'oled', bg:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d',
+    accentMode:'prov', accent:'#3b82f6', prov:{},
+    bgMode:'solid', bg2:'#10131c', bgDir:'v', bgDim:45,
+    cardA:100, blur:0, shadow:0, glow:true,
+    btnMode:'solid', btnA:'#3b82f6', btnB:'#22d3ee', btnShape:'pill', bscale:1,
+    bw:1, bst:'solid', bc:'', radius:24,
+    font:'inter', display:'tight', scale:1, ls:0,
+    navA:92, icon:21, navLbl:true,
+    anim:'suave' };
   const FONTS = {
-    manrope: { n:'Manrope',    v:'"Manrope","Inter",system-ui,sans-serif' },
-    inter:   { n:'Inter',      v:'"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif' },
-    sistema: { n:'Sistema',    v:'system-ui,-apple-system,Roboto,"Segoe UI",Arial,sans-serif' },
-    condensada: { n:'Condensada', v:'"Roboto Condensed","sans-serif-condensed","Arial Narrow",system-ui,sans-serif' },
-    serif:   { n:'Serif',      v:'"Noto Serif",Georgia,"Times New Roman",serif' },
-    mono:    { n:'Mono',       v:'"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace' },
+    inter:   { n:'Inter',   v:'"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif' },
+    manrope: { n:'Manrope', v:'"Manrope","Inter",system-ui,sans-serif' },
+    sistema: { n:'Sistema', v:'system-ui,-apple-system,Roboto,"Segoe UI",Arial,sans-serif' },
+    serif:   { n:'Serif',   v:'"Noto Serif",Georgia,"Times New Roman",serif' },
+    mono:    { n:'Mono',    v:'"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace' },
   };
   const DISPLAYS = {
-    sora:  { n:'Sora', v:'"Sora","Inter Tight",system-ui,sans-serif' },
     tight: { n:'Inter Tight', v:'"Inter Tight","Inter",ui-sans-serif,system-ui,sans-serif' },
-    igual: { n:'Igual al texto', v:null },
+    sora:  { n:'Sora', v:'"Sora","Inter Tight",system-ui,sans-serif' },
+    igual: { n:'Igual', v:null },
     serif: { n:'Serif', v:'"Noto Serif",Georgia,"Times New Roman",serif' },
     mono:  { n:'Mono', v:'"JetBrains Mono",ui-monospace,Menlo,monospace' },
   };
@@ -824,34 +918,66 @@ const EKTEMA = (() => {
   const mix = (a, b, t) => { const x = hx(a), y = hx(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
   const lum = (h) => { const c = hx(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
 
-  function defaults(preset){ return Object.assign({}, BASE, PRESETS[preset] || PRESETS.oled, { preset: PRESETS[preset] ? preset : 'oled', prov:{} }); }
-  let th = defaults('oled');
-  try { const s = JSON.parse(localStorage.getItem('ek:tema') || 'null'); if (s && typeof s === 'object') th = Object.assign(defaults(s.preset), s, { prov: Object.assign({}, s.prov || {}) }); } catch (e) {}
+  function defaults(){ return JSON.parse(JSON.stringify(BASE)); }
+  let th = defaults();
+  try {
+    const s = JSON.parse(localStorage.getItem('ek:tema') || 'null');
+    if (s && typeof s === 'object') {
+      if (s.sfk != null && s.cardA == null) s.cardA = Math.round(+s.sfk * 100);           // temas de versiones anteriores
+      if (s.radius != null && +s.radius <= 2) s.radius = Math.round(24 * +s.radius);
+      if (s.anim === true) s.anim = 'suave'; if (s.anim === false) s.anim = 'off';
+      if (s.bg2 && !s.bgMode) delete s.bg2;
+      th = Object.assign(defaults(), s, { prov:Object.assign({}, s.prov || {}) });
+    }
+  } catch (e) {}
+  let img = null; try { img = localStorage.getItem('ek:fondoImg'); } catch (e) {}
 
-  function esDefecto(){ return JSON.stringify(th) === JSON.stringify(defaults('eureka')); }
+  const CARDS = '.gv-card,.sc-row,.sc-search,.rt-g,.fx,.mas button,.sc-tile,.gv-fail,.sc-empty,.tm-col,.tm-rng,.tm-sw,.mrow,.info>div,.wcard,.ap-sec,.ap-card,.dlg';
+  const BTNS = '.btn,.k-btn,.ibtn,.k-ib,.pill,.fx-seg,.fx-seg button,.sc-cfg,.hdr .back,.ap-seg,.ap-seg button,.ap-chip';
+  const PRI = '.btn.pri,.k-btn.pri,.gv-bar button.pri,.ek-nav .nav-plus .np,.fl .fl-op.on .fl-b,.sel-bar .k-btn.pri';
+  function fondoCss(){
+    const ang = { v:'180deg', d:'150deg', h:'90deg' }[th.bgDir] || '180deg';
+    if (th.bgMode === 'img' && img) return `linear-gradient(${rgba(th.bg, th.bgDim / 100)},${rgba(th.bg, th.bgDim / 100)}),url("${img}") center/cover no-repeat,${th.bg}`;
+    if (th.bgMode === 'grad') return `linear-gradient(${ang},${th.bg},${th.bg2})`;
+    return th.bg;
+  }
   function css(){
-    if (esDefecto()) return '';
-    const k = +th.sfk || 1, light = lum(th.bg) > .45, r = +th.radius;
+    const k = Math.max(0, +th.cardA || 0) / 100, light = lum(th.bg) > .45, R = Math.max(0, +th.radius || 0);
     const f = (FONTS[th.font] || FONTS.inter).v, d = (DISPLAYS[th.display] || DISPLAYS.tight).v || f;
-    const tt = th.tt || th.fg;
-    let s = `:root{--bg:${th.bg};--bg2:${th.bg2};--s1:${rgba(th.sf, .035 * k)};--s2:${rgba(th.sf, .06 * k)};--s3:${rgba(th.sf, .09 * k)};
-      --line:${rgba(th.sf, .08 * k)};--line2:${rgba(th.sf, .14 * k)};--hair:${rgba(th.sf, .05 * k)};
+    const rb = th.btnShape === 'square' ? '6px' : th.btnShape === 'round' ? Math.round(Math.max(10, R * .6)) + 'px' : '999px';
+    const navBg = mix(th.bg, th.sf, .06 * Math.max(.4, k));
+    let s = `:root{--bg:${th.bg};--bg2:${mix(th.bg, th.sf, .05 * k)};--s1:${rgba(th.sf, .035 * k)};--s2:${rgba(th.sf, .06 * k)};--s3:${rgba(th.sf, .09 * k)};
+      --line:${rgba(th.sf, .08 * Math.max(k, .5))};--line2:${rgba(th.sf, .14 * Math.max(k, .5))};--hair:${rgba(th.sf, .05)};
       --fg:${th.fg};--fg2:${mix(th.fg, th.mut, .35)};--mut:${th.mut};--mut2:${mix(th.mut, th.bg, .3)};--yellow:${th.hl};
-      --r:${Math.round(16 * r)}px;--r2:${Math.round(22 * r)}px;--r3:${Math.round(28 * r)}px;--font:${f};--display:${d};color-scheme:${light ? 'light' : 'dark'}}
-      #home .hero h1{background-image:linear-gradient(180deg,${tt} 30%,${mix(tt, th.bg, .55)} 140%)}
-      .lote-big,.mrow b{color:var(--yellow)}
-      .lotehead{background:linear-gradient(160deg,${rgba(th.hl, .10)},${rgba(th.hl, .02)} 60%);border-color:${rgba(th.hl, .18)}}
-      .var{color:${rgba(th.hl, .8)}}
-      .det-r,.d3{background:radial-gradient(80% 60% at 50% 30%,${rgba(th.sf, .06 * k)},transparent 70%),linear-gradient(${mix(th.bg, th.sf, .04)},${th.bg})}
+      --r:${Math.round(R * .66)}px;--r2:${R}px;--r3:${R + 4}px;--rc:${R}px;--rb:${rb};--font:${f};--display:${d};color-scheme:${light ? 'light' : 'dark'}}
+      body{letter-spacing:${(+th.ls || 0) * .5}px}
+      .screen,.ap-scr,#pfWrap{background:${fondoCss()}}
+      .screen.layer{background:${th.bgMode === 'solid' ? th.bg : fondoCss()}}
+      .sc-head h1{background-image:linear-gradient(180deg,${th.fg} 30%,${mix(th.fg, th.bg, .55)} 150%)}
       .row{background:${mix(th.bg, th.sf, .045 * k)}}
-      .sheet{background:${mix(th.bg, th.sf, .05 * k)}}
-      .ek-nav,.gv-bar{background:${rgba(mix(th.bg, th.sf, .06 * k), .92)}}`;
+      .sheet{background:${mix(th.bg, th.sf, .05 * Math.max(k, .5))};border-radius:${R + 6}px ${R + 6}px 0 0}
+      ${CARDS}{border-radius:${R}px}
+      .lr-list .lr{border-radius:0}
+      ${BTNS}{border-radius:${rb}}
+      .btn,.k-btn{min-height:${Math.round(46 * th.bscale)}px;font-size:${(14 * th.bscale).toFixed(1)}px}
+      .btn.sm,.k-btn.sm{min-height:${Math.round(38 * th.bscale)}px}
+      .ek-nav,.gv-bar,.sel-bar{background:${rgba(navBg, th.navA / 100)};border-radius:${Math.max(R + 2, 8)}px}
+      .ek-nav-ind{border-radius:${Math.max(R - 3, 6)}px}
+      .ek-nav button .ico,.gv-bar button .ico{width:${th.icon}px;height:${th.icon}px}`;
+    if (th.bw > 0) s += `${CARDS}{border:${th.bw}px ${th.bst} ${th.bc || rgba(th.sf, .16 * Math.max(k, .5))}!important}`;
+    else s += `${CARDS}{border-color:transparent!important}`;
+    if (th.blur > 0) s += `${CARDS},.lr-list{backdrop-filter:blur(${th.blur}px);-webkit-backdrop-filter:blur(${th.blur}px)}`;
+    if (th.shadow > 0) s += `${CARDS}{box-shadow:0 ${Math.round(th.shadow / 2.5)}px ${th.shadow}px rgba(0,0,0,.45)}`;
+    if (th.btnMode === 'grad') { const on = lum(mix(th.btnA, th.btnB, .5)) > .45 ? '#0b0b0c' : '#ffffff'; s += `${PRI}{background:linear-gradient(135deg,${th.btnA},${th.btnB})!important;color:${on}!important;border-color:transparent!important}.ek-nav-ind::after{background:linear-gradient(90deg,${th.btnA},${th.btnB})}`; }
+    if (!th.navLbl) s += `.ek-nav button span,.gv-bar button span{display:none}.ek-nav button,.gv-bar button{padding:14px 0}`;
     if (+th.scale !== 1) s += `body{zoom:${+th.scale}}`;
     if (!th.glow) s += `.screen::before{display:none}`;
-    if (!th.anim) s += `*,*::before,*::after{animation:none!important;transition:none!important}`;
-    if (light) s += `.pill.on{color:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18)}.spin{border-color:rgba(0,0,0,.1);border-top-color:var(--acc)}
-      .hero-btn,.ibtn{box-shadow:0 1px 2px rgba(0,0,0,.06)}
-      .msg.error{color:#b91c1c}.msg.aviso{color:#92400e}.msg.info{color:#1d4ed8}.msg.ok{color:#047857}.ibtn.warn{color:#b45309}`;
+    if (th.anim === 'off') s += `*,*::before,*::after{animation:none!important;transition:none!important}`;
+    else if (th.anim === 'rapida') s += `.k-in{animation-duration:.26s!important;animation-delay:calc(var(--i,0) * 16ms)!important}.screen.layer,.tab-in{animation-duration:.18s!important}button,.fl-op,.fl-x,.sel-bar,.ek-nav-ind{transition-duration:.14s!important}`;
+    else if (th.anim === 'lenta') s += `.k-in{animation-duration:.85s!important;animation-delay:calc(var(--i,0) * 75ms)!important}.screen.layer,.tab-in{animation-duration:.6s!important}.fl-op,.fl-x,.sel-bar,.ek-nav-ind{transition-duration:.8s!important}`;
+    if (light) s += `.pill.on{color:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18)}
+      .msg.error{color:#b91c1c}.msg.aviso{color:#92400e}.msg.info{color:#1d4ed8}.msg.ok{color:#047857}.ibtn.warn{color:#b45309}
+      .ek-nav,.gv-bar,.sel-bar{box-shadow:0 10px 30px -14px rgba(0,0,0,.35)}`;
     return s;
   }
   function provAplicar(tabs){
@@ -863,28 +989,41 @@ const EKTEMA = (() => {
     });
   }
   function pfVars(){
-    const k = +th.sfk || 1;
+    const k = Math.max(.3, (+th.cardA || 100) / 100);
     return { '--n-bg':th.bg, '--n-s1':mix(th.bg, th.sf, .04 * k), '--n-s2':mix(th.bg, th.sf, .065 * k), '--n-s3':mix(th.bg, th.sf, .09 * k),
       '--n-line':rgba(th.sf, .08 * k), '--n-line2':rgba(th.sf, .14 * k), '--n-tx':th.fg, '--n-tx2':rgba(th.fg, .72), '--n-tx3':rgba(th.fg, .52) };
   }
   function aplicar(rerender){
     const el = document.getElementById('ekThemeCss'); if (el) el.textContent = css();
     try { if (window.ekTemaPF) window.ekTemaPF(pfVars()); } catch (e) {}
-    const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', esDefecto() ? '#000000' : th.bg);
-    try { if (window.parent === window && window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(esDefecto() ? '#000000' : th.bg, lum(th.bg) > .45); } catch (e) {}
+    const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', th.bg);
+    try { if (window.parent === window && window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(th.bg, lum(th.bg) > .45); } catch (e) {}
     if (typeof EK_TABS !== 'undefined') provAplicar(EK_TABS);
-    if (rerender && typeof ekRender === 'function') { try { ekRender(); if (typeof ekPosTab === 'function') ekPosTab(); } catch (e) {} }
+    if (rerender && typeof ekRender === 'function') { try { ekRender(); } catch (e) {} }
   }
   function guardar(){ try { localStorage.setItem('ek:tema', JSON.stringify(th)); } catch (e) {} }
-  function set(k, v, rerender){ th[k] = v; guardar(); aplicar(rerender); }
-  function preset(p){ const prov = th.prov, am = th.accentMode, ac = th.accent; const keep = { prov, accentMode:am, accent:ac, scale:th.scale, radius:th.radius, glow:th.glow, anim:th.anim };
-    if (!PRESETS[p] || !PRESETS[p].font) { keep.font = th.font === 'manrope' ? 'inter' : th.font; keep.display = th.display === 'sora' ? 'tight' : th.display; }
-    th = Object.assign(defaults(p), keep); guardar(); aplicar(true); }
-  function reset(){ th = defaults('oled'); guardar(); aplicar(true); }
+  function set(k, v, rerender){ th[k] = v; if (COLORES.includes(k)) th.preset = 'custom'; guardar(); aplicar(rerender); }
+  function preset(p){
+    const P = PRESETS[p]; if (!P) return;
+    COLORES.forEach(k => { th[k] = P[k]; }); th.preset = p;
+    Object.assign(th, { bgMode:'solid', btnMode:'solid' }, P.ui || {});
+    guardar(); aplicar(true);
+  }
+  function reset(){ th = defaults(); guardar(); aplicar(true); }
+  function fondoImagen(dataUrl){
+    img = dataUrl || null;
+    try { if (img) localStorage.setItem('ek:fondoImg', img); else localStorage.removeItem('ek:fondoImg'); } catch (e) { img = null; throw new Error('La imagen es muy pesada'); }
+    th.bgMode = img ? 'img' : 'solid'; guardar(); aplicar(false);
+  }
+  function misTemas(){ try { return JSON.parse(localStorage.getItem('ek:temas') || '[]'); } catch (e) { return []; } }
+  function guardarTema(nombre){ const l = misTemas(); l.push({ id:Date.now().toString(36), n:nombre || 'Mi tema', th:JSON.parse(JSON.stringify(th)) }); try { localStorage.setItem('ek:temas', JSON.stringify(l)); } catch (e) {} }
+  function aplicarTema(id){ const t = misTemas().find(x => x.id === id); if (!t) return; th = Object.assign(defaults(), t.th); guardar(); aplicar(true); }
+  function borrarTema(id){ try { localStorage.setItem('ek:temas', JSON.stringify(misTemas().filter(x => x.id !== id))); } catch (e) {} }
   function exportar(){ return 'EKTEMA:' + btoa(unescape(encodeURIComponent(JSON.stringify(th)))); }
-  function importar(txt){ const m = String(txt || '').trim().replace(/^EKTEMA:/, ''); const o = JSON.parse(decodeURIComponent(escape(atob(m)))); if (!o || !o.bg) throw new Error('Código de tema no válido'); th = Object.assign(defaults(o.preset), o, { prov:Object.assign({}, o.prov || {}) }); guardar(); aplicar(true); }
+  function importar(txt){ const m = String(txt || '').trim().replace(/^EKTEMA:/, ''); const o = JSON.parse(decodeURIComponent(escape(atob(m)))); if (!o || !o.bg) throw new Error('Código de tema no válido'); th = Object.assign(defaults(), o, { prov:Object.assign({}, o.prov || {}) }); guardar(); aplicar(true); }
   aplicar(false);
-  return { get: () => th, set, preset, reset, exportar, importar, aplicar, provAplicar, pfVars, PRESETS, FONTS, DISPLAYS };
+  return { get:() => th, set, preset, reset, exportar, importar, aplicar, provAplicar, pfVars, fondoImagen, tieneImagen:() => !!img,
+    misTemas, guardarTema, aplicarTema, borrarTema, PRESETS, FONTS, DISPLAYS, lum };
 })();
 </script>
 </head>
@@ -3824,8 +3963,8 @@ async function ekBorrar(ids){
   if (!ok) return;
   const antes = EK.state.receptions.slice();
   EK.state.receptions = EK.state.receptions.filter(r => !ids.includes(r.id));
-  if (EK.ui.sel.size) { EK.ui.sel.clear(); ekPopHist('sel'); } ekSave(); ekRenderHome();
-  ekToast(rs.length === 1 ? 'Recepción eliminada' : `${rs.length} eliminadas`, '', { txt:'Deshacer', fn: () => { EK.state.receptions = antes; ekSave(); ekRenderHome(); } });
+  if (EK.ui.sel.size) { EK.ui.sel.clear(); ekPopHist('sel'); } ekSave(); ekRender();
+  ekToast(rs.length === 1 ? 'Recepción eliminada' : `${rs.length} eliminadas`, '', { txt:'Deshacer', fn: () => { EK.state.receptions = antes; ekSave(); ekRender(); } });
 }
 
 /* ---------- Botón + ---------- */
@@ -5782,6 +5921,164 @@ function ekRotulosSheet(ids){
   d.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const [rid, gi, li] = b.dataset.rot.split(':'); gen('Generando rótulo…', () => generateRotulo(ekRec(rid).guias[+gi], +li)); });
   d.querySelectorAll('[data-rotg]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.rotg.split(':'); gen('Generando rótulos…', () => generateRotuloTodosLotes(ekRec(rid).guias[+gi])); });
   if ($id('rtTodas')) $id('rtTodas').onclick = () => gen('Generando rótulos…', () => generateRotuloTodasLasGuias(todas.map(x => x.g)));
+}
+
+
+/* ============================================================
+   EUREKA 7
+   ============================================================ */
+
+/* ---------- Burbujas: aparecen al instante ----------
+   Tocar y soltar rápido: quedan abiertas para tocar una.
+   Mantener: desliza a una opción y suelta; si sueltas sin moverte, se cancela. */
+function ekFlotarBoton(btn, ops){
+  btn.style.touchAction = 'none';
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  let t0 = 0, x0 = 0, y0 = 0, movio = false;
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (x) {}
+    t0 = Date.now(); x0 = e.clientX; y0 = e.clientY; movio = false;
+    ekFlotarAbrir(btn, typeof ops === 'function' ? ops() : ops, true);
+    try { navigator.vibrate && navigator.vibrate(10); } catch (x) {}
+  });
+  btn.addEventListener('pointermove', e => {
+    if (!EKF.el || !EKF.arrastre) return;
+    if (Math.hypot(e.clientX - x0, e.clientY - y0) > 12) movio = true;
+    ekFlotarMover(e.clientX, e.clientY);
+  });
+  btn.addEventListener('pointerup', () => {
+    if (!EKF.el || !EKF.arrastre) return;
+    if (EKF.sel >= 0) { ekFlotarSoltar(); return; }
+    if (!movio && Date.now() - t0 < 320) { ekFlotarModoToque(); return; }   // fue un toque: quedan abiertas
+    ekFlotarCerrar(false);                                                  // mantuvo y soltó sin elegir: se cancela
+  });
+  btn.addEventListener('pointercancel', () => { if (EKF.el && EKF.arrastre) ekFlotarCerrar(false); });
+}
+function ekFlotarModoToque(){
+  const el = EKF.el; if (!el) return;
+  EKF.arrastre = false;
+  el.querySelector('.fl-scrim').onclick = () => ekFlotarCerrar(false);
+  el.querySelector('.fl-x').onclick = () => ekFlotarCerrar(false);
+  el.querySelectorAll('.fl-op').forEach(b => b.onclick = () => { ekFlotarMarcar(+b.dataset.i); setTimeout(ekFlotarSoltar, 90); });
+}
+
+/* ---------- Selección en Guías: más acciones ---------- */
+function ekSelRecs(){ return [...ekSelSet()].map(ekRec).filter(Boolean).sort((a, b) => String(a.created).localeCompare(String(b.created))); }
+function ekSelMismoTurno(rs){ if (new Set(rs.map(r => r.turno)).size > 1) { ekAlert('Elige guías del mismo turno (los correlativos van de corrido por turno).'); return false; } return true; }
+function ekPintarSelBar(){
+  const bar = $id('selBar'); if (!bar) return;
+  const s = ekSelSet(), n = s.size;
+  document.body.classList.toggle('ek-sel', n > 0);
+  bar.classList.toggle('on', n > 0);
+  if (!n) return;
+  bar.innerHTML = `<div class="sel-top"><button class="k-ib" id="selNo" aria-label="Cancelar">${ico('x', 'ico-sm')}</button><span class="sel-n"><b>${n}</b> ${n === 1 ? 'guía seleccionada' : 'guías seleccionadas'}</span><button class="k-ib" id="selAll" aria-label="Seleccionar todo el turno">${ico('check', 'ico-sm')}</button></div>
+    <div class="sel-acts">
+      <button id="selJ" class="pri">${ico('layers')}<span>${n > 1 ? 'Juntar' : 'Abrir'}</span></button>
+      <button id="selR">${ico('tag')}<span>Rótulos</span></button>
+      <button id="selH">${ico('sheet')}<span>Hoja</span></button>
+      <button id="selD" class="del">${ico('trash')}<span>Eliminar</span></button>
+    </div>`;
+  $id('selNo').onclick = () => { s.clear(); ekRenderScanLista(); };
+  $id('selAll').onclick = () => { const t = ekSelRecs()[0].turno; EK.state.receptions.filter(r => r.turno === t).forEach(r => s.add(r.id)); ekRenderScanLista(); };
+  $id('selJ').onclick = () => { const rs = ekSelRecs(); if (!ekSelMismoTurno(rs)) return; s.clear(); ekRenderScanLista(); ekOpenDetail(rs.map(r => r.id)); };
+  $id('selR').onclick = () => { const rs = ekSelRecs(); if (!ekSelMismoTurno(rs)) return; ekRotulosSheet(rs.map(r => r.id)); };
+  $id('selH').onclick = () => { const rs = ekSelRecs(); if (!ekSelMismoTurno(rs)) return; ekHojaSheet(rs); };
+  $id('selD').onclick = async () => { const ids = ekSelRecs().map(r => r.id); await ekBorrar(ids); if (!ids.some(i => ekRec(i))) { s.clear(); } ekRenderScanLista(); };
+}
+
+/* ---------- Pesos: agregar o quitar un pallet sin saltar arriba ---------- */
+const _ekRenderPeso0 = ekRenderPeso;
+ekRenderPeso = function(){
+  const b = $id('psBody'), y = b ? b.scrollTop : null;
+  _ekRenderPeso0();
+  const b2 = $id('psBody'); if (b2 && y != null) b2.scrollTop = y;
+  const nv = EK.ui.pesoNuevo; EK.ui.pesoNuevo = null;
+  if (nv && b2) {
+    const c = b2.querySelector(`.wcard[data-g="${nv.g}"][data-row="${nv.k}"]`);
+    if (c) { c.classList.add('nuevo'); const r = c.getBoundingClientRect(), rb = b2.getBoundingClientRect(); if (r.bottom > rb.bottom - 20 || r.top < rb.top) b2.scrollBy({ top:r.bottom - rb.bottom + 90, behavior:'smooth' }); const i = c.querySelector('input'); if (i) setTimeout(() => i.focus({ preventScroll:true }), 380); }
+  }
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('#peso [data-addrow]');
+  if (b) EK.ui.pesoNuevo = { g:b.dataset.g, k:+b.dataset.after + 1 };
+}, true);
+
+/* ---------- Apariencia ---------- */
+const AP_SECS = [['temas', 'Temas'], ['colores', 'Colores'], ['fondo', 'Fondo'], ['tarjetas', 'Tarjetas'], ['botones', 'Botones'], ['bordes', 'Bordes y esquinas'], ['texto', 'Texto'], ['barra', 'Barra'], ['anim', 'Animaciones']];
+function apCol(k, n){ const v = EKTEMA.get()[k] || '#000000'; return `<label class="ap-col"><span>${n}</span><input type="color" data-c="${k}" value="${esc(v)}"></label>`; }
+function apRng(k, n, min, max, step, u, mul){ const v = +EKTEMA.get()[k]; mul = mul || 1; return `<div class="ap-rng"><div><span>${n}</span><b id="apv-${k}">${Math.round(v * mul)}${u}</b></div><input type="range" data-r="${k}" data-mul="${mul}" data-u="${u}" min="${min}" max="${max}" step="${step}" value="${v}"></div>`; }
+function apSeg(k, ops){ const v = String(EKTEMA.get()[k]); return `<div class="ap-seg">${ops.map(([a, t]) => `<button data-s="${k}" data-v="${a}" class="${v === String(a) ? 'on' : ''}">${t}</button>`).join('')}</div>`; }
+function apSw(k, n){ return `<label class="tm-sw ap-swi"><span>${n}</span><input type="checkbox" data-b="${k}" ${EKTEMA.get()[k] ? 'checked' : ''}></label>`; }
+function apSec(id){
+  const th = EKTEMA.get();
+  if (id === 'temas') {
+    const mis = EKTEMA.misTemas();
+    return `<div class="ap-pres">${Object.entries(EKTEMA.PRESETS).map(([k, p]) => { const u = p.ui || {}; const bg = u.bgMode === 'grad' ? `linear-gradient(150deg,${p.bg},${u.bg2})` : p.bg; return `<button data-pre="${k}" class="${th.preset === k ? 'on' : ''}"><i style="background:${bg}"><em style="background:${p.hl}"></em><em style="background:${u.btnMode === 'grad' ? `linear-gradient(135deg,${u.btnA},${u.btnB})` : p.fg}"></em></i><span>${esc(p.n)}</span></button>`; }).join('')}</div>
+      <div class="ap-save"><input class="inp" id="apNom" placeholder="Nombre del tema"><button class="k-btn sm pri" id="apSave">${ico('plus', 'ico-sm')}Guardar</button></div>
+      ${mis.map(t => `<div class="ap-mio"><i style="background:${esc(t.th.bg)}"><em style="background:${esc(t.th.hl)}"></em></i><span>${esc(t.n)}</span><button class="k-btn sm" data-tap="${t.id}">Aplicar</button><button class="k-ib" data-tdel="${t.id}" aria-label="Borrar">${ico('trash', 'ico-sm')}</button></div>`).join('')}
+      <div class="ap-row3"><button class="k-btn sm" id="apCopy">${ico('copy', 'ico-sm')}Copiar</button><button class="k-btn sm" id="apPaste">${ico('upload', 'ico-sm')}Pegar</button><button class="k-btn sm" id="apReset">${ico('x', 'ico-sm')}Restablecer</button></div>`;
+  }
+  if (id === 'colores') return `<div class="ap-cols">${apCol('bg', 'Fondo')}${apCol('sf', 'Tarjetas')}${apCol('fg', 'Texto')}${apCol('mut', 'Secundario')}${apCol('hl', 'Lote y correlativo')}</div>
+      <div class="ap-l">Acento</div>${apSeg('accentMode', [['prov', 'Por proveedor'], ['unico', 'Uno solo']])}
+      ${th.accentMode === 'unico' ? `<div class="ap-cols">${apCol('accent', 'Acento')}</div>` : `<div class="ap-cols">${EK_TABS.map(x => `<label class="ap-col"><span>${esc(x.codigo)}</span><input type="color" data-pv="${x.codigo}" value="${esc(x.bg)}"></label>`).join('')}</div>`}`;
+  if (id === 'fondo') return apSeg('bgMode', [['solid', 'Sólido'], ['grad', 'Degradé'], ['img', 'Imagen']]) +
+      (th.bgMode === 'grad' ? `<div class="ap-cols">${apCol('bg2', 'Segundo color')}</div><div class="ap-l">Dirección</div>${apSeg('bgDir', [['v', '↓'], ['d', '↘'], ['h', '→']])}` : '') +
+      (th.bgMode === 'img' ? `<div class="ap-row2"><button class="k-btn sm" id="apImg">${ico('image', 'ico-sm')}${EKTEMA.tieneImagen() ? 'Cambiar' : 'Subir'}</button><button class="k-btn sm" id="apImgDel" ${EKTEMA.tieneImagen() ? '' : 'disabled'}>${ico('trash', 'ico-sm')}Quitar</button></div>${apRng('bgDim', 'Oscurecer', 0, 90, 5, '%')}` : '');
+  if (id === 'tarjetas') return apRng('cardA', 'Fondo', 0, 250, 5, '%') + apRng('blur', 'Desenfoque', 0, 24, 1, 'px') + apRng('shadow', 'Sombra', 0, 30, 1, 'px') + apSw('glow', 'Resplandor del proveedor');
+  if (id === 'botones') return apSeg('btnMode', [['solid', 'Sólidos'], ['grad', 'Degradé']]) +
+      (th.btnMode === 'grad' ? `<div class="ap-cols">${apCol('btnA', 'Color A')}${apCol('btnB', 'Color B')}</div>` : '') +
+      `<div class="ap-l">Forma</div>` + apSeg('btnShape', [['pill', 'Píldora'], ['round', 'Redondeada'], ['square', 'Recta']]) + apRng('bscale', 'Tamaño', .85, 1.25, .05, '%', 100);
+  if (id === 'bordes') return apRng('bw', 'Grosor', 0, 3, 1, 'px') + `<div class="ap-l">Estilo</div>` + apSeg('bst', [['solid', 'Continuo'], ['dashed', 'Guiones'], ['dotted', 'Puntos']]) +
+      `<div class="ap-cols"><label class="ap-col"><span>Color</span><input type="color" data-c="bc" value="${esc(th.bc || '#3a3d42')}"></label></div>` + apRng('radius', 'Esquinas', 0, 32, 1, 'px');
+  if (id === 'texto') return `<div class="ap-l">Letra</div><div class="ap-seg wrap">${Object.entries(EKTEMA.FONTS).map(([k, f]) => `<button data-s="font" data-v="${k}" class="${th.font === k ? 'on' : ''}" style="font-family:${esc(f.v)}">${esc(f.n)}</button>`).join('')}</div>
+      <div class="ap-l">Títulos y números</div><div class="ap-seg wrap">${Object.entries(EKTEMA.DISPLAYS).map(([k, f]) => `<button data-s="display" data-v="${k}" class="${th.display === k ? 'on' : ''}" ${f.v ? `style="font-family:${esc(f.v)}"` : ''}>${esc(f.n)}</button>`).join('')}</div>
+      ${apRng('scale', 'Tamaño', .85, 1.25, .05, '%', 100)}${apRng('ls', 'Espacio entre letras', 0, 3, 1, '')}`;
+  if (id === 'barra') return apRng('navA', 'Fondo', 40, 100, 5, '%') + apRng('icon', 'Íconos', 18, 28, 1, 'px') + apSw('navLbl', 'Nombres en la barra');
+  if (id === 'anim') return apSeg('anim', [['off', 'Ninguna'], ['rapida', 'Rápida'], ['suave', 'Suave'], ['lenta', 'Lenta']]);
+  return '';
+}
+function apPreview(){
+  const c = tabCfg(EK.ui.tab);
+  return `<div class="ap-prev"><div class="ap-scr">
+    <div class="ap-top"><b class="ap-ttl">Guías</b><span class="sc-cfg">${ico('gear')}</span></div>
+    <div class="sc-row" style="--c:${c.bg}"><span class="sc-chk"></span><span class="sc-t"><b>${esc(c.label)}</b><small>T013-0002337 · 2 lotes · 788 jabas</small></span><em class="ok">${ico('check', 'ico-sm')}</em></div>
+    <div class="lr-list ap-lrs"><div class="lr"><span class="lr-a"><span class="lr-c">FF26EU0015</span><b class="lr-l">LOTE 1</b><small>EUREKA · 530 jabas</small></span><span class="lr-b"><b>2</b><small>pallets</small><em>+34</em></span></div></div>
+    <div class="ap-bt"><span class="k-btn sm">${ico('check', 'ico-sm')}Fijar</span><span class="k-btn sm pri">${ico('print', 'ico-sm')}Imprimir</span></div>
+    <div class="ek-nav ap-nav">${[['layers', 'Guías', 1], ['almacen', 'Almacén'], ['dots', 'Más']].map(([i, t, on]) => `<span class="${on ? 'on' : ''}">${ico(i)}<span>${t}</span></span>`).join('')}</div>
+  </div></div>`;
+}
+function ekTemaUI(){
+  const ab = EK.ui.apOpen || (EK.ui.apOpen = new Set(['temas']));
+  return apPreview() + AP_SECS.map(([id, t]) => `<div class="ap-sec ${ab.has(id) ? 'open' : ''}" data-sec="${id}"><button class="ap-h" data-sh="${id}">${t}${ico('down', 'ico-sm')}</button><div class="ap-b"><div><div class="ap-in">${apSec(id)}</div></div></div></div>`).join('');
+}
+function ekTemaWire(el){
+  const body = el.querySelector('.body');
+  const reSec = id => { const s = el.querySelector(`.ap-sec[data-sec="${id}"] .ap-in`); if (s) { s.innerHTML = apSec(id); ekTemaWireSec(el, s, id); } };
+  const pintar = () => { const p = el.querySelector('.ap-prev'); if (p) p.outerHTML = apPreview(); };
+  el.querySelectorAll('[data-sh]').forEach(b => b.onclick = () => { const id = b.dataset.sh, ab = EK.ui.apOpen; ab.has(id) ? ab.delete(id) : ab.add(id); b.parentElement.classList.toggle('open'); });
+  el.querySelectorAll('.ap-sec').forEach(sec => ekTemaWireSec(el, sec.querySelector('.ap-in'), sec.dataset.sec));
+  el._apRe = { reSec, pintar };
+}
+function ekTemaWireSec(el, s, id){
+  const re = () => { el._apRe.reSec(id); el._apRe.pintar(); };
+  s.querySelectorAll('[data-pre]').forEach(b => b.onclick = () => { EKTEMA.preset(b.dataset.pre); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); });
+  s.querySelectorAll('[data-c]').forEach(i => i.oninput = () => { EKTEMA.set(i.dataset.c, i.value, false); if (id === 'colores' && i.dataset.c === 'accent') { ekRender(); el._apRe.pintar(); } });
+  s.querySelectorAll('[data-pv]').forEach(i => i.oninput = () => { const p = Object.assign({}, EKTEMA.get().prov); p[i.dataset.pv] = i.value; EKTEMA.set('prov', p, false); ekRender(); el._apRe.pintar(); });
+  s.querySelectorAll('[data-r]').forEach(i => i.oninput = () => { const v = +i.value; $id('apv-' + i.dataset.r).textContent = Math.round(v * +i.dataset.mul) + i.dataset.u; EKTEMA.set(i.dataset.r, v, false); });
+  s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { const k = b.dataset.s; let v = b.dataset.v; if (k === 'bgMode' && v === 'img' && !EKTEMA.tieneImagen()) { EKTEMA.set('bgMode', 'img', false); re(); $id('apImg') && $id('apImg').click(); return; } EKTEMA.set(k, v, k === 'accentMode'); re(); });
+  s.querySelectorAll('[data-b]').forEach(i => i.onchange = () => EKTEMA.set(i.dataset.b, i.checked, false));
+  if (s.querySelector('#apSave')) s.querySelector('#apSave').onclick = () => { EKTEMA.guardarTema(($id('apNom').value || '').trim() || 'Mi tema'); ekToast('Tema guardado', 'ok'); re(); };
+  s.querySelectorAll('[data-tap]').forEach(b => b.onclick = () => { EKTEMA.aplicarTema(b.dataset.tap); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); ekToast('Tema aplicado', 'ok'); });
+  s.querySelectorAll('[data-tdel]').forEach(b => b.onclick = () => { EKTEMA.borrarTema(b.dataset.tdel); re(); });
+  if (s.querySelector('#apReset')) s.querySelector('#apReset').onclick = async () => { if (await ekConfirm('¿Volver a la apariencia original?', 'Restablecer', true)) { EKTEMA.reset(); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); } };
+  if (s.querySelector('#apCopy')) s.querySelector('#apCopy').onclick = async () => { const c = EKTEMA.exportar(); try { await navigator.clipboard.writeText(c); ekToast('Código copiado', 'ok'); } catch (e) { await ekPrompt('Copia este código', c); } };
+  if (s.querySelector('#apPaste')) s.querySelector('#apPaste').onclick = async () => { const v = await ekPrompt('Pega el código del tema', ''); if (!v) return; try { EKTEMA.importar(v); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); ekToast('Tema aplicado', 'ok'); } catch (e) { ekAlert('Ese código no es un tema de EUREKA.'); } };
+  if (s.querySelector('#apImg')) s.querySelector('#apImg').onclick = () => {
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = async () => { const f = inp.files && inp.files[0]; if (!f) return; try { const url = await ekImagenComprimida(f, 1080); EKTEMA.fondoImagen(url); ekToast('Fondo aplicado', 'ok'); } catch (e) { ekAlert('No se pudo usar esa imagen: ' + (e.message || e)); } re(); };
+    inp.click();
+  };
+  if (s.querySelector('#apImgDel')) s.querySelector('#apImgDel').onclick = () => { EKTEMA.fondoImagen(null); re(); };
 }
 
 /* ============================================================

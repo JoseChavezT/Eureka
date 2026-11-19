@@ -25,6 +25,8 @@ def prepare(src, dst):
     html = re.sub(r'<link[^>]+href="https://fonts\.googleapis\.com/css2[^"]*"[^>]*>',
                   '<link rel="stylesheet" href="fonts/fonts.css"><link rel="stylesheet" href="fonts/pf-fonts.css">', html)
     html = re.sub(r'<link rel="preconnect"[^>]*>', "", html)
+    # sin zoom con los dedos en la interfaz (la guía y las capturas tienen su propio zoom)
+    html = re.sub(r'<meta name="viewport" content="[^"]*">', '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">', html, count=1)
     # Puente Android antes que cualquier otro script
     html = re.sub(r"(<head[^>]*>)", r'\1\n<script src="android-bridge.js"></script>', html, count=1)
     left = re.findall(r'(?:src|href)="(https://cdn[^"]+)"', html)
