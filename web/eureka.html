@@ -714,6 +714,69 @@ body.ek-tab-scan #home{visibility:hidden}
 .lv-r .hl b,.lv-r .hl em{color:var(--acc-text,var(--acc))}
 .lv.bad{border-color:rgba(239,68,68,.4)}
 
+/* =====================================================================
+   EUREKA 6 — botón + central, burbujas sin fondo de rueda, filas de lotes,
+   selección para juntar guías
+   ===================================================================== */
+/* ---------- Botón + en el centro de la barra ---------- */
+.ek-nav .nav-plus{padding:0;overflow:visible;display:grid;place-items:center}
+.ek-nav .nav-plus .np{width:58px;height:58px;margin-top:-26px;border-radius:999px;display:grid;place-items:center;background:var(--acc);color:var(--acc-ink,#fff);
+  box-shadow:0 0 0 6px var(--bg),0 14px 30px -8px var(--acc);transition:transform .3s var(--k-spring),box-shadow .3s}
+.ek-nav .nav-plus .np .ico{width:26px;height:26px;transition:transform .35s var(--k-spring)}
+.ek-nav .nav-plus:active .np{transform:scale(.92)}
+.ek-nav .nav-plus:active .np .ico{transform:rotate(90deg)}
+/* burbujas: 4 opciones un poco más chicas */
+.fl.n4 .fl-op{width:84px;margin-left:-42px;margin-top:-42px}
+.fl.n4 .fl-b{width:76px;height:76px}
+.fl.n4 .fl-b .ico{width:26px;height:26px}
+.fl-op b{white-space:nowrap}
+
+/* ---------- Guías: filas con proveedor y selección ---------- */
+.sc-tip{display:flex;gap:10px;align-items:center;margin:12px 4px 0;font-size:12px;color:var(--mut2)}
+.sc-tip .ico-sm{flex:none;width:15px;height:15px}
+.sc-row{position:relative;transition:background .2s,border-color .2s,transform .18s var(--k-ease)}
+.sc-row .sc-chk{flex:none;width:12px;height:12px;border-radius:99px;background:var(--c);box-shadow:0 0 12px var(--c);display:grid;place-items:center;color:#fff;transition:all .25s var(--k-spring)}
+.sc-row .sc-chk .ico-sm{width:14px;height:14px}
+body.ek-sel .sc-row .sc-chk{width:26px;height:26px;background:transparent;box-shadow:none;border:2px solid var(--line2)}
+body.ek-sel .sc-row.sel .sc-chk{background:var(--c);border-color:var(--c);box-shadow:0 0 14px var(--c)}
+.sc-row.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,var(--s1))}
+.sc-row b{font-family:var(--display);font-size:17px}
+.sel-bar{position:fixed;z-index:19;left:calc(10px + var(--sal));right:calc(10px + var(--sar));bottom:calc(var(--nav-h) + 18px + var(--sab));max-width:560px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:6px;border-radius:999px;background:rgba(14,14,14,.94);backdrop-filter:blur(16px);border:1px solid var(--line2);box-shadow:0 18px 40px -16px rgba(0,0,0,.95);transform:translateY(130%);opacity:0;pointer-events:none;transition:transform .45s var(--k-spring),opacity .25s}
+.sel-bar.on{transform:none;opacity:1;pointer-events:auto}
+.sel-bar .sel-n{display:flex;flex-direction:column;align-items:center;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.sel-bar .sel-n b{font-family:var(--display);font-size:22px;letter-spacing:-.03em;color:var(--fg);line-height:1}
+#scanScr .sc-body{padding-bottom:calc(var(--nav-h) + 90px + var(--sab))}
+
+/* ---------- Guía: filas de lotes (no tarjetas) ---------- */
+.gv-tr{display:inline-flex;gap:6px;align-items:center}
+.gv-num{cursor:pointer}
+.lr-sec{display:flex;justify-content:space-between;align-items:baseline;margin:18px 4px 6px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.lr-sec span+span{font-size:11px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--mut2)}
+.lr-list{margin-bottom:12px;border-top:1px solid var(--line)}
+.lr{display:flex;align-items:center;gap:12px;width:100%;padding:14px 6px 14px 4px;border-bottom:1px solid var(--line);background:none;text-align:left;border-radius:0}
+.lr:active{background:var(--s1)}
+.lr-a{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.lr-c{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:15px;font-weight:800;letter-spacing:.02em;color:var(--yellow)}
+.lr-c.no{font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2)}
+.lr-dot{width:7px;height:7px;border-radius:9px;background:var(--red);box-shadow:0 0 8px var(--red)}
+.lr-l{font-family:var(--display);font-size:22px;font-weight:900;letter-spacing:-.035em;line-height:1.05;color:var(--fg)}
+.lr-a small{font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lr-b{flex:none;min-width:74px;display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.lr-b b{font-family:var(--display);font-size:34px;font-weight:900;letter-spacing:-.05em;line-height:.9}
+.lr-b small{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin-top:3px}
+.lr-b em{font-style:normal;font-size:14px;font-weight:800;color:var(--acc-text,var(--acc));margin-top:3px}
+.lr-b em.z{font-size:11px;font-weight:600;color:var(--mut2)}
+.lr.bad .lr-l{color:#fca5a5}
+
+/* ---------- Rótulos: filas editables ---------- */
+.rt-g h5 span{font-family:var(--display)}
+.rt-rows{margin-top:10px;border-top:1px solid var(--line)}
+.rt-r{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.rt-e{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:none;text-align:left;padding:0}
+.rt-e b{font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:-.03em}
+.rt-e small{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.rt-e .lr-c{font-size:13px}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -2266,9 +2329,10 @@ async function generateRotuloTodosLotes(guide){
 // - POB y Sur Export (y los demás): cada guía usa SU PROPIO correlativo escrito en su campo
 //   (ej. POB empieza en 1 → 1,2,3; Sur Export empieza en 4 → 4,5,6).
 // Una guía reescaneada (mismo número y proveedor) no se imprime dos veces.
-async function generateRotuloTodasLasGuias(){
+async function generateRotuloTodasLasGuias(soloEstas){
   const vistos = new Set(), lista = [], faltan = [], sinProv = [];
   guides.forEach((g, gi) => {
+    if(Array.isArray(soloEstas) && !soloEstas.includes(g)) return;
     const prefix = getProviderPrefix(g.proveedor);
     const nombre = `${g.proveedor || 'Guía'}${g.numero_guia ? ' · ' + g.numero_guia : ''}`;
     if(!prefix){ sinProv.push(nombre); return; }
@@ -5411,6 +5475,313 @@ function ekIaWire(el){
   $id('iaSave').onclick = () => { try { localStorage.setItem('pf9:apiKey', $id('iaKey').value.trim()); } catch (e) {} ekToast('Clave guardada', 'ok'); ekRenderSettings(); };
   if ($id('iaDel')) $id('iaDel').onclick = async () => { if (await ekConfirm('¿Quitar la clave de este celular?', 'Quitar', true)) { try { localStorage.removeItem('pf9:apiKey'); } catch (e) {} ekRenderSettings(); } };
   $id('iaAdv').onclick = () => { ekClose('settings'); setTimeout(() => ekIr('ajustes'), 150); };
+}
+
+
+/* ============================================================
+   EUREKA 6
+   - Barra: Guías · Almacén · (+) · Hoja foto · Más
+   - (+): PDF · Imagen · Manual  — tocar o mantener y soltar
+   - Más: Ajustes · Gráficos · Correlativos · Máster (mismas burbujas que Imprimir)
+   - Guías: encabezado = proveedor; mantener presionado para seleccionar y juntar guías
+   - Guía: filas de lotes (correlativo arriba, lote debajo), cada fila se edita
+   - Rótulos: solo de la(s) guía(s) abierta(s)
+   ============================================================ */
+const EK_NAV6 = [['scan', 'layers', 'Guías'], ['ub', 'almacen', 'Almacén'], ['plus', 'plus', ''], ['hf', 'hojafoto', 'Hoja foto'], ['mas', 'dots', 'Más']];
+const EK_OPS_MAS = () => [
+  { k:'cfg',    icon:'gear', t:'Ajustes',      run:() => { const go = () => ekOpenSettings(); if (EKS.modo !== 'scan') { ekIr('scan'); setTimeout(go, 160); } else go(); } },
+  { k:'graf',   icon:'bars', t:'Gráficos',     run:() => ekGraficos() },
+  { k:'corr',   icon:'tag',  t:'Correlativos', run:() => ekMasAccion('corr') },
+  { k:'master', icon:'db',   t:'Máster',       run:() => ekIr('master') },
+];
+const EK_OPS_PLUS = () => [
+  { k:'pdf', icon:'file',   t:'PDF',    run:() => $id('inPdfMulti').click() },
+  { k:'img', icon:'image',  t:'Imagen', run:() => $id('inImgMulti').click() },
+  { k:'man', icon:'pencil', t:'Manual', run:() => ekOpenReview([ekGuiaVacia(EK.ui.tab)], { nuevo:true, source:'manual' }) },
+];
+function ekNavActivo(){
+  if (EKS.modo === 'scan' || EKS.modo === 'ub' || EKS.modo === 'hf') return EKS.modo;
+  return 'mas';
+}
+function ekNavPintar(){
+  const n = $id('ekNav'); if (!n) return;
+  if (n.dataset.v !== '6') {
+    n.dataset.v = '6'; n.dataset.ok = '1';
+    n.style.gridTemplateColumns = 'repeat(5,1fr)';
+    n.innerHTML = '<span class="ek-nav-ind" id="ekNavInd"></span>' + EK_NAV6.map(([k, i, t]) => k === 'plus'
+      ? `<button data-nav="plus" class="nav-plus" aria-label="Escanear guía"><span class="np">${ico('plus')}</span></button>`
+      : `<button data-nav="${k}" aria-label="${t}">${ico(i)}<span>${t}</span></button>`).join('');
+    n.querySelectorAll('[data-nav]').forEach(b => {
+      const k = b.dataset.nav;
+      if (k === 'plus') { ekFlotarBoton(b, EK_OPS_PLUS()); return; }
+      if (k === 'mas') { ekFlotarBoton(b, EK_OPS_MAS()); return; }
+      b.onclick = () => { ekVibrar(); ekIr(k); };
+    });
+    window.addEventListener('resize', ekNavPintar);
+  }
+  const act = ekNavActivo();
+  n.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === act));
+  const on = n.querySelector('button.on'), ind = $id('ekNavInd');
+  if (on && ind) { ind.style.transform = `translateX(${on.offsetLeft}px)`; ind.style.width = on.offsetWidth + 'px'; }
+}
+
+/* ---------- Burbujas flotantes: en arco sobre el botón ---------- */
+function ekFlotarAbrir(btn, ops, arrastre){
+  if (EKF.el) return;
+  ekVibrar();
+  const rc = btn.getBoundingClientRect(), W = window.innerWidth;
+  const ax = rc.left + rc.width / 2, ay = rc.top + rc.height / 2;
+  const n = ops.length, R = Math.min(W * .34, 142), Ry = R * 1.12;
+  const angs = n === 1 ? [270] : n === 2 ? [232, 308] : n === 3 ? [208, 270, 332] : ops.map((o, i) => 196 + i * (148 / (n - 1)));
+  const cx = n >= 3 ? W / 2 : Math.max(R + 58, Math.min(W - R - 58, ax)), cy = ay - (n >= 4 ? 96 : 34);
+  const rad = a => a * Math.PI / 180;
+  const pos = angs.map(a => [cx + R * Math.cos(rad(a)), cy + Ry * Math.sin(rad(a))]);
+  Object.assign(EKF, { arrastre, sel:-1, ops, ax, ay, pos });
+  const el = document.createElement('div'); el.className = 'fl' + (n >= 4 ? ' n4' : '');
+  el.innerHTML = `<div class="fl-scrim"></div>
+    ${ops.map((o, i) => `<button class="fl-op" data-i="${i}" style="left:${pos[i][0]}px;top:${pos[i][1]}px;--fx:${ax - pos[i][0]}px;--fy:${ay - pos[i][1]}px;--i:${i}"><span class="fl-b">${ico(o.icon)}</span><b>${esc(o.t)}</b></button>`).join('')}
+    <button class="fl-x on" style="left:${ax}px;top:${ay}px" aria-label="Cancelar">${ico('x')}</button>`;
+  document.body.appendChild(el); EKF.el = el;
+  requestAnimationFrame(() => el.classList.add('on'));
+  if (!arrastre) {
+    el.querySelector('.fl-scrim').onclick = () => ekFlotarCerrar(false);
+    el.querySelector('.fl-x').onclick = () => ekFlotarCerrar(false);
+    el.querySelectorAll('.fl-op').forEach(b => b.onclick = () => { ekFlotarMarcar(+b.dataset.i); setTimeout(ekFlotarSoltar, 90); });
+  }
+}
+
+/* ---------- Guías: historial por turno, seleccionar y juntar ---------- */
+function ekRenderScan(){
+  const el = $id('scanScr'); if (!el) return;
+  const q = EK.ui.scQ || '';
+  el.innerHTML = `<div class="sc-head"><div><h1>Guías</h1><p>Historial por turno · toca + para escanear</p></div>
+      <button class="sc-cfg" id="scCfg" aria-label="Ajustes">${ico('gear')}</button></div>
+    <div class="sc-body" id="scBody">
+      <div class="sc-search k-in" style="--i:0">${ico('search', 'ico-sm')}<input id="scQ" type="search" placeholder="Buscar guía, lote o variedad" value="${esc(q)}" autocomplete="off"></div>
+      <div class="sc-tip k-in" style="--i:1">${ico('layers', 'ico-sm')}<span>Mantén presionada una guía para seleccionarla y juntarla con otras.</span></div>
+      <div id="scList"></div>
+    </div>
+    <div class="sel-bar" id="selBar"></div>`;
+  const cfg = $id('scCfg');
+  cfg.onclick = () => { ekVibrar(); cfg.classList.remove('spin'); void cfg.offsetWidth; cfg.classList.add('spin'); const r = cfg.getBoundingClientRect(); setTimeout(() => ekOpenSettings({ x:r.left + r.width / 2, y:r.top + r.height / 2 }), 120); };
+  $id('scQ').oninput = e => { EK.ui.scQ = e.target.value; ekRenderScanLista(); };
+  ekRenderScanLista();
+}
+function ekSelSet(){ return EK.ui.sel6 || (EK.ui.sel6 = new Set()); }
+function ekRenderScanLista(){
+  const box = $id('scList'); if (!box) return;
+  const hoy = ekTurnoISO(), q = ekNorm(EK.ui.scQ || '').trim(), sel = ekSelSet();
+  const recs = EK.state.receptions.filter(r => !q || q.split(' ').every(w => ekBuscable(r).includes(w)))
+    .sort((a, b) => String(b.created).localeCompare(String(a.created)));
+  const grupos = new Map();
+  recs.forEach(r => { const k = r.turno || ekTurnoISO(r.created); if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(r); });
+  if (!grupos.has(hoy) && !q) grupos.set(hoy, []);
+  const orden = [...grupos.keys()].sort((a, b) => b.localeCompare(a));
+  if (!EK.ui.scAbiertos) EK.ui.scAbiertos = new Set();
+  let n = 2;
+  const fila = r => {
+    const c = tabCfg(r.codigo), v = ekResumenRec(r), on = sel.has(r.id);
+    return `<button class="sc-row k-in ${on ? 'sel' : ''}" style="--i:${n++};--c:${c.bg}" data-open="${r.id}">
+      <span class="sc-chk">${on ? ico('check', 'ico-sm') : ''}</span>
+      <span class="sc-t"><b>${esc(c.label)}</b><small>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>
+      ${v.err ? `<em class="bad">${v.err}</em>` : `<em class="ok">${ico('check', 'ico-sm')}</em>`}${ico('right', 'ico-sm')}</button>`;
+  };
+  box.innerHTML = orden.map(t => {
+    const lista = grupos.get(t), esHoy = t === hoy, abierto = esHoy || !!q || EK.ui.scAbiertos.has(t);
+    const jabas = lista.reduce((s, r) => s + ekJabasRec(r), 0);
+    return `<div class="sc-grp ${abierto ? 'open' : ''}">
+      <button class="sc-h" data-t="${t}" ${esHoy ? 'disabled' : ''}><span>${esHoy ? 'En este turno' : 'Turno ' + esc(ekFechaCorta(t))}</span><span class="sc-hn">${lista.length} · ${jabas.toLocaleString('es-PE')} jabas ${esHoy ? '' : ico('down', 'ico-sm')}</span></button>
+      <div class="sc-gl">${abierto ? (lista.length ? lista.map(fila).join('') : '<div class="sc-empty">Aún no hay guías en este turno. Toca + para escanear.</div>') : ''}</div></div>`;
+  }).join('') || '<div class="sc-empty">Sin resultados.</div>';
+  box.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { const t = b.dataset.t; EK.ui.scAbiertos.has(t) ? EK.ui.scAbiertos.delete(t) : EK.ui.scAbiertos.add(t); ekRenderScanLista(); });
+  box.querySelectorAll('[data-open]').forEach(ekFilaPresionable);
+  ekPintarSelBar();
+}
+function ekFilaPresionable(b){
+  let t = null, largo = false, x0 = 0, y0 = 0;
+  b.addEventListener('contextmenu', e => e.preventDefault());
+  b.addEventListener('pointerdown', e => {
+    largo = false; x0 = e.clientX; y0 = e.clientY; clearTimeout(t);
+    t = setTimeout(() => { largo = true; t = null; try { navigator.vibrate && navigator.vibrate(18); } catch (x) {} ekSelToggle(b.dataset.open, true); }, 420);
+  });
+  b.addEventListener('pointermove', e => { if (t && Math.hypot(e.clientX - x0, e.clientY - y0) > 10) { clearTimeout(t); t = null; } });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => b.addEventListener(ev, () => { clearTimeout(t); t = null; }));
+  b.addEventListener('click', e => {
+    if (largo) { largo = false; e.preventDefault(); return; }
+    if (ekSelSet().size) ekSelToggle(b.dataset.open);
+    else ekOpenDetail(b.dataset.open);
+  });
+}
+function ekSelToggle(id, forzar){
+  const s = ekSelSet();
+  if (s.has(id) && !forzar) s.delete(id); else s.add(id);
+  document.querySelectorAll(`#scList [data-open="${id}"]`).forEach(b => { const on = s.has(id); b.classList.toggle('sel', on); b.querySelector('.sc-chk').innerHTML = on ? ico('check', 'ico-sm') : ''; });
+  ekPintarSelBar();
+}
+function ekPintarSelBar(){
+  const bar = $id('selBar'); if (!bar) return;
+  const s = ekSelSet(), n = s.size;
+  document.body.classList.toggle('ek-sel', n > 0);
+  bar.classList.toggle('on', n > 0);
+  if (!n) return;
+  bar.innerHTML = `<button class="k-btn" id="selNo">${ico('x', 'ico-sm')}Cancelar</button><span class="sel-n"><b>${n}</b>${n === 1 ? 'guía' : 'guías'}</span><button class="k-btn pri" id="selJ" ${n < 1 ? 'disabled' : ''}>${ico('layers', 'ico-sm')}${n > 1 ? 'Juntar' : 'Abrir'}</button>`;
+  $id('selNo').onclick = () => { s.clear(); ekRenderScanLista(); };
+  $id('selJ').onclick = () => {
+    const ids = [...s].map(ekRec).filter(Boolean).sort((a, b) => String(a.created).localeCompare(String(b.created))).map(r => r.id);
+    const turnos = new Set(ids.map(i => ekRec(i).turno));
+    if (turnos.size > 1) { ekAlert('Solo se pueden juntar guías del mismo turno (los correlativos van de corrido por turno).'); return; }
+    s.clear(); ekRenderScanLista(); ekOpenDetail(ids);
+  };
+}
+
+/* ---------- Guía (una o varias juntas) ---------- */
+function ekOpenDetail(id, recien){
+  const ids = (Array.isArray(id) ? id : [id]).filter(i => ekRec(i));
+  if (!ids.length) return;
+  _det = { ids, id:ids[0], recien:!!recien };
+  ekOpen('detail', '');
+  ekRenderDetail();
+}
+function ekDetRecs(){ return (_det && _det.ids ? _det.ids : _det ? [_det.id] : []).map(ekRec).filter(Boolean); }
+function ekRenderDetail(){
+  const el = $id('detail'); if (!el || !_det) return;
+  const recs = ekDetRecs(); if (!recs.length) { ekClose('detail'); return; }
+  _det.ids = recs.map(r => r.id);
+  ekUsarTurno(recs[0].turno);
+  const varias = recs.length > 1, cfg0 = tabCfg(recs[0].codigo);
+  el.style.setProperty('--acc', cfg0.bg); el.style.setProperty('--acc-soft', cfg0.bg + '29'); el.style.setProperty('--acc-ink', cfg0.fg);
+  el.style.setProperty('--acc-text', cfg0.codigo === 'DB' ? '#f4f4f5' : cfg0.bg);
+  const todas = recs.flatMap(r => r.guias.map((g, gi) => ({ r, g, gi })));
+  const tienePrev = todas.some(x => x.g.previewKey || x.g._preview);
+  let n = 0;
+  const cuerpo = todas.map(({ r, g, gi }) => {
+    const cfg = tabCfg(r.codigo);
+    const val = ekValidar(g, r.codigo, r.id), ne = val.filter(x => x.nivel === 'error').length, na = val.filter(x => x.nivel === 'aviso').length;
+    const errLote = new Set(val.filter(x => x.nivel === 'error').map(x => normalizeLoteId(x.lote)));
+    const tot = g.lotes.reduce((s, l) => s + (parseInt(l.cantidad, 10) || 0), 0);
+    const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
+    const leida = ekGuiaLeida(g), cuadra = g.totalJabasGuia ? (+g.totalJabasGuia === tot) : null;
+    const meta = [ekFechaCorta(g.fecha || r.created), g.numeroViaje ? 'Viaje ' + g.numeroViaje : '', g.conductor, g.placa].filter(Boolean);
+    const pal = g.lotes.reduce((s2, l) => { const c2 = ekCalc(g, l); return s2 + c2.full + (c2.pucho ? 1 : 0); }, 0);
+    const card = `<div class="gv-card k-in" style="--i:${n++};--acc:${cfg.bg};--acc-soft:${cfg.bg}29">
+      <div class="gv-top"><span class="gv-prov"><i></i>${esc(cfg.label)}</span>
+        <span class="gv-tr"><button class="gv-st ${ne ? 'bad' : na ? 'warn' : 'ok'}" data-err="${r.id}">${ne ? `${ico('alert', 'ico-sm')}${ne}` : na ? `${ico('alert', 'ico-sm')}${na}` : `${ico('check', 'ico-sm')}OK`}</button>${varias ? `<button class="k-ib" data-edrec="${r.id}" aria-label="Editar guía">${ico('pencil', 'ico-sm')}</button>` : ''}</span></div>
+      <div class="gv-num" data-ver="${r.id}:${gi}">${esc(g.numero_guia || 'Sin número')}</div>
+      ${meta.length ? `<div class="gv-meta">${meta.map(esc).join(' · ')}</div>` : ''}
+      <div class="gv-tot"><div><b class="num">${g.lotes.filter(l => String(l.lote || '').trim()).length}</b><small>Lotes</small></div><div><b class="num">${tot.toLocaleString('es-PE')}</b><small>Jabas</small></div><div><b class="num">${pal}</b><small>Pallets</small></div></div>
+      ${g.totalJabasGuia ? `<div class="gv-cuadre ${cuadra === false ? 'bad' : ''}">La guía dice <b>${(+g.totalJabasGuia).toLocaleString('es-PE')} jabas</b>${g.totalPalletsGuia ? ` · <b>${g.totalPalletsGuia} pallets</b>` : ''}<small>${cuadra === false ? `No cuadra: los lotes suman ${tot.toLocaleString('es-PE')}` : '✓ Cuadra con la suma de lotes'}</small></div>` : ''}
+      <div class="gv-corr"><div class="fld"><label>Correlativo ${esc(pref)}</label><input class="inp num" data-corr="${r.id}:${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${r.id}:${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
+      <div class="gv-hint">${st.lastUsed ? `Último ${esc(pref)} usado: ${st.lastUsed}` : 'Escribe el primer correlativo de esta guía.'}${usaCorrelGlobal(g) ? ' · sigue de corrido en el turno' : ''}</div>
+    </div>`;
+    const falla = leida ? '' : `<div class="gv-fail k-in" style="--i:${n++}">${ico('alert')}<div><b>No se pudieron leer los lotes</b><small>${esc(((g._avisos || []).find(a => a.tipo !== 'ok') || {}).txt || 'Puede ser una guía escaneada como imagen o un formato nuevo.')}</small>
+      <div class="gv-fail-a"><button class="k-btn sm" data-edrec="${r.id}">${ico('pencil', 'ico-sm')}Completar a mano</button><button class="k-btn sm ia" data-ia="${r.id}:${gi}">${ico('spark', 'ico-sm')}Leer con IA</button></div></div></div>`;
+    const filas = g.lotes.map((l, li) => {
+      if (!leida && !String(l.lote || '').trim()) return '';
+      const c = ekCalc(g, l), bc = ekBigCode(g, li), bad = errLote.has(normalizeLoteId(l.lote));
+      const cant = (parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE');
+      const det = [l.variedad || 'Sin variedad', l.jarras ? 'Jarras' : l.verde ? 'Jaba verde' : '', `${cant} ${c.sinJabas ? 'pallets (guía)' : 'jabas'}`, l.clp ? 'CLP ' + l.clp : ''].filter(Boolean);
+      return `<button class="lr k-in ${bad ? 'bad' : ''}" style="--i:${n++}" data-ed="${r.id}:${gi}:${li}">
+        <span class="lr-a"><span class="lr-c ${bc ? '' : 'no'}">${bad ? '<i class="lr-dot"></i>' : ''}${esc(bc || 'Sin correlativo')}</span><b class="lr-l">${esc(l.lote || '—')}</b><small>${det.map(esc).join(' · ')}</small></span>
+        <span class="lr-b"><b class="num">${c.full}</b><small>pallet${c.full === 1 ? '' : 's'}</small>${c.sinJabas ? '<em class="z">según guía</em>' : c.pucho ? `<em>+${c.pucho}</em>` : '<em class="z">completos</em>'}</span>
+      </button>`;
+    }).join('');
+    return card + falla + (filas ? `<div class="lr-sec k-in" style="--i:${n++}"><span>Lotes</span><span>Toca una fila para editarla</span></div><div class="lr-list">${filas}</div>` : '');
+  }).join('');
+  const titulo = varias ? `${todas.length} guías juntas` : (todas.length > 1 ? `${todas.length} guías` : (todas[0].g.numero_guia || 'Sin número'));
+  const prov = [...new Set(recs.map(r => tabCfg(r.codigo).label))].join(' + ');
+  const lotesN = recs.reduce((s, r) => s + ekNumLotes(r), 0), jabasN = recs.reduce((s, r) => s + ekJabasRec(r), 0);
+  el.innerHTML = `<div class="hdr"><button class="back" id="dtBack" aria-label="Volver">${ico('left')}</button>
+      <div class="ttl"><b id="dtNum">${esc(titulo)}</b><small>${esc(prov)} · ${lotesN} lote${lotesN === 1 ? '' : 's'} · ${jabasN.toLocaleString('es-PE')} jabas</small></div>
+      <div class="right">${varias ? '<span class="ibtn" style="visibility:hidden"></span>' : `<button class="ibtn" id="dtEdit" aria-label="Editar">${ico('pencil')}</button>`}</div></div>
+    <div class="body gv">${cuerpo}<button class="gv-ia" id="dtIA">${ico('spark', 'ico-sm')}¿Algo no se leyó bien? Leer con IA</button></div>
+    <div class="gv-bar"><button id="bGuia" ${tienePrev ? '' : 'disabled'}>${ico('eye')}<span>Ver guía</span></button><button id="bPeso">${ico('scale')}<span>Pesos</span></button><button id="bImp" class="pri">${ico('print')}<span>Imprimir</span></button></div>`;
+  const elegirGuia = (titulo2, icono, fn) => { if (todas.length === 1) return fn(todas[0]); ekLista(titulo2, '¿Cuál guía?', todas.map((x, i) => ({ k:String(i), icon:icono, t:`${tabCfg(x.r.codigo).label} · ${x.g.numero_guia || 'Guía'}`, d:`${x.g.lotes.length} lote(s)` })), k => fn(todas[+k])); };
+  $id('dtBack').onclick = () => ekClose('detail');
+  if ($id('dtEdit')) $id('dtEdit').onclick = () => { const r = recs[0]; ekOpenReview(clone(r.guias).map((x, i) => Object.assign(x, { _preview:null, previewKey:r.guias[i].previewKey })), { nuevo:false, rec:r }); };
+  el.querySelectorAll('[data-edrec]').forEach(b => b.onclick = () => { const r = ekRec(b.dataset.edrec); if (r) ekOpenReview(clone(r.guias).map((x, i) => Object.assign(x, { _preview:null, previewKey:r.guias[i].previewKey })), { nuevo:false, rec:r }); });
+  el.querySelectorAll('[data-err]').forEach(b => b.onclick = () => ekOpenErrors(b.dataset.err));
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.ver.split(':'); const r = ekRec(rid); if (r) ekVerGuia(r.guias[+gi]); });
+  el.querySelectorAll('[data-corr]').forEach(inp => inp.onchange = () => { const [rid, gi] = inp.dataset.corr.split(':'); ekCorrSet(ekRec(rid).guias[+gi], inp.value); ekRenderDetail(); });
+  el.querySelectorAll('[data-ancla]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.ancla.split(':'); const r = ekRec(rid); ekUsarTurno(r.turno); saveCorrelativoAnchor(r.guias[+gi]); ekSave(); ekToast('Correlativo fijado', 'ok'); ekRenderDetail(); });
+  el.querySelectorAll('[data-ia]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.ia.split(':'); ekLeerConIA(rid, +gi); });
+  el.querySelectorAll('[data-ed]').forEach(b => b.onclick = () => { const [rid, gi, li] = b.dataset.ed.split(':'); ekEditarLote(rid, +gi, +li); });
+  $id('dtIA').onclick = () => elegirGuia('Leer con IA', 'spark', x => ekLeerConIA(x.r.id, x.gi));
+  $id('bGuia').onclick = () => elegirGuia('Ver guía', 'eye', x => ekVerGuia(x.g));
+  $id('bPeso').onclick = () => { if (recs.length === 1) ekOpenPeso(recs[0].id); else ekLista('Pesos', '¿De qué guía?', recs.map(r => ({ k:r.id, icon:'scale', t:`${tabCfg(r.codigo).label} · ${r.guias.map(g => g.numero_guia).join(', ')}`, d:'Escribir los pesos' })), k => ekOpenPeso(k)); };
+  ekFlotarBoton($id('bImp'), [
+    { k:'rot', icon:'tag', t:'Rótulos', run:() => ekRotulosSheet(_det.ids) },
+    { k:'hoja', icon:'sheet', t:'Hoja de peso', run:() => ekHojaSheet(ekDetRecs()) },
+  ]);
+  if (_det.recien) { _det.recien = false; ekDecode($id('dtNum')); }
+}
+function ekCorrSet(g, v){
+  if (usaCorrelGlobal(g)) { const pref = getProviderPrefix(g.proveedor); const first = guides.find(x => getProviderPrefix(x.proveedor) === pref && !esGuiaDBIndependiente(x)); (first || g).rotuloCorrelativo = String(v).trim(); }
+  else g.rotuloCorrelativo = String(v).trim();
+  ekSave();
+}
+
+/* ---------- Editar una fila (lote) ---------- */
+function ekEditarLote(rid, gi, li, despues){
+  const r = ekRec(rid), g = r && r.guias[gi], l = g && g.lotes[li]; if (!l) return;
+  const vars = ekVariedadesConocidas();
+  const d = ekSheet(`<div class="sh"><div><h3>Editar fila</h3><p>${esc(tabCfg(r.codigo).label)} · ${esc(g.numero_guia || 'Guía')} · fila ${li + 1}</p></div><button class="ibtn" id="elX" aria-label="Cerrar">${ico('x')}</button></div>
+    <div class="grid2">
+      <div class="fld"><label>Lote</label><input class="inp" id="elLote" value="${esc(l.lote || '')}" autocapitalize="characters"></div>
+      <div class="fld"><label>Jabas</label><input class="inp num" id="elCant" type="number" inputmode="numeric" value="${esc(l.cantidad || '')}"></div>
+      <div class="fld" style="grid-column:1/-1"><label>Variedad</label><input class="inp" id="elVar" list="elVars" value="${esc(l.variedad || '')}" autocapitalize="characters"><datalist id="elVars">${vars.map(v => `<option value="${esc(v)}">`).join('')}</datalist></div>
+      <div class="fld"><label>CLP</label><input class="inp" id="elClp" value="${esc(l.clp || '')}"></div>
+      <div class="fld"><label>Peso guía (kg)</label><input class="inp num" id="elPeso" inputmode="decimal" value="${esc(l.peso || '')}"></div>
+    </div>
+    <label class="tm-sw" style="margin-top:12px"><span>Jarras<small>50 por pallet</small></span><input type="checkbox" id="elJar" ${l.jarras ? 'checked' : ''}></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><button class="k-btn" id="elDel" style="color:var(--red)">${ico('trash', 'ico-sm')}Quitar fila</button><button class="k-btn pri" id="elOk">${ico('check', 'ico-sm')}Guardar</button></div>`);
+  const fin = () => { ekCloseSheet(); setTimeout(() => { ekRender(); if (despues) despues(); }, 160); };
+  $id('elX').onclick = () => { ekCloseSheet(); if (despues) setTimeout(despues, 160); };
+  $id('elOk').onclick = () => {
+    const antes = clone(l);
+    Object.assign(l, { lote:$id('elLote').value.trim().toUpperCase(), cantidad:parseInt($id('elCant').value, 10) || 0, variedad:$id('elVar').value.trim().toUpperCase(),
+      clp:$id('elClp').value.trim(), peso:parseFloat(String($id('elPeso').value).replace(',', '.')) || 0, jarras:$id('elJar').checked });
+    try { if (g.hojaPesoOverride) pfHojaReconciliar(g, 'editar', li, antes); } catch (e) { console.error(e); }
+    ekSave(); ekToast('Fila guardada', 'ok'); fin();
+  };
+  $id('elDel').onclick = async () => {
+    if (!(await ekConfirm(`¿Quitar la fila ${l.lote || li + 1}?`, 'Quitar', true))) return;
+    try { if (g.hojaPesoOverride) pfHojaReconciliar(g, 'borrar', li); } catch (e) { console.error(e); }
+    g.lotes.splice(li, 1); if (!g.lotes.length) g.lotes.push({ lote:'', variedad:'', cantidad:0, clp:'', peso:0, jarras:false, jarras_cantidad:0 });
+    ekSave(); fin();
+  };
+}
+
+/* ---------- Rótulos: solo de la(s) guía(s) abierta(s) ---------- */
+function ekRotulosSheet(ids){
+  const recs = (Array.isArray(ids) ? ids : [ids]).map(ekRec).filter(Boolean); if (!recs.length) return;
+  ekUsarTurno(recs[0].turno);
+  const todas = recs.flatMap(r => r.guias.map((g, gi) => ({ r, g, gi })));
+  const sc = document.querySelector('.sheet'); const y = sc ? sc.scrollTop : 0;
+  const again = () => ekRotulosSheet(recs.map(r => r.id));
+  const grupos = todas.map(({ r, g, gi }) => {
+    const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
+    return `<div class="rt-g"><h5><span>${esc(tabCfg(r.codigo).label)}</span><small>${esc(g.numero_guia || 'Guía')}</small></h5>
+      <div class="gv-corr" style="margin-top:0"><div class="fld"><label>Correlativo ${esc(pref)}</label><input class="inp num" data-corr="${r.id}:${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${r.id}:${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
+      <div class="rt-rows">${g.lotes.map((l, li) => { if (!String(l.lote || '').trim() && !(parseInt(l.cantidad, 10) > 0)) return ''; const info = !isNaN(base) ? buildRotuloDataForLote(g, li) : null; return `<div class="rt-r">
+        <button class="rt-e" data-ed="${r.id}:${gi}:${li}"><span class="lr-c ${info ? '' : 'no'}">${esc(info ? info.bigCode : 'Sin correlativo')}</span><b>${esc(l.lote || '—')}</b><small>${esc(l.variedad || '')} · ${(parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE')} jabas</small></button>
+        <button class="k-ib" data-ed="${r.id}:${gi}:${li}" aria-label="Editar fila">${ico('pencil', 'ico-sm')}</button>
+        <button class="k-btn sm" data-rot="${r.id}:${gi}:${li}" ${info ? '' : 'disabled'}>${ico('print', 'ico-sm')}Rótulo</button></div>`; }).join('')}</div>
+      <button class="k-btn" style="width:100%;margin-top:10px" data-rotg="${r.id}:${gi}" ${isNaN(base) ? 'disabled' : ''}>${ico('layers', 'ico-sm')}Toda esta guía</button></div>`;
+  }).join('');
+  const d = ekSheet(`<div class="sh"><div><h3>Rótulos</h3><p>${todas.length === 1 ? 'De esta guía' : `De estas ${todas.length} guías`} · 2 por hoja A4 echada</p></div><button class="ibtn" id="rtX" aria-label="Cerrar">${ico('x')}</button></div>
+    ${ekFechaUI()}
+    ${todas.length > 1 ? `<button class="k-btn pri" style="width:100%;margin-bottom:14px" id="rtTodas">${ico('print', 'ico-sm')}Todas estas guías (${todas.length})</button>` : ''}
+    ${grupos}`);
+  if (y) d.scrollTop = y;
+  d.querySelector('#rtX').onclick = () => ekCloseSheet();
+  ekFechaWire(d, again);
+  d.querySelectorAll('[data-corr]').forEach(inp => inp.onchange = () => { const [rid, gi] = inp.dataset.corr.split(':'); ekCorrSet(ekRec(rid).guias[+gi], inp.value); again(); if ($id('detail')) ekRenderDetail(); });
+  d.querySelectorAll('[data-ancla]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.ancla.split(':'); saveCorrelativoAnchor(ekRec(rid).guias[+gi]); ekSave(); ekToast('Correlativo fijado', 'ok'); again(); if ($id('detail')) ekRenderDetail(); });
+  d.querySelectorAll('[data-ed]').forEach(b => b.onclick = () => { const [rid, gi, li] = b.dataset.ed.split(':'); ekEditarLote(rid, +gi, +li, again); });
+  const gen = async (txt, fn) => { ekUsarTurno(recs[0].turno); ekBusy(txt); try { await ekConFecha(fn); } finally { ekBusy(null); ekSave(); if ($id('detail')) ekRenderDetail(); } };
+  d.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const [rid, gi, li] = b.dataset.rot.split(':'); gen('Generando rótulo…', () => generateRotulo(ekRec(rid).guias[+gi], +li)); });
+  d.querySelectorAll('[data-rotg]').forEach(b => b.onclick = () => { const [rid, gi] = b.dataset.rotg.split(':'); gen('Generando rótulos…', () => generateRotuloTodosLotes(ekRec(rid).guias[+gi])); });
+  if ($id('rtTodas')) $id('rtTodas').onclick = () => gen('Generando rótulos…', () => generateRotuloTodasLasGuias(todas.map(x => x.g)));
 }
 
 /* ============================================================
