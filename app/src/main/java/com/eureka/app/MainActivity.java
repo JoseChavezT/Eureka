@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         getWindow().setNavigationBarColor(Color.BLACK);
 
         web = new WebView(this);
-        web.setBackgroundColor(Color.parseColor("#050506"));
+        web.setBackgroundColor(Color.parseColor("#07060f"));
         setContentView(web);
 
         WebSettings s = web.getSettings();
@@ -427,6 +427,33 @@ public class MainActivity extends Activity {
                 });
             } catch (Exception e) {
                 toast("No se pudo compartir");
+            }
+        }
+
+        @JavascriptInterface
+        public void openFile(String name, String mime, String base64) {
+            try {
+                name = name.replaceAll("[\\\\/:*?\"<>|]", "_");
+                File f = new File(ShareProvider.dir(MainActivity.this), name);
+                FileOutputStream out = new FileOutputStream(f);
+                out.write(Base64.decode(base64, Base64.DEFAULT));
+                out.close();
+                final Uri uri = Uri.parse("content://" + ShareProvider.AUTHORITY + "/" + Uri.encode(name));
+                final String fMime = mime;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setDataAndType(uri, fMime);
+                            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            startActivity(Intent.createChooser(i, "Abrir con"));
+                        } catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "No hay una app para abrir este archivo", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                toast("No se pudo abrir el archivo");
             }
         }
 

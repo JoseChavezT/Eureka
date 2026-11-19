@@ -16,7 +16,7 @@ rm -rf "$OUT"; mkdir -p "$OUT"/{assets,gen,classes}
 
 echo "==> Preparando HTML"
 cp -r app/src/main/assets/. "$OUT/assets/"
-python3 tools/prepare_html.py web/eureka.html "$OUT/assets/index.html"
+python3 tools/prepare_html.py "$OUT/assets"
 
 echo "==> Recursos"
 "$BT/aapt2" compile --dir app/src/main/res -o "$OUT/res.zip"

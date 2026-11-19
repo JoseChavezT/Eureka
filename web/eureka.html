@@ -389,6 +389,7 @@ table.corr tr.hueco td{color:#fbbf24}
    ============================================================ */
 const EKTEMA = (() => {
   const PRESETS = {
+    flow:       { n:'Eureka Flow', bg:'#0a0816', bg2:'#110e22', sf:'#c9c2ff', fg:'#efeefb', mut:'#a6a2c6', hl:'#fcd34d', font:'manrope', display:'sora', accentMode:'prov' },
     eureka:     { n:'EUREKA',     bg:'#050506', bg2:'#0a0a0c', sf:'#ffffff', fg:'#f7f7f8', mut:'#a3a3ad', hl:'#fcd34d' },
     oled:       { n:'OLED puro',  bg:'#000000', bg2:'#000000', sf:'#ffffff', fg:'#ffffff', mut:'#9a9aa3', hl:'#fcd34d' },
     grafito:    { n:'Grafito',    bg:'#16161a', bg2:'#1d1d22', sf:'#ffffff', fg:'#f4f4f5', mut:'#a1a1aa', hl:'#fcd34d' },
@@ -402,6 +403,7 @@ const EKTEMA = (() => {
   };
   const BASE = { preset:'eureka', tt:'', sfk:1, radius:1, scale:1, font:'inter', display:'tight', glow:true, anim:true, accentMode:'prov', accent:'#3b82f6', prov:{} };
   const FONTS = {
+    manrope: { n:'Manrope',    v:'"Manrope","Inter",system-ui,sans-serif' },
     inter:   { n:'Inter',      v:'"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif' },
     sistema: { n:'Sistema',    v:'system-ui,-apple-system,Roboto,"Segoe UI",Arial,sans-serif' },
     condensada: { n:'Condensada', v:'"Roboto Condensed","sans-serif-condensed","Arial Narrow",system-ui,sans-serif' },
@@ -409,6 +411,7 @@ const EKTEMA = (() => {
     mono:    { n:'Mono',       v:'"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace' },
   };
   const DISPLAYS = {
+    sora:  { n:'Sora', v:'"Sora","Inter Tight",system-ui,sans-serif' },
     tight: { n:'Inter Tight', v:'"Inter Tight","Inter",ui-sans-serif,system-ui,sans-serif' },
     igual: { n:'Igual al texto', v:null },
     serif: { n:'Serif', v:'"Noto Serif",Georgia,"Times New Roman",serif' },
@@ -419,8 +422,8 @@ const EKTEMA = (() => {
   const mix = (a, b, t) => { const x = hx(a), y = hx(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
   const lum = (h) => { const c = hx(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
 
-  function defaults(preset){ return Object.assign({}, BASE, PRESETS[preset] || PRESETS.eureka, { preset: PRESETS[preset] ? preset : 'eureka', prov:{} }); }
-  let th = defaults('eureka');
+  function defaults(preset){ return Object.assign({}, BASE, PRESETS[preset] || PRESETS.flow, { preset: PRESETS[preset] ? preset : 'flow', prov:{} }); }
+  let th = defaults('flow');
   try { const s = JSON.parse(localStorage.getItem('ek:tema') || 'null'); if (s && typeof s === 'object') th = Object.assign(defaults(s.preset), s, { prov: Object.assign({}, s.prov || {}) }); } catch (e) {}
 
   function esDefecto(){ return JSON.stringify(th) === JSON.stringify(defaults('eureka')); }
@@ -457,14 +460,16 @@ const EKTEMA = (() => {
   function aplicar(rerender){
     const el = document.getElementById('ekThemeCss'); if (el) el.textContent = css();
     const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', esDefecto() ? '#000000' : th.bg);
-    try { if (window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(esDefecto() ? '#000000' : th.bg, lum(th.bg) > .45); } catch (e) {}
+    try { if (window.parent === window && window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(esDefecto() ? '#000000' : th.bg, lum(th.bg) > .45); } catch (e) {}
     if (typeof EK_TABS !== 'undefined') provAplicar(EK_TABS);
     if (rerender && typeof ekRender === 'function') { try { ekRender(); if (typeof ekPosTab === 'function') ekPosTab(); } catch (e) {} }
   }
   function guardar(){ try { localStorage.setItem('ek:tema', JSON.stringify(th)); } catch (e) {} }
   function set(k, v, rerender){ th[k] = v; guardar(); aplicar(rerender); }
-  function preset(p){ const prov = th.prov, am = th.accentMode, ac = th.accent; th = Object.assign(defaults(p), { prov, accentMode:am, accent:ac, scale:th.scale, font:th.font, display:th.display, radius:th.radius, glow:th.glow, anim:th.anim }); guardar(); aplicar(true); }
-  function reset(){ th = defaults('eureka'); guardar(); aplicar(true); }
+  function preset(p){ const prov = th.prov, am = th.accentMode, ac = th.accent; const keep = { prov, accentMode:am, accent:ac, scale:th.scale, radius:th.radius, glow:th.glow, anim:th.anim };
+    if (!PRESETS[p] || !PRESETS[p].font) { keep.font = th.font === 'manrope' ? 'inter' : th.font; keep.display = th.display === 'sora' ? 'tight' : th.display; }
+    th = Object.assign(defaults(p), keep); guardar(); aplicar(true); }
+  function reset(){ th = defaults('flow'); guardar(); aplicar(true); }
   function exportar(){ return 'EKTEMA:' + btoa(unescape(encodeURIComponent(JSON.stringify(th)))); }
   function importar(txt){ const m = String(txt || '').trim().replace(/^EKTEMA:/, ''); const o = JSON.parse(decodeURIComponent(escape(atob(m)))); if (!o || !o.bg) throw new Error('Código de tema no válido'); th = Object.assign(defaults(o.preset), o, { prov:Object.assign({}, o.prov || {}) }); guardar(); aplicar(true); }
   aplicar(false);
@@ -4295,9 +4300,13 @@ async function ekNativeFiles(){
   if (!_ekListo || _ekRecibiendo || !window.EurekaAndroid || !EurekaAndroid.takeSharedFiles) return;
   let arr = []; try { arr = JSON.parse(EurekaAndroid.takeSharedFiles() || '[]'); } catch (e) { arr = []; }
   if (!arr.length) return;
+  const files = arr.map(o => { const bin = atob(o.b64); const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new File([u8], o.name || 'guia.pdf', { type:o.mime || 'application/pdf' }); });
+  return ekAbrirArchivos(files);
+}
+async function ekAbrirArchivos(files){
+  files = Array.from(files || []); if (!files.length || _ekRecibiendo) return;
   _ekRecibiendo = true;
   try {
-    const files = arr.map(o => { const bin = atob(o.b64); const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return new File([u8], o.name || 'guia.pdf', { type:o.mime || 'application/pdf' }); });
     const pdfs = files.filter(f => f.type === 'application/pdf' || /\.pdf$/i.test(f.name));
     let codigo = EK.ui.tab;
     if (pdfs.length) {
@@ -4311,6 +4320,8 @@ async function ekNativeFiles(){
   } finally { _ekRecibiendo = false; }
 }
 window.ekNativeFiles = ekNativeFiles;
+window.ekAbrirArchivos = ekAbrirArchivos;
+const EK_INCRUSTADA = (() => { try { return window.parent !== window; } catch (e) { return true; } })();
 
 /* ============================================================
    ARRANQUE
@@ -4330,8 +4341,8 @@ window.ekNativeFiles = ekNativeFiles;
   window.addEventListener('resize', ekPosTab);
   if (window.PDFJS) { try { PDFJS.disableWorker = true; } catch (e) {} }
   ekExtrasAplicar();
-  _ekListo = true;
-  ekNativeFiles();
+  _ekListo = true; window.__ekListo = true;
+  if (!EK_INCRUSTADA) ekNativeFiles();
   setTimeout(ekRespaldoAuto, 4000);
 })();
 

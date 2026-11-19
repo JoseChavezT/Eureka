@@ -1,9 +1,13 @@
-# EUREKA (Android)
+# Eureka Flow (Android)
 
-App Android que envuelve `web/eureka.html` en un WebView nativo.
+App Android que combina **PalletFlow** (base: todos sus apartados y gráficos) y **EUREKA**
+(apartado "Recepciones"), con un tono visual propio ("Eureka Flow").
+
+- `web/app.html` → pantalla principal (PalletFlow con el estilo Flow + apartado Recepciones).
+- `web/eureka.html` → módulo Recepciones (EUREKA), se abre dentro de la app.
 
 ## Cómo actualizar la app
-1. Reemplaza `web/eureka.html` por la nueva versión.
+1. Edita `web/app.html` (PalletFlow / Eureka Flow) o `web/eureka.html` (Recepciones).
 2. Sube `VERSION_CODE` (+1) y `VERSION_NAME` en `version.properties`.
 3. Ejecuta `./build.sh` → el APK queda en `dist/`.
    (O haz push: GitHub Actions lo compila y lo deja en *Actions → Compilar APK → Artifacts*.)
