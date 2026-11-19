@@ -862,6 +862,129 @@ body.ek-sel #scanScr .sc-body{padding-bottom:calc(var(--nav-h) + 160px + var(--s
 .ap-rng input{width:100%;accent-color:var(--acc)}
 .ap-swi{margin:0;background:var(--s2);border:0}
 
+/* =====================================================================
+   EUREKA 8
+   ===================================================================== */
+/* sin seleccionar texto al mantener presionado (sí en los campos) */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+img{-webkit-user-drag:none}
+
+/* ---------- EUREKA dorado ---------- */
+.sc-head h1.eu-gold{background-image:linear-gradient(100deg,#8a6512 0%,#d4af37 22%,#fff1a8 42%,#f5c518 58%,#b8860b 80%,#ffe58a 100%)!important;background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:euOro 7s ease-in-out infinite;letter-spacing:-.06em}
+@keyframes euOro{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ---------- Logos ---------- */
+.ek-logo{display:block;height:20px;width:auto;max-width:100%;object-fit:contain}
+.ek-logo.sm{height:17px}
+.ek-logo[src*="SRX"]{height:28px}.ek-logo.sm[src*="SRX"]{height:24px}.ek-logo[src*="DB"]{height:16px}.ek-logo.sm[src*="DB"]{height:14px}.dt-ttl .dt-logo .ek-logo[src*="SRX"]{height:30px}.dt-ttl .dt-logo .ek-logo[src*="DB"]{height:18px}
+.sc-row .sc-prov{height:auto;min-height:20px;display:flex;align-items:center}
+html.ek-light .ek-logo.mono{filter:invert(1)}
+.ek-logo-t{font-family:var(--display);font-weight:800;letter-spacing:-.02em}
+.sc-row .sc-prov{display:block;height:20px}
+.sc-row .sc-prov .ek-logo-t{font-size:17px}
+
+/* ---------- Guía: encabezado con logo + número ---------- */
+.dt-hdr{min-height:76px}
+.dt-ttl{display:flex;flex-direction:column;align-items:center;gap:5px}
+.dt-ttl .dt-logo{display:flex;justify-content:center;height:24px}
+.dt-ttl .dt-logo .ek-logo{height:24px}
+.dt-ttl .dt-logo .ek-logo-t{font-size:16px}
+.dt-ttl b{font-family:var(--display);font-size:19px!important;font-weight:900!important;letter-spacing:-.03em}
+.ibtn.ia-b{color:#a78bfa}
+/* pestañas tipo Chrome */
+.ctabs{flex:none;display:flex;gap:2px;padding:6px 10px 0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.ctabs::-webkit-scrollbar{display:none}
+.ctab{position:relative;flex:none;display:flex;align-items:center;gap:7px;max-width:180px;padding:10px 16px 9px;border-radius:14px 14px 0 0;background:transparent;color:var(--mut);font-family:var(--mono);font-size:13px;font-weight:700;border:1px solid transparent;border-bottom:0;margin-bottom:-1px}
+.ctab i{width:7px;height:7px;border-radius:9px;background:var(--tc);flex:none;opacity:.6}
+.ctab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctab.on{background:var(--bg);color:var(--fg);border-color:var(--line);box-shadow:0 -8px 20px -14px var(--tc)}
+.ctab.on i{opacity:1;box-shadow:0 0 8px var(--tc)}
+.ctab+.ctab:not(.on)::before{content:"";position:absolute;left:-1px;top:12px;bottom:12px;width:1px;background:var(--line2)}
+.ctab.on+.ctab::before{display:none}
+@keyframes dtSlide{from{opacity:0;transform:translateX(var(--dx,30px))}to{opacity:1;transform:none}}
+.dt-pane.slide{animation:dtSlide .34s var(--k-ease)}
+/* cuerpo */
+.dt-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--mut);margin:2px 2px 10px}
+.dt-meta span{flex:1;min-width:0}
+.dt-corr{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0 4px;text-align:center}
+.dt-corr label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.dt-corr-in{display:flex;gap:8px;justify-content:center;align-items:center;width:100%;max-width:300px}
+.dt-corr-in .inp{flex:1;min-width:0;text-align:center;font-family:var(--mono);font-size:22px;font-weight:800;height:50px;border-radius:999px}
+.dt-corr small{font-size:11.5px;color:var(--mut2)}
+.dt-tot{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0 0;border-radius:var(--rc,22px);background:var(--s1);border:1px solid var(--line);overflow:hidden}
+.dt-tot>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 4px}
+.dt-tot>div+div{border-left:1px solid var(--line)}
+.dt-tot b{font-family:var(--display);font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.dt-tot small{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.dt-tot2{text-align:center;margin-top:10px;font-size:12px;color:var(--mut)}
+.firma{text-align:center;margin:20px 0 4px;font-size:12px;font-style:italic;color:var(--mut2);letter-spacing:.04em}
+/* filas: intercaladas en 2 colores + color de cada lote */
+.lr-list.zebra{border-top:0;margin:0 -14px 0;border-radius:0}
+.lr-list.zebra .lr{padding:14px 16px 14px 20px;border-bottom:0;position:relative}
+.lr-list.zebra .lr:nth-child(odd){background:var(--rowA)}
+.lr-list.zebra .lr:nth-child(even){background:var(--rowB)}
+.lr-list.zebra .lr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--lc,transparent)}
+.lr .lr-c{letter-spacing:.04em}
+/* aviso flotante al centro */
+.ek-ac{position:fixed;z-index:90;left:50%;top:50%;display:flex;align-items:center;gap:10px;padding:16px 22px;border-radius:999px;background:rgba(18,18,18,.94);border:1px solid var(--line2);color:var(--fg);font-weight:700;font-size:15px;box-shadow:0 20px 60px -10px rgba(0,0,0,.9);backdrop-filter:blur(12px);transform:translate(-50%,-50%) scale(.85);opacity:0;transition:transform .35s var(--k-spring),opacity .25s;pointer-events:none}
+.ek-ac.on{transform:translate(-50%,-50%) scale(1);opacity:1}
+.ek-ac.out{transform:translate(-50%,-60%) scale(.95);opacity:0}
+.ek-ac .ico{width:22px;height:22px;color:var(--green)}
+.ek-ac.bad .ico{color:var(--red)}
+
+/* ---------- Pesos ---------- */
+.wg-h{margin:14px 2px 6px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--mut)}
+.wl{position:relative;padding:14px 0 12px}
+.wl+.wl{border-top:1px solid var(--line)}
+.wl h5{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px;padding-left:12px;position:relative}
+.wl h5::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:4px;background:var(--lc,var(--acc))}
+.wl-a{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.wl-c{font-family:var(--mono);font-size:18px;font-weight:800;color:var(--yellow);letter-spacing:.03em}
+.wl-a small{font-size:13px;font-weight:700;color:var(--fg);letter-spacing:-.01em}
+.wl-j{flex:none;font-family:var(--display);font-size:22px;font-weight:900;letter-spacing:-.04em;text-align:right;line-height:1}
+.wl-j small{display:block;font-family:var(--font);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2);margin-top:3px}
+.wlab{display:grid;grid-template-columns:1fr 1fr 1fr 40px;gap:6px;padding:0 4px 4px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2)}
+.wl:has(input[data-f="jarras"]) .wlab{grid-template-columns:1fr 1fr 1fr 1fr 40px}
+.wcard{margin-bottom:4px;border-radius:14px;transition:opacity .2s,transform .2s}
+.wcard .flds{display:grid;grid-template-columns:1fr 1fr 1fr 40px;align-items:center;gap:6px;padding:4px;border-top:0}
+.wcard .flds:has(input[data-f="jarras"]){grid-template-columns:1fr 1fr 1fr 1fr 40px}
+.wcard .flds input{min-width:0;width:100%;height:42px;padding:0 10px;border-radius:10px;background:var(--s2);border:1px solid transparent;font-family:var(--display);font-size:18px;font-weight:800;color:var(--fg)}
+.wcard .flds input:focus{border-color:var(--acc);background:var(--s3);color:var(--yellow)}
+.wcard .wdel{width:40px;height:42px;display:grid;place-items:center;border-radius:10px;color:var(--mut2);background:none}
+.wcard .wdel:active{color:var(--red);background:rgba(239,68,68,.1)}
+.wcard.done{border-color:rgba(52,211,153,.3)}
+.wcard.sale{opacity:0;transform:translateX(30px)}
+.wadd{margin-top:6px}
+
+/* ---------- Hoja de peso y fecha ---------- */
+.hj-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fx-seg{position:relative;isolation:isolate}
+.fx-seg .fx-ind{position:absolute;z-index:-1;top:4px;bottom:4px;left:4px;width:calc((100% - 16px) / 3);border-radius:999px;background:var(--fg);transform:translateX(calc(var(--fi,0) * (100% + 4px)));transition:transform .42s var(--k-spring)}
+.fx-seg button{background:none!important;transition:color .3s}
+.fx-seg button.on{background:none!important;color:var(--bg);animation:none}
+.fx-date{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s var(--k-ease)}
+.fx-date.open{grid-template-rows:1fr}
+.fx-date>div{overflow:hidden;min-height:0}
+.fx-date input{margin-top:10px}
+.fx-v b.sw{display:inline-block;animation:kPop .35s var(--k-ease)}
+
+/* ---------- Apariencia: paleta de lotes ---------- */
+.ap-pal{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.ap-pal label{position:relative;aspect-ratio:1;border-radius:14px;background:var(--c);border:2px solid var(--line2);overflow:hidden}
+.ap-pal input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.ap-lrs.lr-list .lr{background:var(--rowA);padding-left:12px;position:relative}
+.ap-lrs.lr-list .lr+.lr{background:var(--rowB)}
+.ap-lrs.lr-list .lr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lc)}
+
+/* ---------- S Pen ---------- */
+.pen-dot{position:fixed;z-index:9999;left:-9px;top:-9px;width:18px;height:18px;border-radius:99px;pointer-events:none;border:2px solid var(--acc);box-shadow:0 0 14px var(--acc);opacity:0;transition:opacity .25s,width .25s var(--k-spring),height .25s var(--k-spring),left .25s var(--k-spring),top .25s var(--k-spring)}
+.pen-dot.on{opacity:.9}
+.pen-dot.big{width:34px;height:34px;left:-17px;top:-17px;background:color-mix(in srgb,var(--acc) 14%,transparent)}
+.pen-hov{transform:translateY(-1px) scale(1.02);box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 55%,transparent),0 10px 26px -14px var(--acc)!important;transition:transform .25s var(--k-spring),box-shadow .25s}
+.pen-ripple{position:fixed;z-index:9998;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:99px;border:2px solid var(--acc);pointer-events:none;animation:penR .55s ease-out forwards}
+@keyframes penR{to{transform:scale(7);opacity:0}}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
@@ -898,7 +1021,8 @@ const EKTEMA = (() => {
     bw:1, bst:'solid', bc:'', radius:24,
     font:'inter', display:'tight', scale:1, ls:0,
     navA:92, icon:21, navLbl:true,
-    anim:'suave' };
+    anim:'suave',
+    rowA:'#141416', rowB:'#000000', lotColor:true, lotPal:['#8FBCD4','#C9A9DD','#8FD4B8','#D4B88F','#D48F9E','#A9C9DD','#B8D48F','#D4C08F','#9E8FD4','#D48FC0'] };
   const FONTS = {
     inter:   { n:'Inter',   v:'"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif' },
     manrope: { n:'Manrope', v:'"Manrope","Inter",system-ui,sans-serif' },
@@ -949,6 +1073,7 @@ const EKTEMA = (() => {
     let s = `:root{--bg:${th.bg};--bg2:${mix(th.bg, th.sf, .05 * k)};--s1:${rgba(th.sf, .035 * k)};--s2:${rgba(th.sf, .06 * k)};--s3:${rgba(th.sf, .09 * k)};
       --line:${rgba(th.sf, .08 * Math.max(k, .5))};--line2:${rgba(th.sf, .14 * Math.max(k, .5))};--hair:${rgba(th.sf, .05)};
       --fg:${th.fg};--fg2:${mix(th.fg, th.mut, .35)};--mut:${th.mut};--mut2:${mix(th.mut, th.bg, .3)};--yellow:${th.hl};
+      --rowA:${th.rowA || '#141416'};--rowB:${th.rowB || th.bg};
       --r:${Math.round(R * .66)}px;--r2:${R}px;--r3:${R + 4}px;--rc:${R}px;--rb:${rb};--font:${f};--display:${d};color-scheme:${light ? 'light' : 'dark'}}
       body{letter-spacing:${(+th.ls || 0) * .5}px}
       .screen,.ap-scr,#pfWrap{background:${fondoCss()}}
@@ -995,6 +1120,7 @@ const EKTEMA = (() => {
   }
   function aplicar(rerender){
     const el = document.getElementById('ekThemeCss'); if (el) el.textContent = css();
+    document.documentElement.classList.toggle('ek-light', lum(th.bg) > .45);
     try { if (window.ekTemaPF) window.ekTemaPF(pfVars()); } catch (e) {}
     const meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', th.bg);
     try { if (window.parent === window && window.EurekaAndroid && EurekaAndroid.setBarColor) EurekaAndroid.setBarColor(th.bg, lum(th.bg) > .45); } catch (e) {}
@@ -4642,7 +4768,7 @@ function ekHojaSheet(rs){
 /* ============================================================
    AJUSTES: maestro, reglas, turno (correlativos), respaldo
    ============================================================ */
-function ekOpenSettings(){ ekOpen('settings', '', { up:true }); if (!EK.ui.settingsTab) EK.ui.settingsTab = 'maestro'; ekRenderSettings(); }
+function ekOpenSettings(){ ekOpen('settings', '', { up:true }); if (!EK.ui.settingsTab) EK.ui.settingsTab = 'apariencia'; ekRenderSettings(); }
 function ekRenderSettings(){
   const el = $id('settings'); if (!el) return;
   const t = EK.ui.settingsTab, R = EK.state.reglas;
@@ -4683,8 +4809,8 @@ function ekRenderSettings(){
       <button class="btn danger full" id="bkWipe">Borrar todas las recepciones</button></div>
       <div style="font-size:12px;color:var(--mut2);text-align:center">EUREKA 1.0 · sin IA · motor de PalletFlow 43</div>`;
   }
-  el.innerHTML = `<div class="hdr"><button class="back" id="stBack" aria-label="Cerrar">${ico('x')}</button><div class="ttl"><b>Ajustes</b><small>Máster, correlativos, apariencia y respaldo</small></div><div class="right"></div></div>
-    <div class="stabs">${[['maestro', 'Máster'], ['turno', 'Correlativos'], ['apariencia', 'Apariencia'], ['extras', 'Celular'], ['reglas', 'Reglas'], ['ia', 'IA'], ['respaldo', 'Respaldo']].map(([k, n]) => `<button class="pill ${k === t ? 'on' : ''}" data-st="${k}">${n}</button>`).join('')}</div>
+  el.innerHTML = `<div class="hdr"><button class="back" id="stBack" aria-label="Cerrar">${ico('x')}</button><div class="ttl"><b>Ajustes</b><small>Apariencia, correlativos, respaldo y máster</small></div><div class="right"></div></div>
+    <div class="stabs">${[['apariencia', 'Apariencia'], ['turno', 'Correlativos'], ['extras', 'Celular'], ['reglas', 'Reglas'], ['ia', 'IA'], ['respaldo', 'Respaldo'], ['maestro', 'Máster']].map(([k, n]) => `<button class="pill ${k === t ? 'on' : ''}" data-st="${k}">${n}</button>`).join('')}</div>
     <div class="body">${body}</div>`;
   $id('stBack').onclick = () => { ekClose('settings'); ekRender(); };
   el.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { EK.ui.settingsTab = b.dataset.st; ekRenderSettings(); });
@@ -5693,7 +5819,7 @@ function ekFlotarAbrir(btn, ops, arrastre){
 function ekRenderScan(){
   const el = $id('scanScr'); if (!el) return;
   const q = EK.ui.scQ || '';
-  el.innerHTML = `<div class="sc-head"><div><h1>Guías</h1><p>Historial por turno · toca + para escanear</p></div>
+  el.innerHTML = `<div class="sc-head"><div><h1 class="eu-gold">EUREKA</h1><p>Guías por turno · toca + para escanear</p></div>
       <button class="sc-cfg" id="scCfg" aria-label="Ajustes">${ico('gear')}</button></div>
     <div class="sc-body" id="scBody">
       <div class="sc-search k-in" style="--i:0">${ico('search', 'ico-sm')}<input id="scQ" type="search" placeholder="Buscar guía, lote o variedad" value="${esc(q)}" autocomplete="off"></div>
@@ -5722,7 +5848,7 @@ function ekRenderScanLista(){
     const c = tabCfg(r.codigo), v = ekResumenRec(r), on = sel.has(r.id);
     return `<button class="sc-row k-in ${on ? 'sel' : ''}" style="--i:${n++};--c:${c.bg}" data-open="${r.id}">
       <span class="sc-chk">${on ? ico('check', 'ico-sm') : ''}</span>
-      <span class="sc-t"><b>${esc(c.label)}</b><small>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>
+      <span class="sc-t"><b class="sc-prov">${ekLogo(r.codigo, 'sm')}</b><small>${esc(r.guias.map(g => g.numero_guia || 'Sin número').join(' · '))} · ${ekNumLotes(r)} lote${ekNumLotes(r) === 1 ? '' : 's'} · ${ekJabasRec(r).toLocaleString('es-PE')} jabas</small></span>
       ${v.err ? `<em class="bad">${v.err}</em>` : `<em class="ok">${ico('check', 'ico-sm')}</em>`}${ico('right', 'ico-sm')}</button>`;
   };
   box.innerHTML = orden.map(t => {
@@ -5899,10 +6025,10 @@ function ekRotulosSheet(ids){
   const again = () => ekRotulosSheet(recs.map(r => r.id));
   const grupos = todas.map(({ r, g, gi }) => {
     const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
-    return `<div class="rt-g"><h5><span>${esc(tabCfg(r.codigo).label)}</span><small>${esc(g.numero_guia || 'Guía')}</small></h5>
+    return `<div class="rt-g"><h5><span>${ekLogo(r.codigo, 'sm')}</span><small>${esc(g.numero_guia || 'Guía')}</small></h5>
       <div class="gv-corr" style="margin-top:0"><div class="fld"><label>Correlativo ${esc(pref)}</label><input class="inp num" data-corr="${r.id}:${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${r.id}:${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
       <div class="rt-rows">${g.lotes.map((l, li) => { if (!String(l.lote || '').trim() && !(parseInt(l.cantidad, 10) > 0)) return ''; const info = !isNaN(base) ? buildRotuloDataForLote(g, li) : null; return `<div class="rt-r">
-        <button class="rt-e" data-ed="${r.id}:${gi}:${li}"><span class="lr-c ${info ? '' : 'no'}">${esc(info ? info.bigCode : 'Sin correlativo')}</span><b>${esc(l.lote || '—')}</b><small>${esc(l.variedad || '')} · ${(parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE')} jabas</small></button>
+        <button class="rt-e" data-ed="${r.id}:${gi}:${li}"><span class="lr-c ${info ? '' : 'no'}">${esc(info ? ekFmtCorr(info.bigCode) : 'Sin correlativo')}</span><b>${esc(l.lote || '—')}</b><small>${esc(l.variedad || '')} · ${(parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE')} jabas</small></button>
         <button class="k-ib" data-ed="${r.id}:${gi}:${li}" aria-label="Editar fila">${ico('pencil', 'ico-sm')}</button>
         <button class="k-btn sm" data-rot="${r.id}:${gi}:${li}" ${info ? '' : 'disabled'}>${ico('print', 'ico-sm')}Rótulo</button></div>`; }).join('')}</div>
       <button class="k-btn" style="width:100%;margin-top:10px" data-rotg="${r.id}:${gi}" ${isNaN(base) ? 'disabled' : ''}>${ico('layers', 'ico-sm')}Toda esta guía</button></div>`;
@@ -6004,7 +6130,7 @@ document.addEventListener('click', e => {
 }, true);
 
 /* ---------- Apariencia ---------- */
-const AP_SECS = [['temas', 'Temas'], ['colores', 'Colores'], ['fondo', 'Fondo'], ['tarjetas', 'Tarjetas'], ['botones', 'Botones'], ['bordes', 'Bordes y esquinas'], ['texto', 'Texto'], ['barra', 'Barra'], ['anim', 'Animaciones']];
+const AP_SECS = [['temas', 'Temas'], ['colores', 'Colores'], ['filas', 'Filas y lotes'], ['fondo', 'Fondo'], ['tarjetas', 'Tarjetas'], ['botones', 'Botones'], ['bordes', 'Bordes y esquinas'], ['texto', 'Texto'], ['barra', 'Barra'], ['anim', 'Animaciones']];
 function apCol(k, n){ const v = EKTEMA.get()[k] || '#000000'; return `<label class="ap-col"><span>${n}</span><input type="color" data-c="${k}" value="${esc(v)}"></label>`; }
 function apRng(k, n, min, max, step, u, mul){ const v = +EKTEMA.get()[k]; mul = mul || 1; return `<div class="ap-rng"><div><span>${n}</span><b id="apv-${k}">${Math.round(v * mul)}${u}</b></div><input type="range" data-r="${k}" data-mul="${mul}" data-u="${u}" min="${min}" max="${max}" step="${step}" value="${v}"></div>`; }
 function apSeg(k, ops){ const v = String(EKTEMA.get()[k]); return `<div class="ap-seg">${ops.map(([a, t]) => `<button data-s="${k}" data-v="${a}" class="${v === String(a) ? 'on' : ''}">${t}</button>`).join('')}</div>`; }
@@ -6021,6 +6147,8 @@ function apSec(id){
   if (id === 'colores') return `<div class="ap-cols">${apCol('bg', 'Fondo')}${apCol('sf', 'Tarjetas')}${apCol('fg', 'Texto')}${apCol('mut', 'Secundario')}${apCol('hl', 'Lote y correlativo')}</div>
       <div class="ap-l">Acento</div>${apSeg('accentMode', [['prov', 'Por proveedor'], ['unico', 'Uno solo']])}
       ${th.accentMode === 'unico' ? `<div class="ap-cols">${apCol('accent', 'Acento')}</div>` : `<div class="ap-cols">${EK_TABS.map(x => `<label class="ap-col"><span>${esc(x.codigo)}</span><input type="color" data-pv="${x.codigo}" value="${esc(x.bg)}"></label>`).join('')}</div>`}`;
+  if (id === 'filas') return `<div class="ap-cols">${apCol('rowA', 'Fila 1')}${apCol('rowB', 'Fila 2')}</div>` + apSw('lotColor', 'Un color por lote') +
+      (th.lotColor ? `<div class="ap-pal">${(th.lotPal || []).map((c, i) => `<label style="--c:${esc(c)}"><input type="color" data-pal="${i}" value="${esc(c)}"></label>`).join('')}</div>` : '');
   if (id === 'fondo') return apSeg('bgMode', [['solid', 'Sólido'], ['grad', 'Degradé'], ['img', 'Imagen']]) +
       (th.bgMode === 'grad' ? `<div class="ap-cols">${apCol('bg2', 'Segundo color')}</div><div class="ap-l">Dirección</div>${apSeg('bgDir', [['v', '↓'], ['d', '↘'], ['h', '→']])}` : '') +
       (th.bgMode === 'img' ? `<div class="ap-row2"><button class="k-btn sm" id="apImg">${ico('image', 'ico-sm')}${EKTEMA.tieneImagen() ? 'Cambiar' : 'Subir'}</button><button class="k-btn sm" id="apImgDel" ${EKTEMA.tieneImagen() ? '' : 'disabled'}>${ico('trash', 'ico-sm')}Quitar</button></div>${apRng('bgDim', 'Oscurecer', 0, 90, 5, '%')}` : '');
@@ -6042,7 +6170,7 @@ function apPreview(){
   return `<div class="ap-prev"><div class="ap-scr">
     <div class="ap-top"><b class="ap-ttl">Guías</b><span class="sc-cfg">${ico('gear')}</span></div>
     <div class="sc-row" style="--c:${c.bg}"><span class="sc-chk"></span><span class="sc-t"><b>${esc(c.label)}</b><small>T013-0002337 · 2 lotes · 788 jabas</small></span><em class="ok">${ico('check', 'ico-sm')}</em></div>
-    <div class="lr-list ap-lrs"><div class="lr"><span class="lr-a"><span class="lr-c">FF26EU0015</span><b class="lr-l">LOTE 1</b><small>EUREKA · 530 jabas</small></span><span class="lr-b"><b>2</b><small>pallets</small><em>+34</em></span></div></div>
+    <div class="lr-list ap-lrs">${[['FF26EU-15', 'LOTE 1', 'EUREKA · 530 jabas · CLP:01', 2, 34], ['FF26FB-16', 'LOTE 2', 'FIRST BLUSH · 258 jabas · CLP:01', 1, 10]].map(([c, l, d, p, q], i) => `<div class="lr" style="--lc:${ekLoteColor(l)}"><span class="lr-a"><span class="lr-c">${c}</span><b class="lr-l">${l}</b><small>${d}</small></span><span class="lr-b"><b>${p}</b><small>pallets</small><em>+${q}</em></span></div>`).join('')}</div>
     <div class="ap-bt"><span class="k-btn sm">${ico('check', 'ico-sm')}Fijar</span><span class="k-btn sm pri">${ico('print', 'ico-sm')}Imprimir</span></div>
     <div class="ek-nav ap-nav">${[['layers', 'Guías', 1], ['almacen', 'Almacén'], ['dots', 'Más']].map(([i, t, on]) => `<span class="${on ? 'on' : ''}">${ico(i)}<span>${t}</span></span>`).join('')}</div>
   </div></div>`;
@@ -6066,7 +6194,8 @@ function ekTemaWireSec(el, s, id){
   s.querySelectorAll('[data-pv]').forEach(i => i.oninput = () => { const p = Object.assign({}, EKTEMA.get().prov); p[i.dataset.pv] = i.value; EKTEMA.set('prov', p, false); ekRender(); el._apRe.pintar(); });
   s.querySelectorAll('[data-r]').forEach(i => i.oninput = () => { const v = +i.value; $id('apv-' + i.dataset.r).textContent = Math.round(v * +i.dataset.mul) + i.dataset.u; EKTEMA.set(i.dataset.r, v, false); });
   s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { const k = b.dataset.s; let v = b.dataset.v; if (k === 'bgMode' && v === 'img' && !EKTEMA.tieneImagen()) { EKTEMA.set('bgMode', 'img', false); re(); $id('apImg') && $id('apImg').click(); return; } EKTEMA.set(k, v, k === 'accentMode'); re(); });
-  s.querySelectorAll('[data-b]').forEach(i => i.onchange = () => EKTEMA.set(i.dataset.b, i.checked, false));
+  s.querySelectorAll('[data-b]').forEach(i => i.onchange = () => { EKTEMA.set(i.dataset.b, i.checked, false); if (i.dataset.b === 'lotColor') re(); else el._apRe.pintar(); });
+  s.querySelectorAll('[data-pal]').forEach(i => i.oninput = () => { const p = (EKTEMA.get().lotPal || []).slice(); p[+i.dataset.pal] = i.value; i.parentElement.style.setProperty('--c', i.value); EKTEMA.set('lotPal', p, false); if ($id('detail')) ekRenderDetail(); el._apRe.pintar(); });
   if (s.querySelector('#apSave')) s.querySelector('#apSave').onclick = () => { EKTEMA.guardarTema(($id('apNom').value || '').trim() || 'Mi tema'); ekToast('Tema guardado', 'ok'); re(); };
   s.querySelectorAll('[data-tap]').forEach(b => b.onclick = () => { EKTEMA.aplicarTema(b.dataset.tap); AP_SECS.forEach(([x]) => el._apRe.reSec(x)); el._apRe.pintar(); ekToast('Tema aplicado', 'ok'); });
   s.querySelectorAll('[data-tdel]').forEach(b => b.onclick = () => { EKTEMA.borrarTema(b.dataset.tdel); re(); });
@@ -6080,6 +6209,264 @@ function ekTemaWireSec(el, s, id){
   };
   if (s.querySelector('#apImgDel')) s.querySelector('#apImgDel').onclick = () => { EKTEMA.fondoImagen(null); re(); };
 }
+
+
+/* ============================================================
+   EUREKA 8
+   ============================================================ */
+
+/* ---------- Logos de proveedor (de PalletFlow) ---------- */
+const EK_LOGOS = { FF:{ src:'logos/FF.png', claro:'logos/FF_claro.png' }, POB:{ src:'logos/POB.png', mono:true }, SRX:{ src:'logos/SRX.png' }, DB:{ src:'logos/DB.png', mono:true } };
+function ekLogo(codigo, cls){
+  const L = EK_LOGOS[codigo], c = tabCfg(codigo);
+  if (!L) return `<span class="ek-logo-t ${cls || ''}">${esc(c.label)}</span>`;
+  const claro = document.documentElement.classList.contains('ek-light');
+  return `<img class="ek-logo ${L.mono ? 'mono' : ''} ${cls || ''}" src="${claro && L.claro ? L.claro : L.src}" alt="${esc(c.label)}" draggable="false">`;
+}
+
+/* ---------- Formatos cortos para la lista ---------- */
+function ekFmtCorr(code){ const m = String(code || '').match(/^(.*[A-Z])0*(\d+)$/); return m ? `${m[1]}-${m[2]}` : String(code || ''); }
+function ekFmtClp(clp){ const d = String(clp || '').replace(/\D/g, ''); return d ? 'CLP:' + d.slice(-2) : ''; }
+function ekLoteColor(lote){
+  const th = EKTEMA.get(); if (!th.lotColor) return 'transparent';
+  const P = th.lotPal && th.lotPal.length ? th.lotPal : ['#8FBCD4'];
+  const s = String(lote || ''); let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return P[h % P.length];
+}
+
+/* ---------- Aviso flotante en el centro ---------- */
+function ekAvisoCentro(txt, tipo){
+  document.querySelectorAll('.ek-ac').forEach(x => x.remove());
+  const d = document.createElement('div'); d.className = 'ek-ac ' + (tipo || 'ok');
+  d.innerHTML = `${ico(tipo === 'bad' ? 'alert' : 'check')}<span>${esc(txt)}</span>`;
+  document.body.appendChild(d);
+  requestAnimationFrame(() => d.classList.add('on'));
+  try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
+  setTimeout(() => { d.classList.remove('on'); d.classList.add('out'); setTimeout(() => d.remove(), 400); }, 1300);
+}
+
+/* ---------- Juntar: mismas reglas que PalletFlow ---------- */
+const EK_GRUPO = { FF:'FF', VA:'VA', DB:'DB', POB:'POB+SRX', SRX:'POB+SRX', AF:'AF' };
+const EK_GRUPO_TXT = { FF:'Family Farms solo se junta con Family Farms.', VA:'Valle Azul solo se junta con Valle Azul.', DB:'Diamond Bridge solo se junta con Diamond Bridge.', 'POB+SRX':'POB se junta con POB y Sur Export.', AF:'Allpa solo se junta con Allpa.' };
+function ekSelMismoTurno(rs){
+  if (new Set(rs.map(r => r.turno)).size > 1) { ekAlert('Elige guías del mismo turno (los correlativos van de corrido por turno).'); return false; }
+  const gs = new Set(rs.map(r => EK_GRUPO[r.codigo] || r.codigo));
+  if (gs.size > 1) { ekAlert('Estas guías no se pueden juntar.\n\n• Family Farms con Family Farms\n• Diamond Bridge con Diamond Bridge\n• POB con Sur Export\n• Valle Azul con Valle Azul'); return false; }
+  return true;
+}
+
+/* ---------- Guía: pestañas tipo Chrome, logo arriba, sin datos repetidos ---------- */
+function ekRenderDetail(){
+  const el = $id('detail'); if (!el || !_det) return;
+  const recs = ekDetRecs(); if (!recs.length) { ekClose('detail'); return; }
+  _det.ids = recs.map(r => r.id);
+  ekUsarTurno(recs[0].turno);
+  const todas = recs.flatMap(r => r.guias.map((g, gi) => ({ r, g, gi })));
+  if (_det.tab == null || _det.tab >= todas.length) _det.tab = 0;
+  const A = todas[_det.tab], r = A.r, g = A.g, gi = A.gi, cfg = tabCfg(r.codigo);
+  el.style.setProperty('--acc', cfg.bg); el.style.setProperty('--acc-soft', cfg.bg + '29'); el.style.setProperty('--acc-ink', cfg.fg);
+  el.style.setProperty('--acc-text', cfg.codigo === 'DB' ? '#f4f4f5' : cfg.bg);
+  const val = ekValidar(g, r.codigo, r.id), ne = val.filter(x => x.nivel === 'error').length, na = val.filter(x => x.nivel === 'aviso').length;
+  const errLote = new Set(val.filter(x => x.nivel === 'error').map(x => normalizeLoteId(x.lote)));
+  const tot = g.lotes.reduce((s, l) => s + (parseInt(l.cantidad, 10) || 0), 0);
+  const pref = getProviderPrefix(g.proveedor), base = correlBaseDe(g), st = correlativoAutoState[pref] || {};
+  const leida = ekGuiaLeida(g), cuadra = g.totalJabasGuia ? (+g.totalJabasGuia === tot) : null;
+  const meta = [ekFechaCorta(g.fecha || r.created), g.numeroViaje ? 'Viaje ' + g.numeroViaje : '', g.conductor, g.placa].filter(Boolean);
+  let pal = 0, n = 0;
+  const filas = g.lotes.map((l, li) => {
+    if (!leida && !String(l.lote || '').trim()) return '';
+    const c = ekCalc(g, l), bc = ekBigCode(g, li), bad = errLote.has(normalizeLoteId(l.lote));
+    pal += c.full + (c.pucho ? 1 : 0);
+    const cant = (parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE');
+    const det = [l.variedad || 'Sin variedad', l.jarras ? 'Jarras' : l.verde ? 'Jaba verde' : '', `${cant} ${c.sinJabas ? 'pallets' : 'jabas'}`, ekFmtClp(l.clp)].filter(Boolean);
+    return `<button class="lr k-in ${bad ? 'bad' : ''}" style="--i:${n++};--lc:${ekLoteColor(l.lote)}" data-ed="${r.id}:${gi}:${li}">
+      <span class="lr-a"><span class="lr-c ${bc ? '' : 'no'}">${bad ? '<i class="lr-dot"></i>' : ''}${esc(bc ? ekFmtCorr(bc) : 'Sin correlativo')}</span><b class="lr-l">${esc(l.lote || '—')}</b><small>${det.map(esc).join(' · ')}</small></span>
+      <span class="lr-b"><b class="num">${c.full}</b><small>pallet${c.full === 1 ? '' : 's'}</small>${c.sinJabas ? '<em class="z">según guía</em>' : c.pucho ? `<em>+${c.pucho}</em>` : '<em class="z">completos</em>'}</span>
+    </button>`;
+  }).join('');
+  const tabs = todas.length > 1 ? `<div class="ctabs" id="dtTabs">${todas.map((x, i) => `<button class="ctab ${i === _det.tab ? 'on' : ''}" data-tab="${i}" style="--tc:${tabCfg(x.r.codigo).bg}"><i></i><span>${esc(x.g.numero_guia || 'Guía ' + (i + 1))}</span></button>`).join('')}</div>` : '';
+  el.innerHTML = `<div class="hdr dt-hdr"><button class="back" id="dtBack" aria-label="Volver">${ico('left')}</button>
+      <div class="ttl dt-ttl"><span class="dt-logo">${ekLogo(r.codigo)}</span><b id="dtNum">${esc(g.numero_guia || 'Sin número')}</b></div>
+      <div class="right"><button class="ibtn ia-b" id="dtIA" aria-label="Leer con IA">${ico('spark')}</button><button class="ibtn" id="dtEdit" aria-label="Editar guía">${ico('pencil')}</button></div></div>
+    ${tabs}
+    <div class="body gv" id="dtBody"><div class="dt-pane" id="dtPane">
+      <div class="dt-meta k-in" style="--i:0">${meta.length ? `<span>${meta.map(esc).join(' · ')}</span>` : ''}<button class="gv-st ${ne ? 'bad' : na ? 'warn' : 'ok'}" id="dtSt">${ne ? `${ico('alert', 'ico-sm')}${ne} error${ne > 1 ? 'es' : ''}` : na ? `${ico('alert', 'ico-sm')}${na} aviso${na > 1 ? 's' : ''}` : `${ico('check', 'ico-sm')}OK`}</button></div>
+      ${g.totalJabasGuia ? `<div class="gv-cuadre k-in ${cuadra === false ? 'bad' : ''}" style="--i:1">La guía dice <b>${(+g.totalJabasGuia).toLocaleString('es-PE')} jabas</b>${g.totalPalletsGuia ? ` · <b>${g.totalPalletsGuia} pallets</b>` : ''}<small>${cuadra === false ? `No cuadra: los lotes suman ${tot.toLocaleString('es-PE')}` : '✓ Cuadra con la suma de lotes'}</small></div>` : ''}
+      <div class="dt-corr k-in" style="--i:2"><label>Correlativo ${esc(pref)}</label><div class="dt-corr-in"><input class="inp num" data-corr="${r.id}:${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"><button class="k-btn sm" data-ancla="${r.id}:${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
+        <small>${st.lastUsed ? `Último ${esc(pref)} usado: ${st.lastUsed}` : 'Escribe el primer correlativo.'}${usaCorrelGlobal(g) ? ' · de corrido en el turno' : ''}</small></div>
+      ${leida ? '' : `<div class="gv-fail k-in" style="--i:3">${ico('alert')}<div><b>No se pudieron leer los lotes</b><small>${esc(((g._avisos || []).find(a => a.tipo !== 'ok') || {}).txt || 'Puede ser una guía escaneada como imagen o un formato nuevo.')}</small>
+        <div class="gv-fail-a"><button class="k-btn sm" id="dtMan">${ico('pencil', 'ico-sm')}Completar a mano</button><button class="k-btn sm ia" id="dtIA2">${ico('spark', 'ico-sm')}Leer con IA</button></div></div></div>`}
+      ${filas ? `<div class="lr-sec"><span>Lotes</span><span>Toca una fila para editarla</span></div><div class="lr-list zebra">${filas}</div>` : ''}
+      <div class="dt-tot"><div><b class="num">${g.lotes.filter(l => String(l.lote || '').trim()).length}</b><small>Lotes</small></div><div><b class="num">${pal}</b><small>Pallets</small></div><div><b class="num">${tot.toLocaleString('es-PE')}</b><small>Jabas</small></div></div>
+      ${todas.length > 1 ? `<div class="dt-tot2">Juntas: ${todas.length} guías · ${recs.reduce((s, x) => s + ekNumLotes(x), 0)} lotes · ${recs.reduce((s, x) => s + ekJabasRec(x), 0).toLocaleString('es-PE')} jabas</div>` : ''}
+      <div class="firma">By: J.Chavez</div>
+    </div></div>
+    <div class="gv-bar"><button id="bGuia" ${(g.previewKey || g._preview) ? '' : 'disabled'}>${ico('eye')}<span>Ver guía</span></button><button id="bPeso">${ico('scale')}<span>Pesos</span></button><button id="bImp" class="pri">${ico('print')}<span>Imprimir</span></button></div>`;
+  const editar = () => ekOpenReview(clone(r.guias).map((x, i) => Object.assign(x, { _preview:null, previewKey:r.guias[i].previewKey })), { nuevo:false, rec:r });
+  $id('dtBack').onclick = () => ekClose('detail');
+  $id('dtEdit').onclick = editar;
+  if ($id('dtMan')) $id('dtMan').onclick = editar;
+  $id('dtIA').onclick = () => ekLeerConIA(r.id, gi);
+  if ($id('dtIA2')) $id('dtIA2').onclick = () => ekLeerConIA(r.id, gi);
+  $id('dtSt').onclick = () => { if (ne || na) ekOpenErrors(r.id); else ekAvisoCentro('Sin errores'); };
+  el.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+    const i = +b.dataset.tab; if (i === _det.tab) return;
+    const dir = i > _det.tab ? 1 : -1; _det.tab = i; ekVibrar(); ekRenderDetail();
+    const p = $id('dtPane'); if (p) { p.style.setProperty('--dx', (dir * 40) + 'px'); p.classList.add('slide'); }
+    const t = el.querySelector('.ctab.on'); if (t) t.scrollIntoView({ inline:'nearest', block:'nearest', behavior:'smooth' });
+  });
+  el.querySelectorAll('[data-corr]').forEach(inp => inp.onchange = () => { const [rid, g2] = inp.dataset.corr.split(':'); ekCorrSet(ekRec(rid).guias[+g2], inp.value); ekRenderDetail(); });
+  el.querySelectorAll('[data-ancla]').forEach(b => b.onclick = () => { const [rid, g2] = b.dataset.ancla.split(':'); const rr = ekRec(rid); ekUsarTurno(rr.turno); saveCorrelativoAnchor(rr.guias[+g2]); ekSave(); ekAvisoCentro('Correlativo fijado'); ekRenderDetail(); });
+  el.querySelectorAll('[data-ed]').forEach(b => b.onclick = () => { const [rid, g2, li] = b.dataset.ed.split(':'); ekEditarLote(rid, +g2, +li); });
+  $id('bGuia').onclick = () => ekVerGuia(g);
+  $id('bPeso').onclick = () => ekOpenPeso(r.id);
+  ekFlotarBoton($id('bImp'), [
+    { k:'rot', icon:'tag', t:'Rótulos', run:() => ekRotulosSheet(_det.ids) },
+    { k:'hoja', icon:'sheet', t:'Hoja de peso', run:() => ekHojaSheet(ekDetRecs()) },
+  ]);
+  if (_det.recien) { _det.recien = false; ekDecode($id('dtNum')); }
+}
+
+/* ---------- Pesos: filas compactas, correlativo arriba, sin neto por fila ---------- */
+function ekRenderPeso(){
+  const el = $id('peso'); const r = ekRec(EK.ui.pesoRec); if (!el || !r) return;
+  ekUsarTurno(r.turno);
+  const R = EK.state.reglas; let tot = 0, hechos = 0, neto = 0;
+  const bloques = r.guias.map((g, gi) => {
+    const rows = ekFilasPeso(g); const G = pfHojaGrupos(rows);
+    return `${r.guias.length > 1 ? `<div class="wg-h">${esc(g.numero_guia)}</div>` : ''}` + G.map(gr => {
+      const lote = g.lotes[gr.li] || {}; const f0 = gr.filas[0] || {};
+      const bc = f0.correlativoCode || (gr.li != null ? ekBigCode(g, gr.li) : '');
+      const filas = gr.filas.map((x, k) => ({ x, k: rows.indexOf(x) })).filter(o => !(o.x.groupEnd && pfFilaVacia(o.x) && gr.filas.length > 1));
+      return `<div class="wl" style="--lc:${ekLoteColor(lote.lote || f0.campo)}"><h5><span class="wl-a"><b class="wl-c">${esc(bc ? ekFmtCorr(bc) : (f0.campo || lote.lote || '—'))}</b><small>${bc ? esc(f0.campo || lote.lote || '') + ' · ' : ''}${esc(lote.variedad || f0.varAbbr || '')}</small></span><span class="wl-j">${lote.cantidad || 0}<small>jabas</small></span></h5>
+        <div class="wlab"><span>P. bruto</span><span>Parihuela</span><span>Jabas</span>${lote.jarras ? '<span>Jarras</span>' : ''}<span></span></div>
+        ${filas.map(o => {
+          const x = o.x; tot++;
+          const b = parseFloat(x.pesoBruto) || 0, p = parseFloat(x.pesoPalet) || 0, j = parseInt(x.jabas, 10) || 0, nn = b && p ? b - p : 0;
+          if (b) { hechos++; neto += nn; }
+          const w = [];
+          if (b && (b < R.pesoMin || b > R.pesoMax)) w.push(`Peso bruto fuera de rango (${R.pesoMin}–${R.pesoMax} kg).`);
+          if (b && p && p >= b) w.push('La parihuela pesa más que el bruto.');
+          if (nn && j && ((nn / j) < R.kgJabaMin || (nn / j) > R.kgJabaMax)) w.push(`${(nn / j).toFixed(2)} kg por jaba: revisa jabas o pesos.`);
+          if (j > ekCapLote(g, lote)) w.push(`Más jabas (${j}) que la capacidad del pallet (${ekCapLote(g, lote)}).`);
+          return `<div class="wcard ${w.length ? 'warn' : b ? 'done' : ''}" data-g="${gi}" data-row="${o.k}">
+            <div class="flds"><input data-f="pesoBruto" inputmode="decimal" type="number" step="0.1" value="${esc(x.pesoBruto || '')}" placeholder="0" aria-label="Peso bruto">
+              <input data-f="pesoPalet" inputmode="decimal" type="number" step="0.1" value="${esc(x.pesoPalet || '')}" placeholder="0" aria-label="Parihuela">
+              <input data-f="jabas" inputmode="numeric" type="number" value="${esc(x.jabas || '')}" placeholder="0" aria-label="Jabas">
+              ${lote.jarras ? `<input data-f="jarras" inputmode="numeric" type="number" value="${esc(x.jarras || (j ? j * 12 : ''))}" aria-label="Jarras">` : ''}
+              <button class="wdel" data-delrow aria-label="Quitar pallet">${ico('trash', 'ico-sm')}</button></div>
+            ${w.length ? `<div class="warnline">${esc(w.join(' '))}</div>` : ''}</div>`;
+        }).join('')}
+        <button class="k-btn sm wadd" data-addrow data-g="${gi}" data-after="${rows.indexOf(filas[filas.length - 1] ? filas[filas.length - 1].x : gr.filas[0])}">${ico('plus', 'ico-sm')}Pallet</button></div>`;
+    }).join('');
+  }).join('');
+  ekSetHTML(el, `<div class="hdr"><button class="back" id="psBack" aria-label="Volver">${ico('left')}</button><div class="ttl dt-ttl"><span class="dt-logo">${ekLogo(r.codigo)}</span><b>Pesos · ${esc(r.guias.map(g => g.numero_guia).join(', '))}</b></div><div class="right"></div></div>
+    <div class="wsum"><div><span>Pesados</span><b class="num">${hechos}/${tot}</b></div><div><span>Neto</span><b class="num">${neto.toLocaleString('es-PE', { maximumFractionDigits:1 })}</b></div><div><span>Kg/jaba</span><b class="num">${(() => { const j = r.guias.reduce((s, g) => s + getHojaRows(g).filter(x => parseFloat(x.pesoBruto)).reduce((a, x) => a + (parseInt(x.jabas, 10) || 0), 0), 0); return j && neto ? (neto / j).toFixed(2) : '—'; })()}</b></div></div>
+    <div class="wprog"><i style="width:${tot ? Math.round(hechos / tot * 100) : 0}%"></i></div>
+    <div class="body" id="psBody">${bloques}</div>
+    <div class="footbar"><button class="btn" id="psXls">${ico('download', 'ico-sm')}Excel</button><button class="btn white" id="psHoja">${ico('sheet', 'ico-sm')}Hoja de peso</button></div>`);
+  $id('psBack').onclick = () => { ekClose('peso'); ekRender(); };
+  el.querySelectorAll('.wcard input').forEach(inp => inp.addEventListener('change', () => {
+    if (!inp.isConnected || EK.ui._busyR) return;
+    const c = inp.closest('.wcard'), g = r.guias[+c.dataset.g], rows = getHojaRows(g), x = rows[+c.dataset.row];
+    x[inp.dataset.f] = inp.value.trim(); g.hojaPesoOverride = rows; ekSave();
+    const y = $id('psBody').scrollTop; ekRenderPeso(); $id('psBody').scrollTop = y;
+    const sig = $id('peso').querySelector(`.wcard[data-g="${c.dataset.g}"][data-row="${c.dataset.row}"] input[data-f="${inp.dataset.f === 'pesoBruto' ? 'pesoPalet' : 'jabas'}"]`); if (sig && inp.dataset.f === 'pesoBruto') sig.focus({ preventScroll:true });
+  }));
+  el.querySelectorAll('[data-delrow]').forEach(b => b.onclick = async () => {
+    const c = b.closest('.wcard'), g = r.guias[+c.dataset.g], rows = getHojaRows(g), k = +c.dataset.row, x = rows[k];
+    if (!(await ekConfirm('¿Quitar este pallet de la hoja de peso?', 'Quitar', true))) return;
+    const nx = rows[k + 1];
+    if ((x.li != null || x.correlativoCode || String(x.campo || '').trim()) && nx && !(nx.li != null || String(nx.campo || '').trim())) ['li', 'campo', 'codigo', 'clp', 'correlativoCode', 'varAbbr', 'correlManual'].forEach(f => { if (x[f] != null) nx[f] = x[f]; });
+    c.classList.add('sale'); await new Promise(res => setTimeout(res, 220));
+    rows.splice(k, 1); ekRegroup(rows, g); g.hojaPesoOverride = rows; ekSave(); ekRenderPeso();
+  });
+  el.querySelectorAll('[data-addrow]').forEach(b => b.onclick = () => {
+    const g = r.guias[+b.dataset.g], rows = getHojaRows(g), k = +b.dataset.after;
+    rows.splice(k + 1, 0, { lote:'', campo:'', codigo:'', clp:'', pesoBruto:'', pesoPalet:'', jabas:'', obs:'' });
+    ekRegroup(rows, g); g.hojaPesoOverride = rows; ekSave(); ekRenderPeso();
+  });
+  $id('psHoja').onclick = () => ekHojaSheet([r]);
+  $id('psXls').onclick = () => ekExcelPeso(r);
+}
+
+/* ---------- Hoja de peso: solo Imprimir y Lista de pesaje ---------- */
+async function ekPedirCorrelativos(recs){
+  ekUsarTurno(recs[0].turno);
+  for (const r of recs) for (const g of r.guias) {
+    if (!isNaN(correlBaseDe(g))) continue;
+    const pref = getProviderPrefix(g.proveedor), st = correlativoAutoState[pref] || {};
+    const v = await ekPrompt(`Correlativo inicial · ${tabCfg(r.codigo).label} ${g.numero_guia || ''}`, (st.lastUsed || 0) + 1, 'number');
+    if (v == null) return false;
+    const n = parseInt(v, 10); if (!(n > 0)) return false;
+    ekCorrSet(g, n);
+  }
+  ekSave(); if ($id('detail')) ekRenderDetail();
+  return true;
+}
+function ekVaciosHoja(recs){
+  let vacios = 0, llenos = 0;
+  recs.forEach(r => r.guias.forEach(g => getHojaRows(g).forEach(x => { if (!(parseInt(x.jabas, 10) > 0) && !String(x.campo || '').trim()) return; if (parseFloat(x.pesoBruto)) llenos++; else vacios++; })));
+  return { vacios, llenos };
+}
+function ekHojaSheet(rs){
+  if (!rs.length) return;
+  const turno = rs[0].turno;
+  const d = ekSheet(`<div class="sh"><div><h3>Hoja de peso</h3><p>${rs.length > 1 ? `${rs.length} guías juntas` : esc(rs[0].guias.map(g => g.numero_guia).join(', '))} · A4 echada</p></div><button class="ibtn" id="hjX" aria-label="Cerrar">${ico('x')}</button></div>
+    ${ekFechaUI()}
+    <div class="hj-acts"><button class="k-btn" id="hj4">${ico('scale', 'ico-sm')}Lista de pesaje</button><button class="k-btn pri" id="hj1">${ico('print', 'ico-sm')}Imprimir</button></div>`);
+  ekFechaWire(d);
+  d.querySelector('#hjX').onclick = () => ekCloseSheet();
+  d.querySelector('#hj1').onclick = async () => {
+    if (!(await ekPedirCorrelativos(rs))) return;
+    const { vacios, llenos } = ekVaciosHoja(rs);
+    if (llenos && vacios && !(await ekConfirm(`Faltan ${vacios} peso${vacios > 1 ? 's' : ''} por escribir. ¿Imprimir así?`, 'Imprimir'))) return;
+    ekCloseSheet(); ekUsarTurno(turno); ekBusy('Generando hoja de peso…');
+    try { await ekConFecha(() => generateHojaDePeso(rs.slice().sort((a, b) => String(a.created).localeCompare(String(b.created))).flatMap(x => x.guias))); } finally { ekBusy(null); }
+  };
+  d.querySelector('#hj4').onclick = async () => { ekCloseSheet(); ekUsarTurno(turno); const keep = guides; guides = rs.flatMap(x => x.guias); ekBusy('Generando lista…'); try { await ekConFecha(() => generateListaPesaje()); } finally { ekBusy(null); guides = keep; } };
+}
+
+/* ---------- Fecha en lo impreso: cambia sin redibujar, con animación ---------- */
+function ekFechaUI(){
+  const f = ekFimp(), i = ['hoy', 'ayer', 'manual'].indexOf(f.modo);
+  return `<div class="fx"><div class="fx-l">${ico('cal', 'ico-sm')}Fecha en lo impreso</div>
+    <div class="fx-seg" style="--fi:${i}"><span class="fx-ind"></span>${[['hoy', 'Hoy'], ['ayer', 'Ayer'], ['manual', 'Otra']].map(([k, t]) => `<button data-fx="${k}" class="${f.modo === k ? 'on' : ''}">${t}</button>`).join('')}</div>
+    <div class="fx-date ${f.modo === 'manual' ? 'open' : ''}"><div><input class="inp" type="date" id="fxDate" value="${esc(f.manual)}"></div></div>
+    <span class="fx-v">Saldrá con fecha <b id="fxV">${esc(ekFechaImpTexto())}</b></span></div>`;
+}
+function ekFechaWire(d){
+  const pinta = () => {
+    const f = ekFimp(), seg = d.querySelector('.fx-seg'); if (!seg) return;
+    seg.style.setProperty('--fi', ['hoy', 'ayer', 'manual'].indexOf(f.modo));
+    seg.querySelectorAll('[data-fx]').forEach(b => b.classList.toggle('on', b.dataset.fx === f.modo));
+    d.querySelector('.fx-date').classList.toggle('open', f.modo === 'manual');
+    const v = d.querySelector('#fxV'); v.textContent = ekFechaImpTexto(); v.classList.remove('sw'); void v.offsetWidth; v.classList.add('sw');
+  };
+  d.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => {
+    const f = ekFimp(); f.modo = b.dataset.fx;
+    if (f.modo === 'manual' && !f.manual) { const x = getShiftDateObj(); f.manual = `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; const di = d.querySelector('#fxDate'); if (di) di.value = f.manual; }
+    ekVibrar(); pinta();
+  });
+  const i = d.querySelector('#fxDate'); if (i) i.onchange = () => { ekFimp().manual = i.value; pinta(); };
+}
+
+/* ---------- S Pen: brillo que sigue al lápiz sin tocar, y onda al tocar ---------- */
+(function ekSPen(){
+  let dot = null, hov = null, t = null;
+  const pon = (x, y) => { if (!dot) { dot = document.createElement('div'); dot.className = 'pen-dot'; document.body.appendChild(dot); } dot.style.transform = `translate(${x}px,${y}px)`; dot.classList.add('on'); clearTimeout(t); t = setTimeout(() => dot && dot.classList.remove('on'), 900); };
+  const marca = el => { if (hov === el) return; if (hov) hov.classList.remove('pen-hov'); hov = el; if (el) el.classList.add('pen-hov'); if (dot) dot.classList.toggle('big', !!el); };
+  document.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'pen') return;
+    pon(e.clientX, e.clientY);
+    if (e.buttons === 0) marca(e.target.closest && e.target.closest('button, .sc-row, .lr, .inp, input, .sc-tile, .ctab, a, label'));
+  }, { passive:true });
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'pen') return;
+    const r = document.createElement('i'); r.className = 'pen-ripple'; r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; document.body.appendChild(r); setTimeout(() => r.remove(), 600);
+  }, { passive:true });
+  ['pointerleave', 'pointerout'].forEach(ev => document.addEventListener(ev, e => { if (e.pointerType === 'pen' && !e.relatedTarget) { marca(null); if (dot) dot.classList.remove('on'); } }, { passive:true }));
+})();
 
 /* ============================================================
    ARRANQUE

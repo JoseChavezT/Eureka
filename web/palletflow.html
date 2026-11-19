@@ -16544,6 +16544,38 @@ html.pf-embed body #app{padding-bottom:24px !important;}
 /* la X para salir, siempre arriba a la derecha */
 html.pf-embed :is(#klOverlay, #ffOverlay, #ingresoOverlay, #ubOv, #hfOverlay, #masterOverlay, #kpiOv) button:has(path[d^="M18 6"]){order:99 !important; margin-left:auto !important;}
 html.pf-embed, html.pf-embed body{touch-action:pan-x pan-y;}
+html.pf-embed body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+html.pf-embed input, html.pf-embed textarea{-webkit-user-select:text;user-select:text;}
+/* ===== Almacén pensado para el celular ===== */
+@media (max-width:900px){
+  html.pf-embed #ubOv{padding:10px 10px 16px !important; gap:8px !important; overflow-x:hidden !important; overflow-y:auto !important;}
+  html.pf-embed #ubOv .kdx-h{position:relative; display:block !important; padding-right:48px;}
+  html.pf-embed #ubOv .kdx-tit b{font-size:22px; font-weight:900; letter-spacing:-.03em;}
+  html.pf-embed #ubOv .kdx-tit span{font-size:12px; opacity:.7;}
+  html.pf-embed #ubOv .kdx-acc{display:grid !important; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:10px;}
+  html.pf-embed #ubOv .kdx-acc .dia-btn{width:100%; min-height:42px; padding:0 4px !important; border-radius:999px !important; font-size:12.5px !important; justify-content:center;}
+  html.pf-embed #ubOv #ubCerrar{position:absolute; top:0; right:0; width:42px; height:42px; border-radius:999px;}
+  html.pf-embed .ub-zonas{gap:6px;}
+  html.pf-embed .ub-zonas button{border-radius:16px !important; padding:8px 12px !important;}
+  html.pf-embed .ub-barra{flex-wrap:nowrap !important; overflow-x:auto; gap:6px !important; padding-bottom:4px; scrollbar-width:none;}
+  html.pf-embed .ub-barra::-webkit-scrollbar{display:none;}
+  html.pf-embed .ub-barra > *{flex:none;}
+  html.pf-embed .ub-barra .mat-sp{display:none;}
+  html.pf-embed .ub-cuerpo{flex-direction:column !important; gap:8px !important; min-width:0;}
+  html.pf-embed .ub-izq{position:sticky; top:-10px; z-index:3; flex:none !important; background:var(--n-bg, #000); padding:6px 0 8px !important; margin:0 -10px; padding-left:10px !important; padding-right:10px !important; border-bottom:1px solid rgba(255,255,255,.08);}
+  html.pf-embed .ub-izq-h b{font-size:13px; letter-spacing:.1em; text-transform:uppercase; opacity:.7;}
+  html.pf-embed #ubLista{display:flex !important; gap:8px; overflow-x:auto; scroll-snap-type:x proximity; scrollbar-width:none;}
+  html.pf-embed #ubLista::-webkit-scrollbar{display:none;}
+  html.pf-embed .ub-lote{flex:none !important; min-width:150px; min-height:58px; border-radius:16px !important;}
+  html.pf-embed .ub-lote.sel{transform:translateY(-1px); box-shadow:0 8px 20px -10px var(--lb);}
+  html.pf-embed .ub-tip, html.pf-embed .ub-flecha{display:none !important;}
+  html.pf-embed .ub-der{flex:none !important; width:100%; min-width:0; max-width:100%; overflow:hidden !important;}
+  html.pf-embed .ub-grid{width:100% !important; max-width:100% !important; min-width:0; gap:3px !important;}
+  html.pf-embed .ub-c{min-height:0 !important; min-width:0 !important; aspect-ratio:1 !important; border-radius:7px !important;}
+  html.pf-embed .ub-c.llena b{font-size:11px !important;}
+  html.pf-embed .ub-c .ub-c-f{font-size:8px !important;}
+  html.pf-embed .ub-dis{position:fixed !important; left:0; right:0; bottom:0; z-index:20; max-height:62vh; border-radius:24px 24px 0 0 !important; background:var(--n-s1, #0a0a0a) !important; box-shadow:0 -20px 50px rgba(0,0,0,.7);}
+}
 /* todo en negro (o el fondo del tema de EUREKA); los gráficos no cambian */
 html.pf-embed body :is(#ffOverlay, #klOverlay, #ingresoRoot, #ubOv, #masterOverlay, #hfOverlay){background:var(--n-bg, #000) !important;}
 html.pf-embed body :is(#diaOverlay, #ubOv, #pesajeOverlay, #masterOverlay){left:0 !important; bottom:0 !important;}
