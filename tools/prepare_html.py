@@ -1,6 +1,6 @@
 """Prepara los HTML de web/ para el APK:
-- web/app.html     -> index.html  (Eureka Flow: base PalletFlow + apartado Recepciones)
-- web/eureka.html  -> eureka.html (módulo Recepciones, se abre dentro de la app)
+- web/eureka.html      -> index.html       (EUREKA: la app)
+- web/palletflow.html  -> palletflow.html  (motor PalletFlow, corre detrás dentro de EUREKA)
 Cambia los CDN por copias locales (funciona sin internet), usa fuentes locales
 e inyecta el puente de Android."""
 import re
@@ -35,5 +35,5 @@ def prepare(src, dst):
 
 
 out = sys.argv[1]
-prepare("web/app.html", f"{out}/index.html")
-prepare("web/eureka.html", f"{out}/eureka.html")
+prepare("web/eureka.html", f"{out}/index.html")
+prepare("web/palletflow.html", f"{out}/palletflow.html")

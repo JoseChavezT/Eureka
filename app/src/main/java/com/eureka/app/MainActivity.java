@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         getWindow().setNavigationBarColor(Color.BLACK);
 
         web = new WebView(this);
-        web.setBackgroundColor(Color.parseColor("#07060f"));
+        web.setBackgroundColor(Color.parseColor("#050506"));
         setContentView(web);
 
         WebSettings s = web.getSettings();

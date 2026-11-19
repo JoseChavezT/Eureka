@@ -72,5 +72,5 @@
   });
 
   // barra del sistema con el color de la app (solo la ventana principal)
-  if (window.parent === window && A.setBarColor) { try { A.setBarColor('#07060f', false); } catch (e) {} }
+  if (window.parent === window && A.setBarColor) { try { A.setBarColor('#050506', false); } catch (e) {} }
 })();

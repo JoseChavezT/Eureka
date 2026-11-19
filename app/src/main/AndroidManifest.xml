@@ -14,7 +14,7 @@
     </queries>
 
     <application
-        android:label="Eureka Flow"
+        android:label="EUREKA"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
         android:allowBackup="true"
@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <!-- "Abrir con" para PDF (WhatsApp, Descargas, Drive...) -->
-            <intent-filter android:label="Eureka Flow">
+            <intent-filter android:label="EUREKA">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -40,7 +40,7 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
             <!-- "Compartir" uno o varios PDF / fotos -->
-            <intent-filter android:label="Eureka Flow">
+            <intent-filter android:label="EUREKA">
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />

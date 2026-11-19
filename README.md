@@ -1,22 +1,18 @@
-# Eureka Flow (Android)
+# EUREKA (Android)
 
-App Android que combina **PalletFlow** (base: todos sus apartados y gráficos) y **EUREKA**
-(apartado "Recepciones"), con un tono visual propio ("Eureka Flow").
+EUREKA es la app. PalletFlow corre detrás como "motor" (escaneo con IA, resumen del día,
+almacén, panel de ingreso, estadísticas, kilos, KPI, hoja de peso por foto), con la piel de EUREKA.
 
-- `web/app.html` → pantalla principal (PalletFlow con el estilo Flow + apartado Recepciones).
-- `web/eureka.html` → módulo Recepciones (EUREKA), se abre dentro de la app.
+- `web/eureka.html` → la app (pantalla principal, barra inferior, Ajustes, Máster).
+- `web/palletflow.html` → motor PalletFlow ya adaptado (se genera, no editar a mano).
+- `web/palletflow-original.html` → PalletFlow original de José (fuente del motor).
 
-## Cómo actualizar la app
-1. Edita `web/app.html` (PalletFlow / Eureka Flow) o `web/eureka.html` (Recepciones).
-2. Sube `VERSION_CODE` (+1) y `VERSION_NAME` en `version.properties`.
-3. Ejecuta `./build.sh` → el APK queda en `dist/`.
-   (O haz push: GitHub Actions lo compila y lo deja en *Actions → Compilar APK → Artifacts*.)
+## Cómo actualizar
+1. Cambios de EUREKA: edita `web/eureka.html`.
+2. Nueva versión de PalletFlow: reemplaza `web/palletflow-original.html` y corre
+   `python3 tools/build_palletflow.py web/palletflow-original.html tools/logo-eureka.b64`.
+3. Sube `VERSION_CODE` (+1) y `VERSION_NAME` en `version.properties`.
+4. `./build.sh` → el APK queda en `dist/`.
 
-El APK siempre se firma con `keystore/eureka.jks`, así que las nuevas versiones se instalan
-encima de la anterior sin perder los datos guardados. **No borres ni cambies esa llave.**
-
-## Qué hace el contenedor nativo
-- Sirve la app desde `assets/` (funciona sin internet: pdf.js, xlsx, jsPDF, three.js y fuentes van incluidos).
-- Selector de archivos (PDF, Excel, JSON, imágenes) y cámara para fotos.
-- Los PDF/Excel/JSON que la app descarga se guardan en **Descargas/EUREKA**, con opción de abrir o compartir.
-- Enlaces externos (WhatsApp, etc.) se abren en su app.
+El APK siempre se firma con `keystore/eureka.jks`: las nuevas versiones se instalan encima sin
+perder datos. **No borres ni cambies esa llave.**
