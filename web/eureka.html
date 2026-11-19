@@ -672,14 +672,54 @@ body.ek-tab-scan #home{visibility:hidden}
 .fl.pick .fl-op.on{opacity:0;transform:scale(1.5);transition:transform .32s var(--k-ease),opacity .32s ease}
 .fl.out .fl-x,.fl.pick .fl-x{transform:scale(.4);opacity:0}
 
+
+/* ---------- v5.2: simetría ---------- */
+.sc-grid{grid-template-columns:repeat(3,1fr)}
+.sc-tile:not(.big){align-items:center;text-align:center;min-height:118px;padding:16px 8px;gap:12px}
+.sc-tile:not(.big) span{display:block}
+.sc-tile:not(.big) b{font-size:14px}
+.sc-tile:not(.big) small{font-size:11px}
+.gv-card{text-align:center}
+.gv-top{text-align:left}
+.gv-num{margin-top:14px}
+.gv-tot{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-radius:18px;background:var(--s2);overflow:hidden}
+.gv-tot>div{padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.gv-tot>div+div{border-left:1px solid var(--line)}
+.gv-tot b{font-family:var(--display);font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.gv-tot small{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.gv-corr{text-align:left}
+.gv-hint{text-align:center}
+.lv{display:block;padding:0;border-radius:24px}
+.lv::before{display:none}
+.lv-h{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 16px 14px;border-bottom:1px solid var(--line)}
+.lv-hk{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut2)}
+.lv-hk em{display:inline-flex;align-items:center;gap:3px;font-style:normal;color:var(--red)}
+.lv-hk .ico-sm{width:13px;height:13px}
+.lv-ht{font-family:var(--display);font-size:28px;font-weight:900;letter-spacing:-.035em;line-height:1;color:var(--yellow);text-align:center;word-break:break-word}
+.lv-ht.cc{font-family:var(--mono);letter-spacing:.02em;font-size:26px;font-weight:800}
+.lv-g{display:grid;grid-template-columns:1fr 1fr}
+.lv-g>div{padding:11px 14px;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.lv-g>div:nth-child(odd){border-right:1px solid var(--line)}
+.lv-g>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.lv-g small,.lv-r small{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.lv-g b{font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--fg);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv-g b i{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);margin-left:4px}
+.lv-g b.mono{font-family:var(--mono);font-size:14px}
+.lv-r{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);background:var(--s2)}
+.lv-r>div{padding:14px 10px 13px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.lv-r>div+div{border-left:1px solid var(--line)}
+.lv-r b{font-family:var(--display);font-size:40px;font-weight:900;letter-spacing:-.05em;line-height:.9;color:var(--fg)}
+.lv-r em{font-style:normal;font-size:11px;font-weight:600;color:var(--mut2)}
+.lv-r .hl{background:color-mix(in srgb,var(--acc) 14%,transparent)}
+.lv-r .hl b,.lv-r .hl em{color:var(--acc-text,var(--acc))}
+.lv.bad{border-color:rgba(239,68,68,.4)}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:760px){.det-l{width:40%}.list{max-width:760px;margin:0 auto;width:100%}.kpis,.toolbar{max-width:760px;margin-left:auto;margin-right:auto;width:100%}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <style id="ekThemeCss"></style>
 <script>
 /* ============================================================
@@ -5087,6 +5127,7 @@ function ekRenderDetail(){
         <button class="gv-st ${ne ? 'bad' : na ? 'warn' : 'ok'}" data-err="1">${ne ? `${ico('alert', 'ico-sm')}${ne} error${ne > 1 ? 'es' : ''}` : na ? `${ico('alert', 'ico-sm')}${na} aviso${na > 1 ? 's' : ''}` : `${ico('check', 'ico-sm')}Sin errores`}</button></div>
       <div class="gv-num" ${r.guias.length > 1 ? `data-ver="${gi}"` : ''}>${esc(g.numero_guia || 'Sin número')}</div>
       ${meta.length ? `<div class="gv-meta">${meta.map(esc).join(' · ')}</div>` : ''}
+      <div class="gv-tot"><div><b class="num">${g.lotes.filter(l => String(l.lote || '').trim()).length}</b><small>Lotes</small></div><div><b class="num">${tot.toLocaleString('es-PE')}</b><small>Jabas</small></div><div><b class="num">${g.lotes.reduce((s2, l) => { const c2 = ekCalc(g, l); return s2 + c2.full + (c2.pucho ? 1 : 0); }, 0)}</b><small>Pallets</small></div></div>
       ${g.totalJabasGuia ? `<div class="gv-cuadre ${cuadra === false ? 'bad' : ''}">La guía dice <b>${(+g.totalJabasGuia).toLocaleString('es-PE')} jabas</b>${g.totalPalletsGuia ? ` · <b>${g.totalPalletsGuia} pallets</b>` : ''}<small>${cuadra === false ? `No cuadra: los lotes suman ${tot.toLocaleString('es-PE')}` : '✓ Cuadra con la suma de lotes'}</small></div>` : ''}
       <div class="gv-corr"><div class="fld"><label>Correlativo ${esc(pref)}</label><input class="inp num" data-corr="${gi}" type="number" inputmode="numeric" value="${isNaN(base) ? '' : base}" placeholder="${(st.lastUsed || 0) + 1}"></div><button class="k-btn sm" data-ancla="${gi}">${ico('check', 'ico-sm')}Fijar</button></div>
       <div class="gv-hint">${st.lastUsed ? `Último ${esc(pref)} usado: ${st.lastUsed}` : 'Escribe el primer correlativo de esta guía.'}${usaCorrelGlobal(g) ? ' · sigue de corrido en el turno' : ''}</div>
@@ -5096,11 +5137,20 @@ function ekRenderDetail(){
     const lotes = g.lotes.map((l, li) => {
       if (!leida && !String(l.lote || '').trim()) return '';
       const c = ekCalc(g, l), bc = ekBigCode(g, li), bad = errLote.has(normalizeLoteId(l.lote));
+      const cant = (parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE');
+      const tipo = l.jarras ? 'Jarras' : l.verde ? 'Jaba verde' : '';
       return `<div class="lv k-in ${bad ? 'bad' : ''}" style="--i:${n++}">
-        <div class="lv-a"><div class="lv-lote">${esc(l.lote || '—')}</div><div class="lv-var">${esc(l.variedad || 'Sin variedad')}${l.jarras ? ' · jarras' : l.verde ? ' · jaba verde' : ''}</div>
-          <div class="lv-chips"><span>${(parseInt(l.cantidad, 10) || 0).toLocaleString('es-PE')} ${c.sinJabas ? 'pallets' : 'jabas'}</span>${l.clp ? `<span>CLP ${esc(l.clp)}</span>` : ''}${bc ? `<span class="cc">${esc(bc)}</span>` : ''}</div></div>
-        <div class="lv-b"><b class="num">${c.full}</b><small>pallet${c.full === 1 ? '' : 's'}</small>${c.sinJabas ? '<em class="z">según guía</em>' : c.pucho ? `<em>+${c.pucho} jabas</em>` : '<em class="z">completos</em>'}
-          <div class="lv-acts"><button class="k-ib" data-rot="${gi}:${li}" aria-label="Rótulo de este lote">${ico('tag', 'ico-sm')}</button>${c.pucho > 0 ? `<button class="k-ib" data-3d="${gi}:${li}" aria-label="Ver pallet en 3D">${ico('cube', 'ico-sm')}</button>` : ''}</div></div>
+        <div class="lv-h"><span class="lv-hk">${bc ? 'Correlativo' : 'Lote'}${bad ? ` · <em>${ico('alert', 'ico-sm')}revisar</em>` : ''}</span><b class="lv-ht ${bc ? 'cc' : ''}">${esc(bc || l.lote || '—')}</b></div>
+        <div class="lv-g">
+          <div><small>Lote</small><b>${esc(l.lote || '—')}</b></div>
+          <div><small>Variedad</small><b>${esc(l.variedad || '—')}${tipo ? ` <i>${tipo}</i>` : ''}</b></div>
+          <div><small>${c.sinJabas ? 'Pallets (guía)' : 'Jabas'}</small><b class="num">${cant}</b></div>
+          <div><small>CLP</small><b class="mono">${esc(l.clp || '—')}</b></div>
+        </div>
+        <div class="lv-r">
+          <div><small>Pallets</small><b class="num">${c.full}</b><em>${c.sinJabas ? 'según guía' : 'completos'}</em></div>
+          <div class="${c.pucho ? 'hl' : ''}"><small>Pucho</small><b class="num">${c.sinJabas ? '—' : c.pucho}</b><em>${c.sinJabas ? '—' : c.pucho ? 'jabas' : 'sin pucho'}</em></div>
+        </div>
       </div>`;
     }).join('');
     return card + falla + lotes;
@@ -5125,8 +5175,6 @@ function ekRenderDetail(){
   el.querySelectorAll('[data-man]').forEach(b => b.onclick = () => $id('dtEdit').click());
   el.querySelectorAll('[data-ia]').forEach(b => b.onclick = () => ekLeerConIA(r.id, +b.dataset.ia));
   $id('dtIA').onclick = () => { if (r.guias.length === 1) ekLeerConIA(r.id, 0); else ekLista('Leer con IA', '¿Qué guía?', r.guias.map((g, gi) => ({ k:String(gi), icon:'file', t:g.numero_guia || 'Guía ' + (gi + 1), d:'Volver a leer esta guía con IA' })), k => ekLeerConIA(r.id, +k)); };
-  el.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset.rot.split(':').map(Number); ekRotulosSheet(r.id, gi, li); });
-  el.querySelectorAll('[data-3d]').forEach(b => b.onclick = () => { const [gi, li] = b.dataset['3d'].split(':').map(Number); ek3DSheet(r, gi, li); });
   $id('bGuia').onclick = () => { if (r.guias.length === 1) ekVerGuia(r.guias[0]); else ekLista('Ver guía', '¿Cuál?', r.guias.map((g, gi) => ({ k:String(gi), icon:'eye', t:g.numero_guia || 'Guía ' + (gi + 1), d:'Abrir la guía' })), k => ekVerGuia(r.guias[+k])); };
   $id('bPeso').onclick = () => ekOpenPeso(r.id);
   ekFlotarBoton($id('bImp'), [
@@ -5134,13 +5182,6 @@ function ekRenderDetail(){
     { k:'hoja', icon:'sheet', t:'Hoja de peso', d:'Esta guía o el turno', run:() => ekHojaSheet([r]) },
   ]);
   if (_det.recien) { _det.recien = false; ekDecode($id('dtNum')); }
-}
-function ek3DSheet(r, gi, li){
-  const g = r.guias[gi], l = g.lotes[li], c = ekCalc(g, l), nivel = ekPorNivel(l);
-  const d = ekSheet(`<div class="sh"><div><h3>${esc(l.lote || 'Lote')} · último pallet</h3><p>${c.pucho} jabas · ${Math.ceil(c.pucho / nivel)} niveles · último nivel ${c.pucho % nivel || nivel}</p></div><button class="ibtn" id="d3X" aria-label="Cerrar">${ico('x')}</button></div><div class="d3" id="d3Host"></div>`);
-  $id('d3X').onclick = () => ekCloseSheet();
-  setTimeout(() => { const h = $id('d3Host'); if (h) ek3D.mount(h, c.pucho, nivel, l.jarras ? 'jarra' : l.verde ? 'green' : (r.codigo === 'DB' ? 'white' : 'blue'), 'iso'); }, 80);
-  const t = setInterval(() => { if (!d.isConnected) { ek3D.dispose(); clearInterval(t); } }, 400);
 }
 
 /* ---------- Leer con IA (solo si el usuario lo pide) ---------- */
